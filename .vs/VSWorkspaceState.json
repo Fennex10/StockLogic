@@ -1,0 +1,16 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\src",
+    "\\src\\admin",
+    "\\src\\admin\\actions",
+    "\\src\\admin\\components",
+    "\\src\\admin\\layout",
+    "\\src\\admin\\pages",
+    "\\src\\admin\\pages\\dashboard",
+    "\\src\\inventory",
+    "\\src\\inventory\\actions"
+  ],
+  "SelectedNode": "\\src\\inventory\\pages\\dashboard.jsx",
+  "PreviewInSolutionExplorer": false
+}

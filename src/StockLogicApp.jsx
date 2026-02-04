@@ -1,8 +1,8 @@
+import { RouterProvider } from 'react-router-dom';
+import { router } from './router/app.router';
 
 export const StockLogicApp = () => {
-  return (
-    <div>
-        <h1>Bienvenido a StockLogic</h1>
-   </div>
-  )
-}
+    return (
+        <RouterProvider router={router} />
+    );
+};
