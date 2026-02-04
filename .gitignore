@@ -24,3 +24,4 @@ dist-ssr
 *.sw?
 /.vs/StockLogic/FileContentIndex/120d4aa0-b315-45b1-a4c6-d71b9affd115.vsidx
 /.gitignore
+.vs/ 
