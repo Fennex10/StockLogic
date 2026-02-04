@@ -3,20 +3,24 @@
   "WorkspaceRootPath": "C:\\Users\\ADrom\\source\\repos\\StockLogic\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\ADrom\\source\\repos\\StockLogic\\src\\auth\\hooks\\useAuth.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:src\\auth\\hooks\\useAuth.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\ADrom\\source\\repos\\StockLogic\\src\\main.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:src\\main.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\ADrom\\source\\repos\\StockLogic\\src\\auth\\pages\\login\\Login.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:src\\auth\\pages\\login\\Login.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\ADrom\\source\\repos\\StockLogic\\src\\router\\app.router.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:src\\router\\app.router.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\ADrom\\source\\repos\\StockLogic\\src\\auth\\pages\\register\\Register.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
       "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:src\\auth\\pages\\register\\Register.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\ADrom\\source\\repos\\StockLogic\\src\\router\\app.router.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:src\\router\\app.router.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\ADrom\\source\\repos\\StockLogic\\src\\auth\\pages\\login\\Login.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:src\\auth\\pages\\login\\Login.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\ADrom\\source\\repos\\StockLogic\\src\\auth\\hooks\\useAuth.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:src\\auth\\hooks\\useAuth.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\ADrom\\source\\repos\\StockLogic\\src\\StockLogicApp.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
@@ -45,10 +49,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\ADrom\\source\\repos\\StockLogic\\src\\admin\\pages\\dashboard\\AdminDashboard.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
       "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:src\\admin\\pages\\dashboard\\AdminDashboard.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\ADrom\\source\\repos\\StockLogic\\src\\main.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:src\\main.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
     }
   ],
   "DocumentGroupContainers": [
@@ -58,7 +58,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 9,
+          "SelectedChildIndex": 16,
           "Children": [
             {
               "$type": "Bookmark",
@@ -98,13 +98,26 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
+              "Title": "app.router.jsx",
+              "DocumentMoniker": "C:\\Users\\ADrom\\source\\repos\\StockLogic\\src\\router\\app.router.jsx",
+              "RelativeDocumentMoniker": "src\\router\\app.router.jsx",
+              "ToolTip": "C:\\Users\\ADrom\\source\\repos\\StockLogic\\src\\router\\app.router.jsx",
+              "RelativeToolTip": "src\\router\\app.router.jsx",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003663|",
+              "WhenOpened": "2026-02-04T16:56:10.031Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
               "Title": "useAuth.jsx",
               "DocumentMoniker": "C:\\Users\\ADrom\\source\\repos\\StockLogic\\src\\auth\\hooks\\useAuth.jsx",
               "RelativeDocumentMoniker": "src\\auth\\hooks\\useAuth.jsx",
               "ToolTip": "C:\\Users\\ADrom\\source\\repos\\StockLogic\\src\\auth\\hooks\\useAuth.jsx",
               "RelativeToolTip": "src\\auth\\hooks\\useAuth.jsx",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABsAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAB0AAAACAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003663|",
               "WhenOpened": "2026-02-04T17:07:09.79Z",
               "EditorCaption": ""
@@ -117,27 +130,27 @@
               "RelativeDocumentMoniker": "src\\auth\\pages\\register\\Register.jsx",
               "ToolTip": "C:\\Users\\ADrom\\source\\repos\\StockLogic\\src\\auth\\pages\\register\\Register.jsx",
               "RelativeToolTip": "src\\auth\\pages\\register\\Register.jsx",
-              "ViewState": "AgIAAFcAAAAAAAAAAAAuwHoAAAAYAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAHoAAAAYAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003663|",
               "WhenOpened": "2026-02-04T17:06:42.596Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 3,
               "Title": "Login.jsx",
               "DocumentMoniker": "C:\\Users\\ADrom\\source\\repos\\StockLogic\\src\\auth\\pages\\login\\Login.jsx",
               "RelativeDocumentMoniker": "src\\auth\\pages\\login\\Login.jsx",
               "ToolTip": "C:\\Users\\ADrom\\source\\repos\\StockLogic\\src\\auth\\pages\\login\\Login.jsx",
               "RelativeToolTip": "src\\auth\\pages\\login\\Login.jsx",
-              "ViewState": "AgIAAFkAAAAAAAAAAAAuwHwAAAAVAAAAAAAAAA==",
+              "ViewState": "AgIAAG0AAAAAAAAAAAAAAHwAAAAVAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003663|",
               "WhenOpened": "2026-02-04T17:05:49.524Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 7,
               "Title": "layout.jsx",
               "DocumentMoniker": "C:\\Users\\ADrom\\source\\repos\\StockLogic\\src\\inventory\\layout\\layout.jsx",
               "RelativeDocumentMoniker": "src\\inventory\\layout\\layout.jsx",
@@ -150,7 +163,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 8,
               "Title": "Search.jsx",
               "DocumentMoniker": "C:\\Users\\ADrom\\source\\repos\\StockLogic\\src\\inventory\\components\\Search.jsx",
               "RelativeDocumentMoniker": "src\\inventory\\components\\Search.jsx",
@@ -163,7 +176,33 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 6,
+              "Title": "dashboard.jsx",
+              "DocumentMoniker": "C:\\Users\\ADrom\\source\\repos\\StockLogic\\src\\inventory\\pages\\dashboard.jsx",
+              "RelativeDocumentMoniker": "src\\inventory\\pages\\dashboard.jsx",
+              "ToolTip": "C:\\Users\\ADrom\\source\\repos\\StockLogic\\src\\inventory\\pages\\dashboard.jsx",
+              "RelativeToolTip": "src\\inventory\\pages\\dashboard.jsx",
+              "ViewState": "AgIAACsAAAAAAAAAAAAuwE4AAAAiAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003663|",
+              "WhenOpened": "2026-02-04T02:18:17.662Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "main.jsx",
+              "DocumentMoniker": "C:\\Users\\ADrom\\source\\repos\\StockLogic\\src\\main.jsx",
+              "RelativeDocumentMoniker": "src\\main.jsx",
+              "ToolTip": "C:\\Users\\ADrom\\source\\repos\\StockLogic\\src\\main.jsx",
+              "RelativeToolTip": "src\\main.jsx",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003663|",
+              "WhenOpened": "2026-02-04T01:52:10.115Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
               "Title": "AdminSearch.jsx",
               "DocumentMoniker": "C:\\Users\\ADrom\\source\\repos\\StockLogic\\src\\admin\\components\\AdminSearch.jsx",
               "RelativeDocumentMoniker": "src\\admin\\components\\AdminSearch.jsx",
@@ -177,19 +216,6 @@
             {
               "$type": "Document",
               "DocumentIndex": 5,
-              "Title": "dashboard.jsx",
-              "DocumentMoniker": "C:\\Users\\ADrom\\source\\repos\\StockLogic\\src\\inventory\\pages\\dashboard.jsx",
-              "RelativeDocumentMoniker": "src\\inventory\\pages\\dashboard.jsx",
-              "ToolTip": "C:\\Users\\ADrom\\source\\repos\\StockLogic\\src\\inventory\\pages\\dashboard.jsx",
-              "RelativeToolTip": "src\\inventory\\pages\\dashboard.jsx",
-              "ViewState": "AgIAACsAAAAAAAAAAAAuwE4AAAAiAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003663|",
-              "WhenOpened": "2026-02-04T02:18:17.662Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
               "Title": "StockLogicApp.jsx",
               "DocumentMoniker": "C:\\Users\\ADrom\\source\\repos\\StockLogic\\src\\StockLogicApp.jsx",
               "RelativeDocumentMoniker": "src\\StockLogicApp.jsx",
@@ -202,20 +228,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "app.router.jsx",
-              "DocumentMoniker": "C:\\Users\\ADrom\\source\\repos\\StockLogic\\src\\router\\app.router.jsx",
-              "RelativeDocumentMoniker": "src\\router\\app.router.jsx",
-              "ToolTip": "C:\\Users\\ADrom\\source\\repos\\StockLogic\\src\\router\\app.router.jsx",
-              "RelativeToolTip": "src\\router\\app.router.jsx",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003663|",
-              "WhenOpened": "2026-02-04T16:56:10.031Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 10,
               "Title": "AdminLayout.jsx",
               "DocumentMoniker": "C:\\Users\\ADrom\\source\\repos\\StockLogic\\src\\admin\\layout\\AdminLayout.jsx",
               "RelativeDocumentMoniker": "src\\admin\\layout\\AdminLayout.jsx",
@@ -228,7 +241,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 11,
               "Title": "AdminDashboard.jsx",
               "DocumentMoniker": "C:\\Users\\ADrom\\source\\repos\\StockLogic\\src\\admin\\pages\\dashboard\\AdminDashboard.jsx",
               "RelativeDocumentMoniker": "src\\admin\\pages\\dashboard\\AdminDashboard.jsx",
@@ -237,19 +250,6 @@
               "ViewState": "AgIAAAgAAAAAAAAAAAAuwCsAAAAeAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003663|",
               "WhenOpened": "2026-02-04T01:47:03.026Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 11,
-              "Title": "main.jsx",
-              "DocumentMoniker": "C:\\Users\\ADrom\\source\\repos\\StockLogic\\src\\main.jsx",
-              "RelativeDocumentMoniker": "src\\main.jsx",
-              "ToolTip": "C:\\Users\\ADrom\\source\\repos\\StockLogic\\src\\main.jsx",
-              "RelativeToolTip": "src\\main.jsx",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003663|",
-              "WhenOpened": "2026-02-04T01:52:10.115Z",
               "EditorCaption": ""
             }
           ]

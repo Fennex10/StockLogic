@@ -2,15 +2,15 @@
   "ExpandedNodes": [
     "",
     "\\src",
-    "\\src\\admin",
-    "\\src\\admin\\actions",
-    "\\src\\admin\\components",
-    "\\src\\admin\\layout",
-    "\\src\\admin\\pages",
-    "\\src\\admin\\pages\\dashboard",
+    "\\src\\auth",
+    "\\src\\auth\\hooks",
+    "\\src\\auth\\pages",
+    "\\src\\auth\\pages\\login",
+    "\\src\\auth\\pages\\register",
     "\\src\\inventory",
-    "\\src\\inventory\\actions"
+    "\\src\\inventory\\components",
+    "\\src\\router"
   ],
-  "SelectedNode": "\\src\\inventory\\pages\\dashboard.jsx",
+  "SelectedNode": "\\src\\main.jsx",
   "PreviewInSolutionExplorer": false
 }
