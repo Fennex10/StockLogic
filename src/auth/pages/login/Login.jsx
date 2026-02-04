@@ -45,6 +45,16 @@ const Login = () => {
             backgroundColor: '#38bdf8',
             clipPath: 'polygon(100% 0, 100% 100%, 0 100%)'
         },
+        blurLine: {
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            width: '100%',
+            height: '100%',
+            background: 'linear-gradient(-29.5deg, transparent 42%, rgba(255, 255, 255, 0.2) 50%, transparent 51%)',
+            filter: 'blur(2px)',
+            zIndex: 0
+        },
         form: { 
             backgroundColor: '#1e293b', 
             padding: '40px', 
@@ -95,6 +105,7 @@ const Login = () => {
         <div style={styles.container}>
             <div style={styles.backgroundLeft}></div>
             <div style={styles.backgroundRight}></div>
+            <div style={styles.blurLine}></div>
             <div style={styles.form}>
                 <h2 style={styles.title}>Iniciar sesión</h2>
                 <input 
