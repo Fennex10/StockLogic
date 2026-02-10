@@ -1,6 +1,8 @@
+import { RouterProvider } from "react-router"
+import { appRouter } from "./router/app.router"
 
 export const StockLogicApp = () => {
   return (
-    <div className="text-3xl font-bold underline">StockLogicApp</div>
+      <RouterProvider router={appRouter}/>
   )
 }
