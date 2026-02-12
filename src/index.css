@@ -78,6 +78,31 @@
   --sidebar-accent-foreground: oklch(0.205 0 0);
   --sidebar-border: oklch(0.922 0 0);
   --sidebar-ring: oklch(0.708 0 0);
+
+   /* SideBar oscuro  */
+  /* --sidebar: oklch(0.2 0.02 260);
+  --sidebar-foreground: oklch(0.95 0 0);
+
+  --sidebar-primary: oklch(0.6 0.2 260);
+  --sidebar-primary-foreground: oklch(0.98 0 0);
+
+  --sidebar-accent: oklch(0.28 0.02 260);
+  --sidebar-border: oklch(0.3 0.02 260); */
+
+  /* SIDEBAR LIGHT BLUE THEME */
+
+  --sidebar: oklch(0.99 0 0);                 /* Blanco limpio */
+  --sidebar-foreground: oklch(0.25 0.03 260); /* Texto azul oscuro elegante */
+
+  --sidebar-primary: oklch(0.55 0.18 260);    /* Azul moderno */
+  --sidebar-primary-foreground: oklch(0.98 0 0);
+
+  --sidebar-accent: oklch(0.95 0.02 260);     /* Azul muy suave para hover */
+  --sidebar-accent-foreground: oklch(0.35 0.05 260);
+
+  --sidebar-border: oklch(0.9 0.01 260);      /* Borde sutil */
+  --sidebar-ring: oklch(0.6 0.18 260);
+
 }
 
 .dark {
