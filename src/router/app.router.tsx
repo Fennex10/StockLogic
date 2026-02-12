@@ -1,4 +1,7 @@
 // import { lazy } from 'react';
+import AuthLayout from '@/auth/layout/AuthLayout';
+import { Login } from '@/auth/pages/login/Login';
+import { Register } from '@/auth/pages/register/Register';
 import { MainLayout } from '@/components/layout/MainLayout';
 import { Configuracion } from '@/inventory/configuracion/Configuracion';
 import { DashboardPage } from '@/inventory/dashboard/pages/Dashboard/DashboardPage';
@@ -6,7 +9,7 @@ import { Productos } from '@/inventory/productos/Productos';
 import { Proveedores } from '@/inventory/proveedores/Proveedores';
 import { Reportes } from '@/inventory/reportes/Reportes';
 import { Ventas } from '@/inventory/ventas/Ventas';
-import { createBrowserRouter} from 'react-router';
+import { createBrowserRouter, Navigate} from 'react-router';
 
 // const AuthLayout = lazy(() => import('./auth/layouts/AuthLayout'));
 // const AdminLayout = lazy(() => import('./admin/layouts/AdminLayout'));
@@ -45,5 +48,25 @@ export const appRouter = createBrowserRouter([
   },
 
   // Auth Routes
- 
+  {
+    path: '/auth',
+    element: 
+            //  <NotAuthenticatedRoute>
+                  <AuthLayout />,
+            //  </NotAuthenticatedRoute>,
+    children: [
+      {
+        index: true,
+        element: <Navigate to="/auth/login" />,
+      },
+      {
+        path: 'login',
+        element: <Login />,
+      },
+      {
+        path: 'register',
+        element: <Register />,
+      },
+    ],
+  },
 ]);
