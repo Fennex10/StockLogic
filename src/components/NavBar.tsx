@@ -1,4 +1,4 @@
-import { Bell, Search, User } from "lucide-react";
+import { Bell, Search, User} from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import {
@@ -9,8 +9,13 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { useAuthStore } from "@/auth/store/auth.store";
+import { Link } from "react-router";
 
 export const Navbar = () => {
+
+  const {authStatus, isAdmin, logout} = useAuthStore();
+
   return (
     <header className="sticky top-0 z-30 flex h-16 items-center justify-between border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 px-6">
       <div className="flex items-center gap-4">
@@ -62,6 +67,26 @@ export const Navbar = () => {
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
+
+         {(authStatus === 'not-authenticated') ? (
+              <Link to="/auth/login">
+              <Button variant="default" size="sm" className='ml-2'>
+                Login
+              </Button>
+            </Link>
+            ) : (
+               <Button variant="outline" onClick={logout} size="sm" className='ml-2'>
+                Cerrar sesion
+              </Button>
+            )}
+            
+            {isAdmin() && (
+               <Link to="/admin">
+              <Button variant="destructive" size="sm" className='ml-2'>
+                Admin
+              </Button>
+            </Link>
+            )}
 
         {/* User Menu */}
         <DropdownMenu>
