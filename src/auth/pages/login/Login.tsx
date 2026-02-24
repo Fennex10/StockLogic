@@ -87,12 +87,14 @@ export const Login = () => {
             </div>
 
             <Button type="submit" className="w-full" disabled={isPosting}>
+              {isPosting ? (
                 <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-primary-foreground" />
+              ) : (
                 <>
                   Iniciar sesión
                   <ArrowRight className="w-4 h-4 ml-2" />
                 </>
-              
+              )}
             </Button>
           </form>
 
