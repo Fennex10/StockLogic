@@ -1,4 +1,4 @@
-// import { lazy } from 'react';
+import { lazy } from 'react';
 import { Login } from '@/auth/pages/login/Login';
 import { Register } from '@/auth/pages/register/Register';
 import { MainLayout } from '@/components/layout/MainLayout';
@@ -10,7 +10,8 @@ import { Reportes } from '@/inventory/reportes/Reportes';
 import { Ventas } from '@/inventory/ventas/Ventas';
 import { createBrowserRouter, Navigate} from 'react-router';
 import { NotAuthenticatedRoute } from './ProtectedRoutes';
-import { lazy } from 'react';
+import ForgotPassword from '@/auth/pages/forgot/ForgotPassword';
+import ResetPassword from '@/auth/pages/reset/ResetPassword';
 
 const AuthLayout = lazy(() => import('../auth/layout/AuthLayout'));
 // const AdminLayout = lazy(() => import('./admin/layouts/AdminLayout'));
@@ -67,6 +68,14 @@ export const appRouter = createBrowserRouter([
       {
         path: 'register',
         element: <Register />,
+      },
+      {
+        path: 'forgot-password',
+        element: <ForgotPassword />,
+      },
+      {
+        path: 'reset-password',
+        element: <ResetPassword />,
       },
     ],
   },
