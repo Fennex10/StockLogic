@@ -1,5 +1,4 @@
 // import { lazy } from 'react';
-import AuthLayout from '@/auth/layout/AuthLayout';
 import { Login } from '@/auth/pages/login/Login';
 import { Register } from '@/auth/pages/register/Register';
 import { MainLayout } from '@/components/layout/MainLayout';
@@ -10,8 +9,10 @@ import { Proveedores } from '@/inventory/proveedores/Proveedores';
 import { Reportes } from '@/inventory/reportes/Reportes';
 import { Ventas } from '@/inventory/ventas/Ventas';
 import { createBrowserRouter, Navigate} from 'react-router';
+import { NotAuthenticatedRoute } from './ProtectedRoutes';
+import { lazy } from 'react';
 
-// const AuthLayout = lazy(() => import('./auth/layouts/AuthLayout'));
+const AuthLayout = lazy(() => import('../auth/layout/AuthLayout'));
 // const AdminLayout = lazy(() => import('./admin/layouts/AdminLayout'));
 
 export const appRouter = createBrowserRouter([
@@ -51,9 +52,9 @@ export const appRouter = createBrowserRouter([
   {
     path: '/auth',
     element: 
-            //  <NotAuthenticatedRoute>
+            <NotAuthenticatedRoute>
                   <AuthLayout />,
-            //  </NotAuthenticatedRoute>,
+            </NotAuthenticatedRoute>,
     children: [
       {
         index: true,
