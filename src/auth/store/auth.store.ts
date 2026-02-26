@@ -3,6 +3,8 @@ import { create } from 'zustand'
 import { loginAction } from '../actions/login.action';
 import { checkAuthAction } from '../actions/check-auth.action';
 import { registerAction } from '../actions/register.action';
+import { forgotPasswordAction } from '../actions/forgot-password.action';
+import { resetPasswordAction } from '../actions/reset-password.action';
 
 type AuthStatus = 'authenticated' | 'not-authenticated' |'checking';
 
@@ -20,6 +22,9 @@ type AuthState = {
 
     register: (companyName: string, userName: string, companyEmail: string,
                userPassword: string, userPasswordConfirm: string) => Promise<boolean>;
+
+    forgot: (userEmail: string) => Promise<boolean>;
+    resetPassword: ( userPassword: string, userPasswordConfirm: string, userPasswordToken: string) => Promise<boolean>; 
 }
 
 export const useAuthStore = create<AuthState>()((set, get) => ({
@@ -100,6 +105,40 @@ export const useAuthStore = create<AuthState>()((set, get) => ({
         }
     },
 
+    forgot: async(userEmail: string) => {
+        
+        try {
+            const data = await forgotPasswordAction(userEmail);
+            localStorage.setItem('token', data.token);
+
+            set({user: data.user, token: data.token, authStatus:'authenticated'})
+            return true;
+
+        } catch (error) {
+           console.log(error)
+           localStorage.removeItem('token');
+           set({user: null, token: null, authStatus:'not-authenticated'})
+           return false;
+        }
+
+    },
+
+     resetPassword: async(userPassword: string, userPasswordConfirm: string, userPasswordToken: string) => {
+        
+        try {
+            const data = await resetPasswordAction(userPassword, userPasswordConfirm, userPasswordToken);
+            localStorage.setItem('token', data.token);
+
+            set({user: data.user, token: data.token, authStatus:'authenticated'})
+            return true;
+
+        } catch (error) {
+           console.log(error)
+           localStorage.removeItem('token');
+           set({user: null, token: null, authStatus:'not-authenticated'})
+           return false;
+        }
+    },
 }))
 
 
