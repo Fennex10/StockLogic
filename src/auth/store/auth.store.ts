@@ -23,7 +23,7 @@ type AuthState = {
     register: (companyName: string, userName: string, companyEmail: string,
                userPassword: string, userPasswordConfirm: string) => Promise<boolean>;
 
-    forgot: (userEmail: string) => Promise<boolean>;
+    forgotPassword: (userEmail: string) => Promise<boolean>;
     resetPassword: ( userPassword: string, userPasswordConfirm: string, userPasswordToken: string) => Promise<boolean>; 
 }
 
@@ -105,7 +105,7 @@ export const useAuthStore = create<AuthState>()((set, get) => ({
         }
     },
 
-    forgot: async(userEmail: string) => {
+    forgotPassword: async(userEmail: string) => {
         
         try {
             const data = await forgotPasswordAction(userEmail);

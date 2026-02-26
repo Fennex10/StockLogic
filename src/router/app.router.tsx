@@ -10,8 +10,8 @@ import { Reportes } from '@/inventory/reportes/Reportes';
 import { Ventas } from '@/inventory/ventas/Ventas';
 import { createBrowserRouter, Navigate} from 'react-router';
 import { NotAuthenticatedRoute } from './ProtectedRoutes';
-import ForgotPassword from '@/auth/pages/forgot/ForgotPassword';
 import ResetPassword from '@/auth/pages/reset/ResetPassword';
+import { ForgorPassword } from '@/auth/pages/forgot/ForgotPassword';
 
 const AuthLayout = lazy(() => import('../auth/layout/AuthLayout'));
 // const AdminLayout = lazy(() => import('./admin/layouts/AdminLayout'));
@@ -71,7 +71,7 @@ export const appRouter = createBrowserRouter([
       },
       {
         path: 'forgot-password',
-        element: <ForgotPassword />,
+        element: <ForgorPassword />,
       },
       {
         path: 'reset-password',
