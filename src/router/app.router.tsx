@@ -20,7 +20,7 @@ const AuthLayout = lazy(() => import('../auth/layout/AuthLayout'));
 export const appRouter = createBrowserRouter([
   // Main routes
   {
-    path: '/',
+    path: '/dashboard',
     element: <MainLayout />,
     children: [
       {
@@ -49,7 +49,12 @@ export const appRouter = createBrowserRouter([
        },
     ],
   },
-   
+  
+  {
+  path: '/',
+  element: <Navigate to="/auth/login" replace />,
+  },
+
   // Auth Routes
   {
     path: '/auth',
