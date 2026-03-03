@@ -10,6 +10,7 @@ import {
   Box,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useAuthStore } from "@/auth/store/auth.store";
 
 const navItems = [
   { icon: LayoutDashboard, label: "Dashboard", path: "/" },
@@ -26,6 +27,9 @@ interface SidebarProps {
 }
 
 export function Sidebar({ collapsed, setCollapsed }: SidebarProps) {
+  
+   const {user} = useAuthStore();
+  
   return (
     <aside
       className={cn(
@@ -91,9 +95,9 @@ export function Sidebar({ collapsed, setCollapsed }: SidebarProps) {
             {!collapsed && (
               <div className="animate-fade-in">
                 <p className="text-sm font-medium text-sidebar-foreground">
-                  Juan Demo
+                  {user?.userName}
                 </p>
-                <p className="text-xs text-sidebar-muted">Admin</p>
+                <p className="text-xs text-sidebar-muted">{user?.roleId}</p>
               </div>
             )}
           </div>

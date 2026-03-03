@@ -29,7 +29,6 @@ const CheckAuthProvider = ({children}: PropsWithChildren) => {
 export const StockLogicApp = () => {
   
   return (
-      
        <QueryClientProvider client={queryClient}>
          <Toaster/> 
 

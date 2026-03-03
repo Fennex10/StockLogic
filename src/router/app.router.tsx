@@ -2,8 +2,8 @@ import { lazy } from 'react';
 import { Login } from '@/auth/pages/login/Login';
 import { Register } from '@/auth/pages/register/Register';
 import { MainLayout } from '@/components/layout/MainLayout';
+import { Dashboard } from '@/inventory/dashboard/pages/Dashboard/Dashboard';
 import { Configuracion } from '@/inventory/configuracion/Configuracion';
-import { DashboardPage } from '@/inventory/dashboard/pages/Dashboard/DashboardPage';
 import { Productos } from '@/inventory/productos/Productos';
 import { Proveedores } from '@/inventory/proveedores/Proveedores';
 import { Reportes } from '@/inventory/reportes/Reportes';
@@ -12,6 +12,7 @@ import { createBrowserRouter, Navigate} from 'react-router';
 import { NotAuthenticatedRoute } from './ProtectedRoutes';
 import ResetPassword from '@/auth/pages/reset/ResetPassword';
 import { ForgorPassword } from '@/auth/pages/forgot/ForgotPassword';
+
 
 const AuthLayout = lazy(() => import('../auth/layout/AuthLayout'));
 // const AdminLayout = lazy(() => import('./admin/layouts/AdminLayout'));
@@ -24,7 +25,7 @@ export const appRouter = createBrowserRouter([
     children: [
       {
          index: true,
-         element: <DashboardPage />
+         element: <Dashboard />
        },
       {
          path: 'productos',
@@ -48,7 +49,7 @@ export const appRouter = createBrowserRouter([
        },
     ],
   },
-
+   
   // Auth Routes
   {
     path: '/auth',
@@ -79,4 +80,5 @@ export const appRouter = createBrowserRouter([
       },
     ],
   },
+  
 ]);
