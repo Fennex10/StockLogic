@@ -13,12 +13,18 @@ import { cn } from "@/lib/utils";
 import { useAuthStore } from "@/auth/store/auth.store";
 
 const navItems = [
-  { icon: LayoutDashboard, label: "Dashboard", path: "/" },
-  { icon: Package, label: "Productos", path: "/productos" },
-  { icon: ShoppingCart, label: "Ventas", path: "/ventas" },
-  { icon: BarChart3, label: "Reportes", path: "/reportes" },
-  { icon: Truck, label: "Proveedores", path: "/proveedores" },
-  { icon: Settings, label: "Configuración", path: "/configuracion" },
+   { icon: LayoutDashboard, label: "Dashboard", path: "/dashboard" },
+  { icon: Package, label: "Productos", path: "/dashboard/productos" },
+  { icon: ShoppingCart, label: "Ventas", path: "/dashboard/ventas" },
+  { icon: BarChart3, label: "Reportes", path: "/dashboard/reportes" },
+  { icon: Truck, label: "Proveedores", path: "/dashboard/proveedores" },
+  { icon: Settings, label: "Configuración", path: "/dashboard/configuracion" },
+  // { icon: LayoutDashboard, label: "Dashboard", path: "/" },
+  // { icon: Package, label: "Productos", path: "/productos" },
+  // { icon: ShoppingCart, label: "Ventas", path: "/ventas" },
+  // { icon: BarChart3, label: "Reportes", path: "/reportes" },
+  // { icon: Truck, label: "Proveedores", path: "/proveedores" },
+  // { icon: Settings, label: "Configuración", path: "/configuracion" },
 ];
 
 interface SidebarProps {

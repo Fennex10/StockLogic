@@ -69,12 +69,12 @@ export const Dashboard = () => {
   return (
     <div className="p-6 space-y-6">
       {/* Header */}
-      <div>
+      {/* <div>
         <h1 className="text-3xl font-semibold mb-2">Dashboard</h1>
         <p className="text-muted-foreground">
           Resumen general de tu inventario y ventas
         </p>
-      </div>
+      </div> */}
 
       {/* KPI Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
