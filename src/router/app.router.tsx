@@ -9,10 +9,9 @@ import { Proveedores } from '@/inventory/proveedores/Proveedores';
 import { Reportes } from '@/inventory/reportes/Reportes';
 import { Ventas } from '@/inventory/ventas/Ventas';
 import { createBrowserRouter, Navigate} from 'react-router';
-import { NotAuthenticatedRoute } from './ProtectedRoutes';
+import { AuthenticatedRoute, NotAuthenticatedRoute } from './ProtectedRoutes';
 import ResetPassword from '@/auth/pages/reset/ResetPassword';
 import { ForgorPassword } from '@/auth/pages/forgot/ForgotPassword';
-
 
 const AuthLayout = lazy(() => import('../auth/layout/AuthLayout'));
 // const AdminLayout = lazy(() => import('./admin/layouts/AdminLayout'));
@@ -21,7 +20,12 @@ export const appRouter = createBrowserRouter([
   // Main routes
   {
     path: '/dashboard',
-    element: <MainLayout />,
+    element: ( 
+      <AuthenticatedRoute>
+      <MainLayout />
+      </AuthenticatedRoute> 
+    ),
+
     children: [
       {
          index: true,
@@ -60,7 +64,7 @@ export const appRouter = createBrowserRouter([
     path: '/auth',
     element: 
             <NotAuthenticatedRoute>
-                  <AuthLayout />,
+                  <AuthLayout />
             </NotAuthenticatedRoute>,
     children: [
       {
@@ -84,6 +88,11 @@ export const appRouter = createBrowserRouter([
         element: <ResetPassword />,
       },
     ],
+  },
+
+  {
+    path: '*',
+    element: <Navigate to="/dashboard" replace />,
   },
   
 ]);

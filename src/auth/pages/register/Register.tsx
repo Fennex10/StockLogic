@@ -9,6 +9,7 @@ import { Link, useNavigate } from "react-router";
 import { useAuthStore } from "@/auth/store/auth.store";
 
 export const Register = () => {
+  
   const navigate = useNavigate();
   const {register} = useAuthStore()
   
@@ -19,6 +20,7 @@ export const Register = () => {
     setIsPosting(true)
  
     const formData = new FormData(event.target as HTMLFormElement);
+    
     const companyName = formData.get('companyName') as string;
     const userName = formData.get('userName') as string;
     const companyEmail = formData.get('companyEmail') as string;

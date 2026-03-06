@@ -25,7 +25,7 @@ type AuthState = {
                userPassword: string, userPasswordConfirm: string) => Promise<boolean>;
 
     forgotPassword: (userEmail: string) => Promise<boolean>;
-    resetPassword: ( userPassword: string, userPasswordConfirm: string, userPasswordToken: string) => Promise<boolean>; 
+    resetPassword:  (userPassword: string, userPasswordConfirm: string, userPasswordToken: string) => Promise<boolean>; 
 }
 
 export const useAuthStore = create<AuthState>()((set, get) => ({
