@@ -1,3 +1,4 @@
+// import { jwtDecode } from "jwt-decode";
 import type { User } from '@/interface/user.interface'
 import { create } from 'zustand'
 import { loginAction } from '../actions/login.action';
@@ -23,8 +24,8 @@ type AuthState = {
     register: (companyName: string, userName: string, companyEmail: string,
                userPassword: string, userPasswordConfirm: string) => Promise<boolean>;
 
-    forgot: (userEmail: string) => Promise<boolean>;
-    resetPassword: ( userPassword: string, userPasswordConfirm: string, userPasswordToken: string) => Promise<boolean>; 
+    forgotPassword: (userEmail: string) => Promise<boolean>;
+    resetPassword:  (userPassword: string, userPasswordConfirm: string, userPasswordToken: string) => Promise<boolean>; 
 }
 
 export const useAuthStore = create<AuthState>()((set, get) => ({
@@ -49,11 +50,11 @@ export const useAuthStore = create<AuthState>()((set, get) => ({
    
     login: async(userEmail: string, userPassword: string) => {
         try {
-            const data = await loginAction(userEmail, userPassword);
-            localStorage.setItem('token', data.token);
+             const data = await loginAction(userEmail, userPassword);
+             localStorage.setItem('token', data.token);
 
-            set({user: data.user, token: data.token, authStatus:'authenticated'})
-            return true;
+             set({user: data.user, token: data.token, authStatus:'authenticated'})
+             return true;
 
         } catch (error) {
            console.log(error)
@@ -69,6 +70,8 @@ export const useAuthStore = create<AuthState>()((set, get) => ({
     },
 
     checkAuthStatus: async() => {
+       set({ authStatus: 'checking' });
+
        try {
           const {user, token} = await checkAuthAction();       
           set({
@@ -105,7 +108,7 @@ export const useAuthStore = create<AuthState>()((set, get) => ({
         }
     },
 
-    forgot: async(userEmail: string) => {
+    forgotPassword: async(userEmail: string) => {
         
         try {
             const data = await forgotPasswordAction(userEmail);

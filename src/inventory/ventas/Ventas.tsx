@@ -1,6 +1,10 @@
 
+
 export const Ventas = () => {
   return (
-    <div>Ventas</div>
+    <div>
+        Ventas       
+    </div>
   )
 }
+
