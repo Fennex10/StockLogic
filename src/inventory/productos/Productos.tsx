@@ -14,6 +14,7 @@ import {
 } from "@/components/ui/select";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
+import { Link } from "react-router";
 
 const products = [
   { id: 1, name: "Laptop HP Pavilion 15", sku: "LHP-001", category: "Electrónica", stock: 5, minStock: 20, price: 899.99, status: "low" },
@@ -74,9 +75,11 @@ export const Productos = () => {
             Gestiona tu catálogo de productos e inventario
           </p>
         </div>
-        <Button className="bg-primary hover:bg-primary/90">
-          <Plus className="mr-2 h-4 w-4" />
-          Agregar Producto
+        <Button asChild className="bg-primary hover:bg-primary/90">
+          <Link to="/dashboard/productos/nuevo">
+            <Plus className="mr-2 h-4 w-4" />
+            Agregar Producto
+          </Link>
         </Button>
       </div>
 

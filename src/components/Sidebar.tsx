@@ -94,7 +94,7 @@ export function Sidebar({ collapsed, setCollapsed }: SidebarProps) {
           <div className="flex items-center gap-3">
             <div className="h-9 w-9 rounded-full bg-sidebar-accent flex items-center justify-center">
               <span className="text-sm font-medium text-sidebar-foreground">
-                JD
+                {user?.userName.substring(0,2)}
               </span>
             </div>
 

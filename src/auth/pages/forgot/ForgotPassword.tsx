@@ -8,7 +8,7 @@ import { toast } from "sonner";
 import { Link, useNavigate } from "react-router";
 import { useAuthStore } from "@/auth/store/auth.store";
 
-export const ForgorPassword = () => {
+export const ForgotPassword = () => {
   const navigate = useNavigate();
   const {forgotPassword} = useAuthStore()
   

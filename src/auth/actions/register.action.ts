@@ -16,6 +16,7 @@ export const registerAction = async (
         userPassword,
         userPasswordConfirm,
       })
+      console.log(data);
       return data;
 
    } catch (error){
