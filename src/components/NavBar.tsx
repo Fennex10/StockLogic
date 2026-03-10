@@ -84,7 +84,7 @@ export const Navbar = () => {
             </Button>
           )}
 
-          {hasRole(RoleCode.ADMIN) && (
+          {hasRole(RoleCode.SUPER_ADMIN) && (
             <Link to="/admin">
               <Button variant="destructive" size="sm" className="ml-2">
                 Admin

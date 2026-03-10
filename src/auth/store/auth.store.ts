@@ -34,6 +34,7 @@ export const useAuthStore = create<AuthState>()((set, get) => ({
     token: null,
     authStatus: 'checking',
     
+    //Antigua implementacion 
     // isAdmin: () => {
     //    const roles = get().user?.roleCode || String;
     //    return roles.includes(RoleCode.ADMIN);
