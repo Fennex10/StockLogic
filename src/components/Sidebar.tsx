@@ -103,7 +103,7 @@ export function Sidebar({ collapsed, setCollapsed }: SidebarProps) {
                 <p className="text-sm font-medium text-sidebar-foreground">
                   {user?.userName}
                 </p>
-                <p className="text-xs text-sidebar-muted">{user?.roleId}</p>
+                <p className="text-xs text-sidebar-muted">{user?.roleCode}</p>
               </div>
             )}
           </div>

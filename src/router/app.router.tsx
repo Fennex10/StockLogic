@@ -9,10 +9,11 @@ import { Proveedores } from '@/inventory/proveedores/Proveedores';
 import { Reportes } from '@/inventory/reportes/Reportes';
 import { Ventas } from '@/inventory/ventas/Ventas';
 import { createBrowserRouter, Navigate} from 'react-router';
-import { AuthenticatedRoute, NotAuthenticatedRoute } from './ProtectedRoutes';
+import { AuthenticatedRoute, NotAuthenticatedRoute} from './ProtectedRoutes';
 import ResetPassword from '@/auth/pages/reset/ResetPassword';
 import { ForgotPassword } from '@/auth/pages/forgot/ForgotPassword';
-import { ProductForm } from '@/inventory/productos/ui/ProductsForm';
+// import { RoleCode } from '@/auth/type/roleCode';
+// import { ProductForm } from '@/inventory/productos/ui/ProductsForm';
 
 const AuthLayout = lazy(() => import('../auth/layout/AuthLayout'));
 // const AdminLayout = lazy(() => import('./admin/layouts/AdminLayout'));
@@ -32,18 +33,15 @@ export const appRouter = createBrowserRouter([
          index: true,
          element: <Dashboard />
        },
-       
        //Products Routes
        {
          path: 'productos',
          element: <Productos />,
        },
-        {
-         path: 'productos/productForm',
-         element: <ProductForm />,
-       }, 
-
-
+      //   {
+      //    path: 'productos/productForm',
+      //    element: <ProductForm />,
+      //  }, 
        {
          path: 'ventas',
          element: <Ventas />,
@@ -58,7 +56,11 @@ export const appRouter = createBrowserRouter([
        },
         {
          path: 'configuracion',
-         element: <Configuracion />,
+         
+         element: 
+            // <RoleRoute role={RoleCode.ADMIN}>
+            <Configuracion />,
+            // </RoleRoute>
        },
     ],
   },

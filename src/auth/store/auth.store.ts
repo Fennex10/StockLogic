@@ -1,4 +1,3 @@
-// import { jwtDecode } from "jwt-decode";
 import type { User } from '@/interface/user.interface'
 import { create } from 'zustand'
 import { loginAction } from '../actions/login.action';
@@ -6,6 +5,7 @@ import { checkAuthAction } from '../actions/check-auth.action';
 import { registerAction } from '../actions/register.action';
 import { forgotPasswordAction } from '../actions/forgot-password.action';
 import { resetPasswordAction } from '../actions/reset-password.action';
+import { RoleCode } from '../type/roleCode';
 
 type AuthStatus = 'authenticated' | 'not-authenticated' |'checking';
 
@@ -15,7 +15,8 @@ type AuthState = {
     token: string | null;
     authStatus: AuthStatus;
     //Getters
-    isAdmin: () => boolean;
+    // isAdmin: () => boolean;
+    hasRole: (role: RoleCode) => boolean;
     //Action
     login: (userEmail: string, userPassword: string) => Promise<boolean>;
     logout: () => void;
@@ -33,19 +34,14 @@ export const useAuthStore = create<AuthState>()((set, get) => ({
     token: null,
     authStatus: 'checking',
     
-    isAdmin: () => {
-        const roles = get().user?.roleId;
+    // isAdmin: () => {
+    //    const roles = get().user?.roleCode || String;
+    //    return roles.includes(RoleCode.ADMIN);
+    // },
 
-        if (roles) {
-            return roles == 1 //Super_Admin
-        }
-        if (roles) {
-            return roles == 2 // Admin
-        }
-        return roles == 3;  // Employee 
-        //1. Super_Admin, 2. Admin, 3. Employee
-    //    const roles = get().user?.roles || [];
-    //    return roles.includes('admin');
+    hasRole: (role: RoleCode) => {
+        const userRole = get().user?.roleCode;
+        return userRole === role || userRole === RoleCode.SUPER_ADMIN;
     },
    
     login: async(userEmail: string, userPassword: string) => {
