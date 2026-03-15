@@ -1,7 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import { getProductByIdAction } from "../action/get-product-by.action"
 import { createUpdateProductAction } from "../action/create-update-product.action";
-import type { Products } from "@/interface/products/products.interface";
+import type { Products } from "@/interface/products/product.interface";
 
 
 export const useProduct = (id: string) => {

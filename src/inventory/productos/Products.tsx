@@ -18,21 +18,21 @@ import { Link } from "react-router";
 import { CustomFullScreenLoading } from "@/components/custom/CustomFullScreemLoading";
 import { useProducts } from "./hooks/useProducts";
 import { useCategories } from "./hooks/useCategories";
-import { CustomPagination } from "@/components/custom/CustomPagination";
 
 export const Products = () => {
   
-  const { data, isLoading } = useProducts();
+  const { data: product, isLoading } = useProducts();
   const { data: categories, isLoading: isLoadingCategories } = useCategories();
 
   const [searchTerm, setSearchTerm] = useState("");
   const [categoryFilter, setCategoryFilter] = useState("all");
 
   if (isLoading || isLoadingCategories) {
-       <div className="flex min-h-screen w-full items-center justify-center"> 
-              <CustomFullScreenLoading /> 
-        </div>
+      return ( <CustomFullScreenLoading /> )
   }
+
+  console.log("products:", product);
+  console.log("categories:", categories);
 
   const getStatusBadge = (stock: number, minStock: number) => {
 
@@ -108,8 +108,8 @@ export const Products = () => {
               Todas las categorías
             </SelectItem>
 
-           {Array.isArray(categories) &&
-              categories.map((category) => (
+           {
+              categories?.data.map((category) => (
               <SelectItem key={category.id} value={category.id}>
                 {category.name}
               </SelectItem>
@@ -142,9 +142,10 @@ export const Products = () => {
 
           <TableBody>
 
-            {data?.products.map((product) => {
+            {            
+               product?.data?.map((product) => {
 
-              const category = categories?.find(
+              const category = categories?.data.find(
                 (cat) => cat.id === product.categoryId
               );
 
@@ -240,7 +241,7 @@ export const Products = () => {
 
         </Table>
 
-        <CustomPagination totalPage={data?.pages || 0} />
+        {/* <CustomPagination totalPage={data?. || 0} /> */}
 
       </div>
 

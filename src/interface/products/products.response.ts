@@ -1,7 +1,6 @@
-import type { Products } from '@/interface/products/products.interface';
+import type { Product } from '@/interface/products/product.interface';
 
 export interface ProductsResponse {
-  count: number;
-  pages: number;
-  products: Products[];
+    data: Product[];   // <--- Aquí es donde vive el .map()
+    message: string;
 }

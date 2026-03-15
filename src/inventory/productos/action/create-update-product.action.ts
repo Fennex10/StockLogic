@@ -1,10 +1,10 @@
 import { stockLogicApi } from "@/api/stockLogicApi";
-import type { Products } from "@/interface/products/products.interface";
+import type { Product } from "@/interface/products/product.interface";
 import { sleep } from "@/lib/sleep";
 
 export const createUpdateProductAction = async (
-  productLike: Partial<Products>
-): Promise<Products> => {
+  productLike: Partial<Product>
+): Promise<Product> => {
 
   await sleep(1500);
 
@@ -21,7 +21,7 @@ export const createUpdateProductAction = async (
     maxStock: Number(rest.maxStock || 0),
   };
 
-  const { data } = await stockLogicApi<Products>({
+  const { data } = await stockLogicApi<Product>({
     url: isCreating ? "/products" : `/products/${id}`,
     method: isCreating ? "POST" : "PUT",
     data: payload,

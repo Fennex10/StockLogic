@@ -3,24 +3,24 @@ import { Link } from "react-router";
 import { useForm } from "react-hook-form";
 import { Title } from "@/inventory/productos/components/Title";
 import { Button } from "@/components/ui/button";
-import type { Products } from "@/interface/products/products.interface";
-import type { Categories } from "@/interface/products/categories.interface";
+import type { Product } from "@/interface/products/product.interface";
+import type { CategoriesResponse } from "@/interface/products/categories.reponse";
 import { X, SaveAll, Upload } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 interface Props {
   title: string;
   subTitle: string;
-  product: Products;
-  categories: Categories[];
+  product: Product;
+  categories: CategoriesResponse;
   isPending: boolean;
 
   onSubmit: (
-    productLike: Partial<Products> & { files?: File[] }
+    productLike: Partial<Product > & { files?: File[] }
   ) => Promise<void>;
 }
 
-interface FormInputs extends Products {
+interface FormInputs extends Product  {
   files?: File[];
 }
 
@@ -244,7 +244,7 @@ export const ProductForm = ({
                   >
                     <option value="">Seleccionar categoría</option>
 
-                    {categories.map((category) => (
+                    {categories.data?.map((category) => (
                       <option key={category.id} value={category.id}>
                         {category.name}
                       </option>

@@ -1,12 +1,10 @@
 import { stockLogicApi } from "@/api/stockLogicApi";
-import type { Categories } from "@/interface/products/categories.interface";
+import type { CategoriesResponse } from "@/interface/products/categories.reponse";
 
-export const getCategorytByAction = async (): Promise<Categories[]> => {
+export const getCategorytByAction = async (): Promise<CategoriesResponse> => {
     
-    const {data} = await stockLogicApi.get<Categories[]>(`/categories`);
+    const {data} = await stockLogicApi.get<CategoriesResponse>(`/categories`);
 
-    return {
-      ...data,
-    }
+    return data;
 }
 

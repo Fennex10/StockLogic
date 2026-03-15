@@ -3,7 +3,7 @@ import { useProduct } from '@/inventory/productos/hooks/useProduct';
 import { useCategories } from '@/inventory/productos/hooks/useCategories';
 import { CustomFullScreenLoading } from '@/components/custom/CustomFullScreemLoading';
 import { ProductForm } from './ProductsForm';
-import type { Products } from '@/interface/products/products.interface';
+import type { Product } from '@/interface/products/product.interface';
 import { toast } from 'sonner';
 
 
@@ -12,7 +12,7 @@ export const ProductPage = () => {
   const navigate = useNavigate();
 
   const {isLoading, isError, mutation, data: product} = useProduct(id || '')
-    const { data: categories = [], isLoading: loadingCategories} = useCategories();
+    const { data: categories, isLoading: loadingCategories} = useCategories();
 
   const title = id === 'new' ? 'Nuevo producto' : 'Editar producto';
   const subtitle =
@@ -20,7 +20,7 @@ export const ProductPage = () => {
       ? 'Aquí puedes crear un nuevo producto.'
       : 'Aquí puedes editar el producto.';
 
-   const handleSubmit = async(productLike: Partial<Products> & {files?: File[]}) => {
+   const handleSubmit = async(productLike: Partial<Product> & {files?: File[]}) => {
     await mutation.mutateAsync(productLike, {
       onSuccess: (data) => {
         toast.success('Producto actualizado correctamente', {
