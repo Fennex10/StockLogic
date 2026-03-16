@@ -28,7 +28,7 @@ export const CustomPagination = ({totalPage}: Props) => {
            onClick={() => handlePageChange(page - 1)}
           >
             <ChevronLeft className="h-4 w-4" />
-            Previous
+            Anterior
           </Button>
 
          {Array.from({length: totalPage}).map((_, index) => (
@@ -45,7 +45,7 @@ export const CustomPagination = ({totalPage}: Props) => {
           <Button variant="outline" size="sm" disabled={page === totalPage}
           onClick={() => handlePageChange(page + 1)}
           >
-            Next
+            Siguiente 
             <ChevronRight className="h-4 w-4" />
           </Button>
         </div>

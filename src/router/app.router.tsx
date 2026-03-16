@@ -43,20 +43,12 @@ export const appRouter = createBrowserRouter([
             element: <Products />,
           },
           {
-            path: 'products/:id',
+            path: ':id',
             element: <ProductPage/>,
           },
         ],
        },
 
-      //  {
-      //    path: 'productos',
-      //    element: <Products />,
-      //  },
-      //   {
-      //    path: 'productos/productForm',
-      //    element: <Products />,
-      //  }, 
        {
          path: 'ventas',
          element: <Ventas />,

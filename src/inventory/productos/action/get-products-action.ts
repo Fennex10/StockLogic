@@ -38,10 +38,28 @@
 import { stockLogicApi } from "@/api/stockLogicApi";
 import type { ProductsResponse } from "@/interface/products/products.response";
 
-export const getProductsAction = async (): Promise<Products> => {
+export const getProductsAction = async (): Promise<ProductsResponse> => {
     
-    const {data} = await stockLogicApi.get<Products>(`/products`);
+    // const {data} = await stockLogicApi.get<ProductsResponse>(`/products`);
+     
+    // return data;
+    const { data } = await stockLogicApi.get<ProductsResponse>(`/products`);
+    
+    const productWithImageUrls = data.data.map((product) => {
+        // Limpiamos los backslashes que vimos en tu consola (\\uploads\\...)
+        const cleanPath = product.imageURL.replace(/\\/g, '/');
+        
+        return {
+            ...product,
+            // Creamos la URL completa. 
+            // Si el backend ya incluye "/uploads", no lo repitas aquí.
+            imageURL: `${import.meta.env.VITE_API_URL}${cleanPath}`
+        };
+    });
 
-    return data;
+    return {
+        ...data,
+        data: productWithImageUrls
+    };
 }
 
