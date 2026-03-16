@@ -36,7 +36,7 @@ export const appRouter = createBrowserRouter([
        },
        //Products Routes
        {
-         path: 'productos',
+         path: 'products',
           children: [
           {
             index: true,

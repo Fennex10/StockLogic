@@ -63,7 +63,7 @@ export const Products = () => {
           </p>
         </div>
         <Button asChild className="shadow-lg shadow-primary/20 transition-all hover:scale-105 active:scale-95">
-          <Link to="/dashboard/products/:id">
+          <Link to="/dashboard/products/new">
             <Plus className="mr-2 h-4 w-4" />
             Nuevo Producto
           </Link>
