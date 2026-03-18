@@ -1,6 +1,6 @@
 import type { User } from "../user.interface";
 
-export interface Products {
+export interface Product {
     id:           string;
     name:         string;
     sku:          string;
