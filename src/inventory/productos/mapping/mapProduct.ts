@@ -11,5 +11,6 @@ export const mapToCreateProduct = (p: Product): CreateProduct => ({
   productMinStock: p.minStock,
   productMaxStock: p.maxStock,
   productCategoryId: p.categoryId,
+  productProviderId: p.providerId,
   productImage: p.imageURL
 });

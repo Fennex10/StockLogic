@@ -3,7 +3,6 @@ import { getProductByIdAction } from "../action/get-product-by.action"
 import { createUpdateProductAction } from "../action/create-update-product.action";
 import type { Product } from "@/interface/products/product.interface";
 
-
 export const useProduct = (id: string) => {
   
   const queryClient = useQueryClient();
@@ -27,11 +26,6 @@ export const useProduct = (id: string) => {
       queryClient.setQueryData(['products', {id: product.id}], product);
     }
   })
-
-  //To delete
-  // const handleSubmitForm = async (productLike: Partial<Product>) => {
-  //   console.log({productLike})
-  // } 
 
   return {
     ...query,

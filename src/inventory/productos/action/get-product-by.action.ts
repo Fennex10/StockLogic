@@ -18,13 +18,13 @@ export const getProductByIdAction = async (id: string): Promise<Product> => {
             minStock: 0,
             maxStock: 0,
             categoryId: '',
+            providerId: '',
             companyId: {} as User,
             createdAt: new Date(),
             updatedAt: new Date(),
- 
         }
     }
-    
+        
     const {data} = await stockLogicApi.get<Product>(`/products/${id}`);
     return {
       ...data,

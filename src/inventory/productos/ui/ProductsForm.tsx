@@ -9,6 +9,7 @@ import { mapToCreateProduct } from '../mapping/mapProduct';
 import type { Product } from "@/interface/products/product.interface";
 import { X, SaveAll, Upload } from "lucide-react";
 import { cn } from "@/lib/utils";
+import type { ProvidersResponse } from "@/interface/providers/providers.response";
 
 
 interface Props {
@@ -16,6 +17,7 @@ interface Props {
   subTitle: string;
   product: Product;
   categories: CategoriesResponse;
+  providers: ProvidersResponse;
   isPending: boolean;
 
   onSubmit: (
@@ -32,6 +34,7 @@ export const ProductForm = ({
   subTitle,
   product,
   categories,
+  providers,
   onSubmit,
   isPending,
 }: Props) => {
@@ -300,6 +303,27 @@ export const ProductForm = ({
                     ))}
                   </select>
                 </div>
+
+                  {/* PROVIDERS */}
+                <div>
+                  <label className="block text-sm font-medium text-slate-700 mb-2">
+                    Proveedores
+                  </label>
+
+                  <select
+                    {...register("productProviderId")}
+                    className="w-full px-4 py-3 border border-slate-300 rounded-lg"
+                  >
+                    <option value="">Seleccionar proveedores</option>
+
+                    {providers.data?.map((provider) => (
+                      <option key={provider.id} value={provider.id}>
+                        {provider.name}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
 
                 {/* DESCRIPTION */}
                 <div>
