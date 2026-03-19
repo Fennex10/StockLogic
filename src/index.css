@@ -159,3 +159,7 @@
     @apply bg-background text-foreground;
   }
 }
+
+@theme {
+  --font-montserrat: "Montserrat Alternates", sans-serif;
+}
