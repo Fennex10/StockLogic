@@ -10,7 +10,7 @@ export const CustomPagination = ({totalPage}: Props) => {
      
     const [searchParams, setSearchParams] = useSearchParams()
     
-    const queryPage = searchParams.get('page') ?? '1';
+    const queryPage = searchParams.get('products') ?? '1';
     const page = isNaN(+queryPage) ? 1 : +queryPage;
     
     const handlePageChange = (page: number) => {

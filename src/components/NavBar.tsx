@@ -1,4 +1,4 @@
-import { RoleCode } from "@/auth/type/roleCode";
+// import { RoleCode } from "@/auth/type/roleCode";
 
 import { Bell, Search, User} from "lucide-react";
 import { Input } from "@/components/ui/input";
@@ -18,7 +18,7 @@ import { Link } from "react-router";
 
 export const Navbar = () => {
 
-  const {authStatus, hasRole, logout} = useAuthStore();
+  const {authStatus, logout} = useAuthStore();
 
   return (
     <header className="sticky top-0 z-30 flex h-16 items-center justify-between border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 px-6">
@@ -84,13 +84,13 @@ export const Navbar = () => {
             </Button>
           )}
 
-          {hasRole(RoleCode.SUPER_ADMIN) && (
+          {/* {hasRole(RoleCode.SUPER_ADMIN) && (
             <Link to="/admin">
               <Button variant="destructive" size="sm" className="ml-2">
                 Admin
               </Button>
             </Link>
-          )}
+          )} */}
 
         {/* User Menu */}
         <DropdownMenu>
