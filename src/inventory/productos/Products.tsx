@@ -17,6 +17,7 @@ import { useCategories } from "./hooks/useCategories";
 import { CustomPagination } from "@/components/custom/CustomPagination";
 import { useDeleteProduct } from "./hooks/useDeleteProduct";
 import { useProviders } from "../providers/hooks/useProviders";
+import { getFullImageUrl } from "@/lib/formatUrl";
 
 export const Products = () => {
   const { data: product, isLoading } = useProducts();
@@ -129,10 +130,12 @@ export const Products = () => {
                       <div className="flex items-center gap-4">
                         <div className="h-12 w-12 rounded-lg border border-slate-100 bg-slate-50 overflow-hidden flex-shrink-0">
                           <img
-                            src={item.imageURL.replace(/\\/g, '/')}
+                            // src={`${import.meta.env.VITE_API_URL}${item.imageURL.replace(/\\/g, '/')}`}
+                            src={getFullImageUrl(item.imageURL)}
+                            // src={item.imageURL.replace(/\\/g, '/')}
                             alt={item.name}
                             className="h-full w-full object-cover group-hover:scale-110 transition-transform duration-500"
-                            onError={(e) => { e.currentTarget.src = "https://placehold.co/400x400?text=📦"; }}
+                            // onError={(e) => { e.currentTarget.src = "https://placehold.co/400x400?text=📦"; }}
                           />
                         </div>
                         <div className="flex flex-col overflow-hidden">

@@ -1,11 +1,14 @@
 import { stockLogicApi } from "@/api/stockLogicApi";
 import type { CreateProduct } from "@/interface/products/create-product.interface";
 import type { Product } from "@/interface/products/product.interface";
+import { sleep } from "@/lib/sleep";
 // import { sleep } from "@/lib/sleep";
 
 export const createUpdateProductAction = async (
   productLike: Partial<CreateProduct> & { files?: File[] } // Aceptamos los archivos
 ): Promise<Product> => {
+
+  await sleep(1500);
 
   const { id, ...rest } = productLike;
   const isCreating = !id || id === "new";

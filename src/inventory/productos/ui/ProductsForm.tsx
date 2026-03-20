@@ -54,7 +54,14 @@ export const ProductForm = ({
 
   useEffect(() => {
     // reset(product);
-     reset(mapToCreateProduct(product)); 
+    //  reset(mapToCreateProduct(product)); 
+    if (product && product.id) {
+    // Transformamos los datos del backend al formato que entiende el Form
+    const dataForForm = mapToCreateProduct(product);
+    
+    // reset() es la función que "inyecta" los valores en los inputs
+    reset(dataForForm);
+  }
     // eslint-disable-next-line react-hooks/set-state-in-effect
     setFiles([]);
   }, [product, reset]);
