@@ -1,15 +1,15 @@
 import { Navigate, useNavigate, useParams } from 'react-router';
 import { useProduct } from '@/inventory/productos/hooks/useProduct';
-import { useCategories } from '@/inventory/productos/hooks/useCategories';
+import { useCategories } from '@/inventory/categories/hooks/useCategories';
 import { CustomFullScreenLoading } from '@/components/custom/CustomFullScreemLoading';
 import { ProductForm } from './ProductsForm';
 import { toast } from 'sonner';
 import type { CreateProduct } from '@/interface/products/create-product.interface';
 import { useProviders } from '@/inventory/providers/hooks/useProviders';
 
-
 export const ProductPage = () => {
   const { id } = useParams();
+  console.log("ID capturado de la URL:", id);
   const navigate = useNavigate();
 
   // 1. Hook de datos y mutación
@@ -49,10 +49,16 @@ export const ProductPage = () => {
 
   // Primero errores de carga
   if (isError) return <Navigate to='/dashboard/products' />;
-
+   
   // Estado de carga global
   if (isLoading || loadingCategories || loadingProviders) return <CustomFullScreenLoading />;
+  
+//   if (id !== 'new' && product?.id !== id) {
+//   return <CustomFullScreenLoading />;
+// }
 
+// 2. Si no hay producto y no es 'new', manejamos el error
+  if (!product && id !== 'new') return <div>Producto no encontrado</div>;
   // Verificación de data (solo si no estamos cargando)
   if (!categories || !product || !providers) return <Navigate to='/dashboard/products' />;
 

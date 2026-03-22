@@ -1,4 +1,4 @@
-import type { Category } from "./category.interface";
+import type { Category } from "../products/category.interface";
 
 export interface CategoriesResponse {
     data: Category[];

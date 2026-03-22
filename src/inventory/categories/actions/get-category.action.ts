@@ -1,5 +1,5 @@
 import { stockLogicApi } from "@/api/stockLogicApi";
-import type { CategoriesResponse } from "@/interface/products/categories.reponse";
+import type { CategoriesResponse } from "@/interface/categories/categories.reponse";
 
 export const getCategorytByAction = async (): Promise<CategoriesResponse> => {
     

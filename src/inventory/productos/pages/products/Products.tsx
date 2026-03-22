@@ -12,11 +12,11 @@ import { Progress } from "@/components/ui/progress";
 import { cn } from "@/lib/utils";
 import { Link } from "react-router";
 import { CustomFullScreenLoading } from "@/components/custom/CustomFullScreemLoading";
-import { useProducts } from "./hooks/useProducts";
-import { useCategories } from "./hooks/useCategories";
+import { useProducts } from "../../hooks/useProducts";
+import { useCategories } from "@/inventory/categories/hooks/useCategories";
 import { CustomPagination } from "@/components/custom/CustomPagination";
-import { useDeleteProduct } from "./hooks/useDeleteProduct";
-import { useProviders } from "../providers/hooks/useProviders";
+import { useDeleteProduct } from "../../hooks/useDeleteProduct";
+import { useProviders } from "../../../providers/hooks/useProviders";
 import { getFullImageUrl } from "@/lib/formatUrl";
 
 export const Products = () => {
@@ -128,7 +128,8 @@ export const Products = () => {
                   <TableRow key={item.id} className="group hover:bg-slate-50/50 transition-colors">
                     <TableCell>
                       <div className="flex items-center gap-4">
-                        <div className="h-12 w-12 rounded-lg border border-slate-100 bg-slate-50 overflow-hidden flex-shrink-0">
+                        {/* <div className="h-12 w-12 rounded-lg border border-slate-100 bg-slate-50 overflow-hidden flex-shrink-0"> */}
+                        <div className="h-16 w-16 min-w-[64px] overflow-hidden rounded-lg border border-gray-200 bg-gray-50 group">
                           <img
                             // src={`${import.meta.env.VITE_API_URL}${item.imageURL.replace(/\\/g, '/')}`}
                             src={getFullImageUrl(item.imageURL)}

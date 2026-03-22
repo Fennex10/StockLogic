@@ -2,8 +2,14 @@ import { stockLogicApi } from "@/api/stockLogicApi";
 import type { Product } from "@/interface/products/product.interface";
 import type { User } from "@/interface/user.interface";
 
+interface ProductResponse {
+  message: string;
+  data: Product;
+}
+
 export const getProductByIdAction = async (id: string): Promise<Product> => {
-    if (!id) throw new Error('Id is required');
+    // if (!id) throw new Error('Id is required');
+    if (!id || id === 'undefined') throw new Error('Id is required');
 
     if (id === 'new') {
         return {
@@ -25,9 +31,9 @@ export const getProductByIdAction = async (id: string): Promise<Product> => {
         }
     }
         
-    const {data} = await stockLogicApi.get<Product>(`/products/${id}`);
-    return {
-      ...data,
-    }
+    const {data} = await stockLogicApi.get<ProductResponse>(`/products/${id}`);
+    return data.data;
+    
+    
 }
 

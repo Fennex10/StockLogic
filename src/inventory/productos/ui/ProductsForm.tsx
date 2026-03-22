@@ -4,12 +4,13 @@ import { useForm } from "react-hook-form";
 import { Title } from "@/inventory/productos/components/Title";
 import { Button } from "@/components/ui/button";
 import type { CreateProduct } from "@/interface/products/create-product.interface";
-import type { CategoriesResponse } from "@/interface/products/categories.reponse";
+import type { CategoriesResponse } from "@/interface/categories/categories.reponse";
 import { mapToCreateProduct } from '../mapping/mapProduct';
 import type { Product } from "@/interface/products/product.interface";
 import { X, SaveAll, Upload } from "lucide-react";
 import { cn } from "@/lib/utils";
 import type { ProvidersResponse } from "@/interface/providers/providers.response";
+import { getFullImageUrl } from "@/lib/formatUrl";
 
 
 interface Props {
@@ -52,19 +53,16 @@ export const ProductForm = ({
     defaultValues: mapToCreateProduct(product),
   });
 
-  useEffect(() => {
-    // reset(product);
-    //  reset(mapToCreateProduct(product)); 
-    if (product && product.id) {
-    // Transformamos los datos del backend al formato que entiende el Form
-    const dataForForm = mapToCreateProduct(product);
-    
-    // reset() es la función que "inyecta" los valores en los inputs
-    reset(dataForForm);
+useEffect(() => {
+  if (product && product.id !== 'new') {
+    reset(mapToCreateProduct(product));
   }
-    // eslint-disable-next-line react-hooks/set-state-in-effect
-    setFiles([]);
-  }, [product, reset]);
+}, [product, reset]);
+
+// useEffect(() => {
+//   // eslint-disable-next-line react-hooks/set-state-in-effect
+//   setFiles([]);
+// }, [product]);
 
   const handleFormSubmit = (data: FormInputs) => {
     onSubmit({
@@ -115,6 +113,7 @@ export const ProductForm = ({
 
   return (
     <form onSubmit={handleSubmit(handleFormSubmit)}>
+      
       <div className="flex justify-between items-center">
         <Title title={title} subtitle={subTitle} />
 
@@ -399,16 +398,9 @@ export const ProductForm = ({
               {/* CURRENT IMAGES */}
               <div className="mt-6 grid grid-cols-2 gap-3">
 
-                {/* {product.imageURL.map((image, index) => (
-                  <img
-                    key={index}
-                    src={image}
-                    className="rounded-lg object-cover"
-                  />
-                ))} */}
                  {product.imageURL && (
                     <img
-                    src={product.imageURL}
+                    src={getFullImageUrl(product.imageURL)}
                     className="rounded-lg object-cover"
                     />
                 )}

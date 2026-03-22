@@ -4,7 +4,7 @@ import { Register } from '@/auth/pages/register/Register';
 import { MainLayout } from '@/components/layout/MainLayout';
 import { Dashboard } from '@/inventory/dashboard/pages/Dashboard/Dashboard';
 import { Configuracion } from '@/inventory/configuracion/Configuracion';
-import { Products } from '@/inventory/productos/Products';
+import { Products } from '@/inventory/productos/pages/products/Products';
 import { Proveedores } from '@/inventory/providers/Proveedores';
 import { Reportes } from '@/inventory/reportes/Reportes';
 import { Ventas } from '@/inventory/ventas/Ventas';
