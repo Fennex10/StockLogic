@@ -418,8 +418,68 @@ useEffect(() => {
                   ))}
                 </div>
               )}
+             
+            </div>
+
+               {/* PRODUCT STATUS */}
+          <div className="bg-white rounded-2xl shadow-md border border-slate-100 p-6">
+            <h2 className="text-lg font-semibold text-slate-800 mb-5">
+              Estado del producto
+            </h2>
+
+            <div className="space-y-3">
+
+              {/* Estado activo */}
+              <div className="flex items-center justify-between p-3 bg-slate-50 rounded-xl">
+                <span className="text-sm font-medium text-slate-700">
+                  Estado
+                </span>
+                <span
+                  className={`px-3 py-1 text-xs font-medium rounded-full ${
+                    product.currentStock
+                      ? "bg-green-100 text-green-800"
+                      : "bg-gray-200 text-gray-600"
+                  }`}
+                >
+                  {product.currentStock ? "Activo" : "Inactivo"}
+                </span>
+              </div>
+
+              {/* Inventario */}
+              <div className="flex items-center justify-between p-3 bg-slate-50 rounded-xl">
+                <span className="text-sm font-medium text-slate-700">
+                  Inventario
+                </span>
+                <span
+                  className={`px-3 py-1 text-xs font-medium rounded-full ${product.currentStock}`}
+                >
+                  {product.currentStock}
+                </span>
+              </div>
+
+              {/* Cantidad exacta */}
+              <div className="flex items-center justify-between p-3 bg-slate-50 rounded-xl">
+                <span className="text-sm font-medium text-slate-700">
+                  Cantidad
+                </span>
+                <span className="text-sm font-semibold text-slate-800">
+                  {product.currentStock} unidades
+                </span>
+              </div>
+
+              {/* Imágenes */}
+              <div className="flex items-center justify-between p-3 bg-slate-50 rounded-xl">
+                <span className="text-sm font-medium text-slate-700">
+                  Imágenes
+                </span>
+                <span className="text-sm text-slate-600">
+                  {(product.imageURL ? 1 : 0) + files.length} imágenes
+                </span>
+              </div>
 
             </div>
+          </div>
+
 
           </div>
 
