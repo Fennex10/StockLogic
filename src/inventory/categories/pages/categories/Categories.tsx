@@ -3,28 +3,17 @@ import { Plus, Edit, Trash2, Tags, Package, Palette, Search } from "lucide-react
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-//    DialogDescription
-} from "@/components/ui/dialog";
-// import { toast } from "sonner";
+import { Dialog, DialogContent, DialogHeader, DialogTitle,} from "@/components/ui/dialog";
 import { useCategories } from "../../hooks/useCategories";
-// import { CategoryForm } from "@/inventory/categories/pages/ui/categoryForm";
 import type { Category } from "@/interface/categories/category.interface";
 import { useDeleteCategory } from "../../hooks/useDeleteCategory";
 import { CustomFullScreenLoading } from "@/components/custom/CustomFullScreemLoading";
-// import { CategoriesPage } from "../ui/categoriesPage";
 import { cn } from "@/lib/utils";
-// import { CategoriesPage } from "../ui/categoriesPage";
 import { useProducts } from "@/inventory/productos/hooks/useProducts";
-import { CategoryForm } from "../ui/categoryForm";
+import { CategoryForm } from "../ui/CategoryForm";
 import { useCategory } from "../../hooks/useCategory";
 import { toast } from "sonner";
 
-// 🎨 Opciones de color (UI solamente)
 const colorOptions = [
   { value: "bg-primary/15 text-primary border-primary/25", label: "Azul", dot: "bg-primary" },
   { value: "bg-success/15 text-success border-success/25", label: "Verde", dot: "bg-success" },
@@ -240,7 +229,6 @@ export const Categories = () => {
         />
     </DialogContent>
     </Dialog>
-
     </div>
   );
 }
