@@ -8,14 +8,24 @@ import {
   DialogContent,
   DialogHeader,
   DialogTitle,
+//    DialogDescription
 } from "@/components/ui/dialog";
-import { toast } from "sonner";
+// import { toast } from "sonner";
 import { useCategories } from "../../hooks/useCategories";
-import { CategoryForm } from "@/inventory/categories/pages/ui/categoryForm";
+// import { CategoryForm } from "@/inventory/categories/pages/ui/categoryForm";
 import type { Category } from "@/interface/categories/category.interface";
+import { useDeleteCategory } from "../../hooks/useDeleteCategory";
+import { CustomFullScreenLoading } from "@/components/custom/CustomFullScreemLoading";
+// import { CategoriesPage } from "../ui/categoriesPage";
+import { cn } from "@/lib/utils";
+// import { CategoriesPage } from "../ui/categoriesPage";
+import { useProducts } from "@/inventory/productos/hooks/useProducts";
+import { CategoryForm } from "../ui/categoryForm";
+import { useCategory } from "../../hooks/useCategory";
+import { toast } from "sonner";
 
-// eslint-disable-next-line react-refresh/only-export-components
-export const colorOptions = [
+// 🎨 Opciones de color (UI solamente)
+const colorOptions = [
   { value: "bg-primary/15 text-primary border-primary/25", label: "Azul", dot: "bg-primary" },
   { value: "bg-success/15 text-success border-success/25", label: "Verde", dot: "bg-success" },
   { value: "bg-warning/15 text-warning border-warning/25", label: "Naranja", dot: "bg-warning" },
@@ -24,24 +34,39 @@ export const colorOptions = [
   { value: "bg-chart-5/15 text-chart-5 border-chart-5/25", label: "Cyan", dot: "bg-chart-5" },
 ];
 
-export default function Categorias() {
+const getColor = (index: number) => {
+  return colorOptions[index % colorOptions.length].value;
+};
 
+export const Categories = () => {
+ 
   const { data: categories, isLoading } = useCategories();
+  const { mutate: deleteCategory, isPending} = useDeleteCategory();
+  const {data: products, isLoading: isLoadingProducts} = useProducts();
 
   const [searchTerm, setSearchTerm] = useState("");
   const [dialogOpen, setDialogOpen] = useState(false);
   const [editing, setEditing] = useState<Category | null>(null);
 
+  const { mutation} = useCategory(editing?.id ?? "new"); 
+
   const categoryList = categories?.data ?? [];
+  const productsList = products?.data ?? [];
+
+  const getProductCountByCategory = (categoryId: string) => {
+  return productsList.filter(p => p.categoryId === categoryId).length;
+};
 
   const filtered = categoryList.filter((c) =>
     c.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
+  
+  const totalProducts = productsList.length;
 
-  const totalProducts = categoryList.reduce(
-    (sum, c) => sum + c.productCount,
-    0
-  );
+  const average =
+    categoryList.length
+    ? Math.round(totalProducts / categoryList.length)
+    : 0;
 
   const openNew = () => {
     setEditing(null);
@@ -53,9 +78,23 @@ export default function Categorias() {
     setDialogOpen(true);
   };
 
-  const handleDelete = (id: number) => {
-    toast.success("Categoría eliminada (simulado)");
+    const handleDelete = (id: string) => {
+    toast("¿Eliminar categoría?", {
+        description: "Esta acción no se puede deshacer",
+        action: {
+        label: "Eliminar",
+        onClick: () => {
+            deleteCategory(id);
+        },
+        },
+        cancel: {
+        label: "Cancelar",
+        onClick: () => {},
+        },
+    });
   };
+
+  if (isLoading || isLoadingProducts) return <CustomFullScreenLoading />;
 
   return (
     <div className="space-y-6">
@@ -112,9 +151,7 @@ export default function Categorias() {
               Promedio por Categoría
             </p>
             <p className="text-2xl font-bold">
-              {categoryList.length
-                ? Math.round(totalProducts / categoryList.length)
-                : 0}
+              {average}
             </p>
           </div>
         </div>
@@ -133,13 +170,13 @@ export default function Categorias() {
 
       {/* Grid */}
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-        {filtered.map((cat) => (
+        {filtered.map((cat, index) => (
           <div
             key={cat.id}
             className="group rounded-2xl border bg-card p-5 hover:shadow-lg transition"
           >
             <div className="flex justify-between mb-3">
-              <Badge className={`${cat.color} border`}>
+              <Badge className={`${getColor(index)} border`}>
                 {cat.name}
               </Badge>
 
@@ -148,8 +185,13 @@ export default function Categorias() {
                   <Edit className="h-4 w-4" />
                 </Button>
 
-                <Button size="icon" variant="ghost" onClick={() => handleDelete(cat.id)}>
-                  <Trash2 className="h-4 w-4 text-destructive" />
+                <Button 
+                  size="icon" 
+                  variant="ghost"
+                 disabled={isPending} 
+                  onClick={() => handleDelete(cat.id)}>
+                  {/* <Trash2 className="h-4 w-4 text-destructive" /> */}
+                   <Trash2 className={cn("h-4 w-4 text-destructive", isPending && "animate-pulse")} />
                 </Button>
               </div>
             </div>
@@ -160,33 +202,44 @@ export default function Categorias() {
 
             <div className="flex items-center gap-2 border-t pt-3">
               <Package className="h-4 w-4" />
-              <span>{cat.id} productos</span>
+              <span>{getProductCountByCategory(cat.id)} productos</span>
             </div>
           </div>
         ))}
       </div>
 
-      {/* Dialog + Form */}
       <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>
-              {editing ? "Editar Categoría" : "Nueva Categoría"}
-            </DialogTitle>
-          </DialogHeader>
+    <DialogContent>
+        <DialogHeader>
+        <DialogTitle>
+            {editing ? "Editar Categoría" : "Nueva Categoría"}
+        </DialogTitle>
+        </DialogHeader>
 
-          <CategoryForm
-            // title=""
-            // subTitle=""
-            category={editing ?? { id: "new" } as Category}
-            isPending={false}
-            onSubmit={async () => {
-              setDialogOpen(false);
-              toast.success("Guardado correctamente");
-            }}
-          />
-        </DialogContent>
-      </Dialog>
+        <CategoryForm
+        category={editing ?? ({ id: "new" } as Category)}
+        isPending={mutation.isPending}
+        onSubmit={async (data) => {
+            try {
+            await mutation.mutateAsync({
+                ...data,
+                id: editing ? editing.id : undefined,
+            });
+
+            setDialogOpen(false);
+
+            toast.success(editing ? 'Categoria actualizada correctamente' 
+                : 'Categoria creada correctamente', {
+                position: 'bottom-right',
+                });
+
+            } catch (error) {
+            console.error(error);
+            }
+        }}
+        />
+    </DialogContent>
+    </Dialog>
 
     </div>
   );

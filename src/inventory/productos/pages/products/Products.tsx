@@ -18,6 +18,7 @@ import { CustomPagination } from "@/components/custom/CustomPagination";
 import { useDeleteProduct } from "../../hooks/useDeleteProduct";
 import { useProviders } from "../../../providers/hooks/useProviders";
 import { getFullImageUrl } from "@/lib/formatUrl";
+import { toast } from "sonner";
 
 export const Products = () => {
   const { data: product, isLoading } = useProducts();
@@ -39,10 +40,20 @@ export const Products = () => {
   }, [product, searchTerm, categoryFilter]);
 
   const handleDelete = (id: string) => {
-    const confirmed = window.confirm("¿Estás seguro de eliminar este producto?");
-    if (confirmed) {
-      deleteProduct(id);
-    }
+    toast("¿Eliminar producto?", {
+      description: "Esta acción no se puede deshacer",
+      action: {
+        label: "Eliminar",
+        onClick: () => {
+          deleteProduct(id);
+          // toast.success("Categoría eliminada correctamente");
+        },
+      },
+      cancel: {
+        label: "Cancelar",
+        onClick: () => {},
+      },
+    });
   };
 
   if (isLoading || isLoadingCategories || isLoadingProviders) return <CustomFullScreenLoading />;

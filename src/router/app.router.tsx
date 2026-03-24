@@ -13,6 +13,8 @@ import { AuthenticatedRoute, NotAuthenticatedRoute} from './ProtectedRoutes';
 import ResetPassword from '@/auth/pages/reset/ResetPassword';
 import { ForgotPassword } from '@/auth/pages/forgot/ForgotPassword';
 import { ProductPage } from '@/inventory/productos/ui/ProductsPage';
+import { Categories } from '@/inventory/categories/pages/categories/Categories';
+// import { CategoriesPage } from '@/inventory/categories/pages/ui/categoriesPage';
 // import { RoleCode } from '@/auth/type/roleCode';
 // import { ProductForm } from '@/inventory/productos/ui/ProductsForm';
 
@@ -46,6 +48,20 @@ export const appRouter = createBrowserRouter([
             path: ':id',
             element: <ProductPage/>,
           },
+        ],
+       },
+
+        {
+         path: 'categories',
+          children: [
+          {
+            index: true,
+            element: <Categories />,
+          },
+          // {
+          //   path: ':id',
+          //   element: <CategoriesPage/>,
+          // },
         ],
        },
 

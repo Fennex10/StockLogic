@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router";
 import { useForm } from "react-hook-form";
-import { Title } from "@/inventory/productos/components/Title";
+import { Title } from "@/components/components/Title";
 import { Button } from "@/components/ui/button";
 import type { CreateProduct } from "@/interface/products/create-product.interface";
 import type { CategoriesResponse } from "@/interface/categories/categories.reponse";
@@ -11,7 +11,6 @@ import { X, SaveAll, Upload } from "lucide-react";
 import { cn } from "@/lib/utils";
 import type { ProvidersResponse } from "@/interface/providers/providers.response";
 import { getFullImageUrl } from "@/lib/formatUrl";
-
 
 interface Props {
   title: string;
