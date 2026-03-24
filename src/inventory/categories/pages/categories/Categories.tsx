@@ -1,300 +1,193 @@
-// import { useState } from 'react';
-// import { motion } from 'motion/react';
-// import { Search, Plus, Edit, Trash2, Package } from 'lucide-react';
-// import { Input } from '../ui/input';
-// import { Button } from '../ui/button';
-// import { CategoryForm, CategoryFormData } from './CategoryForm';
-// import { toast } from 'sonner@2.0.3';
+import { useState } from "react";
+import { Plus, Edit, Trash2, Tags, Package, Palette, Search } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Badge } from "@/components/ui/badge";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { toast } from "sonner";
+import { useCategories } from "../../hooks/useCategories";
+import { CategoryForm } from "@/inventory/categories/pages/ui/categoryForm";
+import type { Category } from "@/interface/categories/category.interface";
 
-// interface Category {
-//   id: string;
-//   name: string;
-//   description: string;
-//   color: string;
-//   productsCount: number;
-// }
+// eslint-disable-next-line react-refresh/only-export-components
+export const colorOptions = [
+  { value: "bg-primary/15 text-primary border-primary/25", label: "Azul", dot: "bg-primary" },
+  { value: "bg-success/15 text-success border-success/25", label: "Verde", dot: "bg-success" },
+  { value: "bg-warning/15 text-warning border-warning/25", label: "Naranja", dot: "bg-warning" },
+  { value: "bg-destructive/15 text-destructive border-destructive/25", label: "Rojo", dot: "bg-destructive" },
+  { value: "bg-chart-4/15 text-chart-4 border-chart-4/25", label: "Morado", dot: "bg-chart-4" },
+  { value: "bg-chart-5/15 text-chart-5 border-chart-5/25", label: "Cyan", dot: "bg-chart-5" },
+];
 
-// const mockCategories: Category[] = [
-//   {
-//     id: '1',
-//     name: 'Electrónicos',
-//     description: 'Dispositivos electrónicos y tecnología',
-//     color: '#4f46e5',
-//     productsCount: 45
-//   },
-//   {
-//     id: '2',
-//     name: 'Periféricos',
-//     description: 'Accesorios y periféricos de computadora',
-//     color: '#22c55e',
-//     productsCount: 32
-//   },
-//   {
-//     id: '3',
-//     name: 'Componentes',
-//     description: 'Componentes de hardware y repuestos',
-//     color: '#f59e0b',
-//     productsCount: 28
-//   },
-//   {
-//     id: '4',
-//     name: 'Accesorios',
-//     description: 'Accesorios diversos para dispositivos',
-//     color: '#3b82f6',
-//     productsCount: 67
-//   },
-//   {
-//     id: '5',
-//     name: 'Audio',
-//     description: 'Equipos y accesorios de audio',
-//     color: '#8b5cf6',
-//     productsCount: 23
-//   },
-//   {
-//     id: '6',
-//     name: 'Video',
-//     description: 'Cámaras, webcams y equipos de video',
-//     color: '#ec4899',
-//     productsCount: 18
-//   },
-//   {
-//     id: '7',
-//     name: 'Redes',
-//     description: 'Equipos de red y conectividad',
-//     color: '#14b8a6',
-//     productsCount: 15
-//   },
-//   {
-//     id: '8',
-//     name: 'Software',
-//     description: 'Licencias y programas de software',
-//     color: '#f97316',
-//     productsCount: 12
-//   }
-// ];
+export default function Categorias() {
 
-// export function Categories() {
-//   const [searchTerm, setSearchTerm] = useState('');
-//   const [categories, setCategories] = useState<Category[]>(mockCategories);
-//   const [formOpen, setFormOpen] = useState(false);
-//   const [editingCategory, setEditingCategory] = useState<CategoryFormData | undefined>(undefined);
+  const { data: categories, isLoading } = useCategories();
 
-//   const handleAddCategory = () => {
-//     setEditingCategory(undefined);
-//     setFormOpen(true);
-//   };
+  const [searchTerm, setSearchTerm] = useState("");
+  const [dialogOpen, setDialogOpen] = useState(false);
+  const [editing, setEditing] = useState<Category | null>(null);
 
-//   const handleEditCategory = (category: Category) => {
-//     setEditingCategory({
-//       id: category.id,
-//       name: category.name,
-//       description: category.description,
-//       color: category.color
-//     });
-//     setFormOpen(true);
-//   };
+  const categoryList = categories?.data ?? [];
 
-//   const handleDeleteCategory = (id: string) => {
-//     const category = categories.find(c => c.id === id);
-//     if (category && category.productsCount > 0) {
-//       toast.error(`No se puede eliminar la categoría "${category.name}" porque tiene ${category.productsCount} productos asociados`);
-//       return;
-//     }
-    
-//     if (confirm('¿Estás seguro de que deseas eliminar esta categoría?')) {
-//       setCategories(categories.filter(c => c.id !== id));
-//       toast.success('Categoría eliminada exitosamente');
-//     }
-//   };
+  const filtered = categoryList.filter((c) =>
+    c.name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
-//   const handleSaveCategory = (data: CategoryFormData) => {
-//     if (data.id) {
-//       // Edit existing category
-//       setCategories(categories.map(c =>
-//         c.id === data.id
-//           ? {
-//               ...c,
-//               name: data.name,
-//               description: data.description,
-//               color: data.color
-//             }
-//           : c
-//       ));
-//       toast.success('Categoría actualizada exitosamente');
-//     } else {
-//       // Add new category
-//       const newCategory: Category = {
-//         id: (categories.length + 1).toString(),
-//         name: data.name,
-//         description: data.description,
-//         color: data.color,
-//         productsCount: 0
-//       };
-//       setCategories([...categories, newCategory]);
-//       toast.success('Categoría creada exitosamente');
-//     }
-//   };
+  const totalProducts = categoryList.reduce(
+    (sum, c) => sum + c.productCount,
+    0
+  );
 
-//   const filteredCategories = categories.filter(category =>
-//     category.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-//     category.description.toLowerCase().includes(searchTerm.toLowerCase())
-//   );
+  const openNew = () => {
+    setEditing(null);
+    setDialogOpen(true);
+  };
 
-//   const totalProducts = categories.reduce((sum, cat) => sum + cat.productsCount, 0);
+  const openEdit = (cat: Category) => {
+    setEditing(cat);
+    setDialogOpen(true);
+  };
 
-//   return (
-//     <div className="p-6 space-y-6">
-//       {/* Header */}
-//       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-//         <div>
-//           <h1 className="text-3xl mb-2">Categorías</h1>
-//           <p className="text-muted-foreground">
-//             Gestiona las categorías de tus productos
-//           </p>
-//         </div>
-//         <Button
-//           className="rounded-xl"
-//           style={{ backgroundColor: '#4f46e5' }}
-//           onClick={handleAddCategory}
-//         >
-//           <Plus className="w-4 h-4 mr-2" />
-//           Nueva Categoría
-//         </Button>
-//       </div>
+  const handleDelete = (id: number) => {
+    toast.success("Categoría eliminada (simulado)");
+  };
 
-//       {/* Stats */}
-//       <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-//         <motion.div
-//           initial={{ opacity: 0, y: 20 }}
-//           animate={{ opacity: 1, y: 0 }}
-//           className="bg-card border border-border rounded-2xl p-6"
-//         >
-//           <div className="flex items-center gap-3 mb-3">
-//             <div
-//               className="w-10 h-10 rounded-xl flex items-center justify-center"
-//               style={{ backgroundColor: '#4f46e515' }}
-//             >
-//               <Package className="w-5 h-5" style={{ color: '#4f46e5' }} />
-//             </div>
-//             <p className="text-sm text-muted-foreground">Total Categorías</p>
-//           </div>
-//           <p className="text-2xl">{categories.length}</p>
-//         </motion.div>
+  return (
+    <div className="space-y-6">
 
-//         <motion.div
-//           initial={{ opacity: 0, y: 20 }}
-//           animate={{ opacity: 1, y: 0 }}
-//           transition={{ delay: 0.1 }}
-//           className="bg-card border border-border rounded-2xl p-6"
-//         >
-//           <div className="flex items-center gap-3 mb-3">
-//             <div
-//               className="w-10 h-10 rounded-xl flex items-center justify-center"
-//               style={{ backgroundColor: '#22c55e15' }}
-//             >
-//               <Package className="w-5 h-5" style={{ color: '#22c55e' }} />
-//             </div>
-//             <p className="text-sm text-muted-foreground">Total Productos</p>
-//           </div>
-//           <p className="text-2xl">{totalProducts}</p>
-//         </motion.div>
-//       </div>
+      {/* Header */}
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+        <div>
+          <h1 className="text-2xl font-bold">Categorías</h1>
+          <p className="text-muted-foreground">
+            Organiza tus productos por categorías
+          </p>
+        </div>
 
-//       {/* Search */}
-//       <motion.div
-//         initial={{ opacity: 0, y: 20 }}
-//         animate={{ opacity: 1, y: 0 }}
-//         transition={{ delay: 0.2 }}
-//         className="bg-card border border-border rounded-2xl p-4"
-//       >
-//         <div className="relative">
-//           <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-//           <Input
-//             type="search"
-//             placeholder="Buscar categorías..."
-//             value={searchTerm}
-//             onChange={(e) => setSearchTerm(e.target.value)}
-//             className="pl-10 rounded-xl bg-accent/50 border-0"
-//           />
-//         </div>
-//       </motion.div>
+        <Button onClick={openNew}>
+          <Plus className="mr-2 h-4 w-4" />
+          Nueva Categoría
+        </Button>
+      </div>
 
-//       {/* Categories Grid */}
-//       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-//         {filteredCategories.map((category, index) => (
-//           <motion.div
-//             key={category.id}
-//             initial={{ opacity: 0, y: 20 }}
-//             animate={{ opacity: 1, y: 0 }}
-//             transition={{ delay: 0.3 + index * 0.05 }}
-//             className="bg-card border border-border rounded-2xl p-6 hover:shadow-lg transition-all group"
-//           >
-//             <div className="flex items-start justify-between mb-4">
-//               <div className="flex items-center gap-3 flex-1">
-//                 <div
-//                   className="w-12 h-12 rounded-xl flex items-center justify-center text-white text-xl flex-shrink-0"
-//                   style={{ backgroundColor: category.color }}
-//                 >
-//                   {category.name.charAt(0).toUpperCase()}
-//                 </div>
-//                 <div className="flex-1 min-w-0">
-//                   <h3 className="text-lg mb-1 truncate">{category.name}</h3>
-//                   <p className="text-sm text-muted-foreground line-clamp-2">
-//                     {category.description}
-//                   </p>
-//                 </div>
-//               </div>
-//             </div>
+      {/* Stats */}
+      <div className="grid gap-4 sm:grid-cols-3">
 
-//             <div className="flex items-center justify-between pt-4 border-t border-border">
-//               <div className="flex items-center gap-2">
-//                 <Package className="w-4 h-4 text-muted-foreground" />
-//                 <span className="text-sm text-muted-foreground">
-//                   {category.productsCount} productos
-//                 </span>
-//               </div>
+        {/* Total categorías */}
+        <div className="rounded-2xl border bg-card p-5 flex items-center gap-4">
+          <Tags className="h-6 w-6 text-primary" />
+          <div>
+            <p className="text-sm text-muted-foreground">
+              Total Categorías
+            </p>
+            <p className="text-2xl font-bold">
+              {categoryList.length}
+            </p>
+          </div>
+        </div>
 
-//               <div className="flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-//                 <button
-//                   className="p-2 hover:bg-accent rounded-lg transition-colors"
-//                   onClick={() => handleEditCategory(category)}
-//                 >
-//                   <Edit className="w-4 h-4" />
-//                 </button>
-//                 <button
-//                   className="p-2 hover:bg-accent rounded-lg transition-colors text-destructive"
-//                   onClick={() => handleDeleteCategory(category.id)}
-//                 >
-//                   <Trash2 className="w-4 h-4" />
-//                 </button>
-//               </div>
-//             </div>
-//           </motion.div>
-//         ))}
-//       </div>
+        {/* Total productos */}
+        <div className="rounded-2xl border bg-card p-5 flex items-center gap-4">
+          <Package className="h-6 w-6 text-success" />
+          <div>
+            <p className="text-sm text-muted-foreground">
+              Total Productos
+            </p>
+            <p className="text-2xl font-bold">
+              {totalProducts}
+            </p>
+          </div>
+        </div>
 
-//       {/* Empty State */}
-//       {filteredCategories.length === 0 && (
-//         <motion.div
-//           initial={{ opacity: 0 }}
-//           animate={{ opacity: 1 }}
-//           className="text-center py-12"
-//         >
-//           <Package className="w-16 h-16 mx-auto mb-4 text-muted-foreground opacity-50" />
-//           <p className="text-lg text-muted-foreground">No se encontraron categorías</p>
-//           <p className="text-sm text-muted-foreground mt-2">
-//             Intenta ajustar tu búsqueda o crea una nueva categoría
-//           </p>
-//         </motion.div>
-//       )}
+        {/* Promedio */}
+        <div className="rounded-2xl border bg-card p-5 flex items-center gap-4">
+          <Palette className="h-6 w-6 text-chart-4" />
+          <div>
+            <p className="text-sm text-muted-foreground">
+              Promedio por Categoría
+            </p>
+            <p className="text-2xl font-bold">
+              {categoryList.length
+                ? Math.round(totalProducts / categoryList.length)
+                : 0}
+            </p>
+          </div>
+        </div>
+      </div>
 
-//       {/* Category Form Modal */}
-//       <CategoryForm
-//         open={formOpen}
-//         onClose={() => setFormOpen(false)}
-//         onSave={handleSaveCategory}
-//         initialData={editingCategory}
-//       />
-//     </div>
-//   );
-// }
+      {/* Search */}
+      <div className="relative">
+        <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+        <Input
+          placeholder="Buscar categoría..."
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          className="pl-9 max-w-md"
+        />
+      </div>
+
+      {/* Grid */}
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+        {filtered.map((cat) => (
+          <div
+            key={cat.id}
+            className="group rounded-2xl border bg-card p-5 hover:shadow-lg transition"
+          >
+            <div className="flex justify-between mb-3">
+              <Badge className={`${cat.color} border`}>
+                {cat.name}
+              </Badge>
+
+              <div className="flex gap-1 opacity-0 group-hover:opacity-100">
+                <Button size="icon" variant="ghost" onClick={() => openEdit(cat)}>
+                  <Edit className="h-4 w-4" />
+                </Button>
+
+                <Button size="icon" variant="ghost" onClick={() => handleDelete(cat.id)}>
+                  <Trash2 className="h-4 w-4 text-destructive" />
+                </Button>
+              </div>
+            </div>
+
+            <p className="text-sm text-muted-foreground mb-4">
+              {cat.description}
+            </p>
+
+            <div className="flex items-center gap-2 border-t pt-3">
+              <Package className="h-4 w-4" />
+              <span>{cat.id} productos</span>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* Dialog + Form */}
+      <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>
+              {editing ? "Editar Categoría" : "Nueva Categoría"}
+            </DialogTitle>
+          </DialogHeader>
+
+          <CategoryForm
+            // title=""
+            // subTitle=""
+            category={editing ?? { id: "new" } as Category}
+            isPending={false}
+            onSubmit={async () => {
+              setDialogOpen(false);
+              toast.success("Guardado correctamente");
+            }}
+          />
+        </DialogContent>
+      </Dialog>
+
+    </div>
+  );
+}

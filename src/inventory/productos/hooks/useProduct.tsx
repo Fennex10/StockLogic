@@ -3,6 +3,36 @@ import { getProductByIdAction } from "../action/get-product-by.action"
 import { createUpdateProductAction } from "../action/create-update-product.action";
 import type { Product } from "@/interface/products/product.interface";
 
+export const useProduct = (id: string) => {
+  
+  const queryClient = useQueryClient();
+
+  const query = useQuery({
+    queryKey: ['product', id],
+    queryFn: () => getProductByIdAction(id),
+    retry: false,
+    staleTime: 1000 * 60 * 5
+  });
+
+  const mutation = useMutation({
+    mutationFn: createUpdateProductAction,
+    onSuccess: (product: Product) => {
+      //Invalidate cache
+      queryClient.invalidateQueries({queryKey: ['products']});
+      queryClient.invalidateQueries({
+        queryKey: ['product', {id: product.id}]
+      });
+      //Update queryData
+      queryClient.setQueryData(['products', {id: product.id}], product);
+    }
+  })
+
+  return {
+    ...query,
+    mutation
+  }
+}
+
 // export const useProduct = (id: string) => {
 
 //   const queryClient = useQueryClient();
@@ -37,36 +67,6 @@ import type { Product } from "@/interface/products/product.interface";
 //     mutation
 //   };
 // };
-
-export const useProduct = (id: string) => {
-  
-  const queryClient = useQueryClient();
-
-  const query = useQuery({
-    queryKey: ['product', id],
-    queryFn: () => getProductByIdAction(id),
-    retry: false,
-    staleTime: 1000 * 60 * 5
-  });
-
-  const mutation = useMutation({
-    mutationFn: createUpdateProductAction,
-    onSuccess: (product: Product) => {
-      //Invalidate cache
-      queryClient.invalidateQueries({queryKey: ['products']});
-      queryClient.invalidateQueries({
-        queryKey: ['product', {id: product.id}]
-      });
-      //Update queryData
-      queryClient.setQueryData(['product', {id: product.id}], product);
-    }
-  })
-
-  return {
-    ...query,
-    mutation
-  }
-}
 
 // En useProduct.ts
 // export const useProduct = (id: string) => {
