@@ -18,7 +18,7 @@ export const getCategoryByIdAction = async (id: string): Promise<Category> => {
         }
     }
         
-    const {data} = await stockLogicApi.get<CategoryResponse>(`/products/${id}`);
+    const {data} = await stockLogicApi.get<CategoryResponse>(`/categories/${id}`);
     return data.data; 
 }
 

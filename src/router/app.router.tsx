@@ -5,7 +5,7 @@ import { MainLayout } from '@/components/layout/MainLayout';
 import { Dashboard } from '@/inventory/dashboard/pages/Dashboard/Dashboard';
 import { Configuracion } from '@/inventory/configuracion/Configuracion';
 import { Products } from '@/inventory/productos/pages/products/Products';
-import { Proveedores } from '@/inventory/providers/Proveedores';
+// import { Providers } from '@/inventory/providers/pages/providers/Providers';
 import { Reportes } from '@/inventory/reportes/Reportes';
 import { Ventas } from '@/inventory/ventas/Ventas';
 import { createBrowserRouter, Navigate} from 'react-router';
@@ -14,7 +14,6 @@ import ResetPassword from '@/auth/pages/reset/ResetPassword';
 import { ForgotPassword } from '@/auth/pages/forgot/ForgotPassword';
 import { ProductPage } from '@/inventory/productos/ui/ProductsPage';
 import { Categories } from '@/inventory/categories/pages/categories/Categories';
-// import { CategoriesPage } from '@/inventory/categories/pages/ui/categoriesPage';
 // import { RoleCode } from '@/auth/type/roleCode';
 // import { ProductForm } from '@/inventory/productos/ui/ProductsForm';
 
@@ -75,7 +74,7 @@ export const appRouter = createBrowserRouter([
        },
         {
          path: 'proveedores',
-         element: <Proveedores />,
+        //  element: <Providers />,
        },
         {
          path: 'configuracion',

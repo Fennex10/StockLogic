@@ -1,3 +1,4 @@
+import type { User } from "../user.interface";
 
 export interface Provider {
     id:           string;
@@ -9,7 +10,7 @@ export interface Provider {
     address:      string;
     website:      string;
     isActive:     boolean;
-    companyId:    string;
+    companyId:    User;
     createdAt:    Date;
     updatedAt:    Date;
     productCount: number;
