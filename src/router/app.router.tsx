@@ -5,7 +5,7 @@ import { MainLayout } from '@/components/layout/MainLayout';
 import { Dashboard } from '@/inventory/dashboard/pages/Dashboard/Dashboard';
 import { Configuracion } from '@/inventory/configuracion/Configuracion';
 import { Products } from '@/inventory/productos/pages/products/Products';
-// import { Providers } from '@/inventory/providers/pages/providers/Providers';
+import { Providers } from '@/inventory/providers/pages/providers/Providers';
 import { Reportes } from '@/inventory/reportes/Reportes';
 import { Ventas } from '@/inventory/ventas/Ventas';
 import { createBrowserRouter, Navigate} from 'react-router';
@@ -57,10 +57,6 @@ export const appRouter = createBrowserRouter([
             index: true,
             element: <Categories />,
           },
-          // {
-          //   path: ':id',
-          //   element: <CategoriesPage/>,
-          // },
         ],
        },
 
@@ -72,11 +68,18 @@ export const appRouter = createBrowserRouter([
          path: 'reportes',
          element: <Reportes />,
        },
-        {
-         path: 'proveedores',
-        //  element: <Providers />,
+        
+       {
+         path: 'providers',
+          children: [
+          {
+            index: true,
+            element: <Providers />,
+          },
+        ],
        },
-        {
+       
+       {
          path: 'configuracion',
          
          element: 

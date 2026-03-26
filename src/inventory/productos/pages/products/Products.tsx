@@ -29,6 +29,8 @@ export const Products = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [categoryFilter, setCategoryFilter] = useState("all");
 
+  const providersList = providers?.data ?? [];
+
   // Filtrado en el cliente para respuesta inmediata
   const filteredProducts = useMemo(() => {
     return product?.data?.filter(p => {
@@ -36,8 +38,10 @@ export const Products = () => {
                            p.sku.toLowerCase().includes(searchTerm.toLowerCase());
       const matchesCategory = categoryFilter === "all" || p.categoryId === categoryFilter;
       return matchesSearch && matchesCategory;
+
+   
     });
-  }, [product, searchTerm, categoryFilter]);
+  }, [product, searchTerm, categoryFilter]);  
 
   const handleDelete = (id: string) => {
     toast("¿Eliminar producto?", {
@@ -134,6 +138,9 @@ export const Products = () => {
               filteredProducts?.map((item) => {
                 const category = categories?.data.find((cat) => cat.id === item.categoryId);
                 const stockPercentage = Math.min((item.currentStock / (item.maxStock || 100)) * 100, 100);
+                 const provider = providersList.find(
+                      (p) => p.id === item.providerId
+                    );
 
                 return (
                   <TableRow key={item.id} className="group hover:bg-slate-50/50 transition-colors">
@@ -165,13 +172,13 @@ export const Products = () => {
                       </span>
                     </TableCell>
 
-                      {providers?.data.map((prov) => (
-                        <TableCell key={prov.id}>
+                     
+                        <TableCell>
                           <span className="text-xs font-mono text-slate-500 bg-slate-100 px-1.5 py-0.5 rounded border border-slate-200">
-                            {prov.name}
+                            {provider ? provider.name : "Sin proveedor"}
                           </span>
                         </TableCell>
-                      ))}
+                      
 
                     <TableCell>
                       <div className="flex flex-col gap-1.5 min-w-[100px]">
@@ -237,3 +244,4 @@ export const Products = () => {
     </div>
   );
 };
+

@@ -8,7 +8,6 @@ export const useDeleteProduct = () => {
   const deleteProduct = useMutation({
     mutationFn: (id: string) => DeleteProductsByAction(id),
     onSuccess: () => {
-      // Esto es CLAVE: Invalida la cache de productos para que la tabla se refresque sola
       queryClient.invalidateQueries({ queryKey: ["products"] });
       toast.success("Producto eliminado correctamente");
     },

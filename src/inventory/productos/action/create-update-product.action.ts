@@ -14,12 +14,10 @@ export const createUpdateProductAction = async (
 
   const formData = new FormData();
 
-  // 📁 Archivo
   if (rest.files && rest.files.length > 0) {
     formData.append('productImage', rest.files[0]);
   }
 
-  // 🧠 Campos
   formData.append('productName', rest.productName ?? '');
   formData.append('productDescription', rest.productDescription ?? '');
   formData.append('productPrice', String(rest.productPrice || 0));
@@ -31,7 +29,7 @@ export const createUpdateProductAction = async (
   formData.append('productProviderId', rest.productProviderId ?? '');
 
   const { data } = await stockLogicApi<Product>({
-    url: isCreating ? "/products" : `/products/${id}`, // ✅ AQUÍ va el ID
+    url: isCreating ? "/products" : `/products/${id}`, 
     method: isCreating ? "POST" : "PUT",
     data: formData,
   });

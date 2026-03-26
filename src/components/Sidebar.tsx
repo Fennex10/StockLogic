@@ -19,7 +19,7 @@ const navItems = [
   { icon: Layers, label: "Categorías", path: "/dashboard/categories" },
   { icon: ShoppingCart, label: "Ventas", path: "/dashboard/ventas" },
   { icon: BarChart3, label: "Reportes", path: "/dashboard/reportes" },
-  { icon: Truck, label: "Proveedores", path: "/dashboard/proveedores" },
+  { icon: Truck, label: "Proveedores", path: "/dashboard/providers" },
   { icon: Settings, label: "Configuración", path: "/dashboard/configuracion" },
 ];
 

@@ -43,7 +43,7 @@ export const Categories = () => {
   const productsList = products?.data ?? [];
 
   const getProductCountByCategory = (categoryId: string) => {
-  return productsList.filter(p => p.categoryId === categoryId).length;
+    return productsList.filter(p => p.categoryId === categoryId).length;
 };
 
   const filtered = categoryList.filter((c) =>
@@ -197,7 +197,7 @@ export const Categories = () => {
         ))}
       </div>
 
-      <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
+    <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
     <DialogContent>
         <DialogHeader>
         <DialogTitle>
