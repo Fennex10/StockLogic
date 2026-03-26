@@ -1,21 +1,23 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router";
 import { useForm } from "react-hook-form";
-import { Title } from "@/inventory/productos/components/Title";
+import { Title } from "@/components/components/Title";
 import { Button } from "@/components/ui/button";
 import type { CreateProduct } from "@/interface/products/create-product.interface";
-import type { CategoriesResponse } from "@/interface/products/categories.reponse";
+import type { CategoriesResponse } from "@/interface/categories/categories.reponse";
 import { mapToCreateProduct } from '../mapping/mapProduct';
 import type { Product } from "@/interface/products/product.interface";
 import { X, SaveAll, Upload } from "lucide-react";
 import { cn } from "@/lib/utils";
-
+import type { ProvidersResponse } from "@/interface/providers/providers.response";
+import { getFullImageUrl } from "@/lib/formatUrl";
 
 interface Props {
   title: string;
   subTitle: string;
   product: Product;
   categories: CategoriesResponse;
+  providers: ProvidersResponse;
   isPending: boolean;
 
   onSubmit: (
@@ -32,6 +34,7 @@ export const ProductForm = ({
   subTitle,
   product,
   categories,
+  providers,
   onSubmit,
   isPending,
 }: Props) => {
@@ -49,12 +52,16 @@ export const ProductForm = ({
     defaultValues: mapToCreateProduct(product),
   });
 
-  useEffect(() => {
-    // reset(product);
-     reset(mapToCreateProduct(product)); 
-    // eslint-disable-next-line react-hooks/set-state-in-effect
-    setFiles([]);
-  }, [product, reset]);
+useEffect(() => {
+  if (product && product.id !== 'new') {
+    reset(mapToCreateProduct(product));
+  }
+}, [product, reset]);
+
+// useEffect(() => {
+//   // eslint-disable-next-line react-hooks/set-state-in-effect
+//   setFiles([]);
+// }, [product]);
 
   const handleFormSubmit = (data: FormInputs) => {
     onSubmit({
@@ -105,6 +112,7 @@ export const ProductForm = ({
 
   return (
     <form onSubmit={handleSubmit(handleFormSubmit)}>
+      
       <div className="flex justify-between items-center">
         <Title title={title} subtitle={subTitle} />
 
@@ -301,6 +309,27 @@ export const ProductForm = ({
                   </select>
                 </div>
 
+                  {/* PROVIDERS */}
+                <div>
+                  <label className="block text-sm font-medium text-slate-700 mb-2">
+                    Proveedores
+                  </label>
+
+                  <select
+                    {...register("productProviderId")}
+                    className="w-full px-4 py-3 border border-slate-300 rounded-lg"
+                  >
+                    <option value="">Seleccionar proveedores</option>
+
+                    {providers.data?.map((provider) => (
+                      <option key={provider.id} value={provider.id}>
+                        {provider.name}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
+
                 {/* DESCRIPTION */}
                 <div>
                   <label className="block text-sm font-medium text-slate-700 mb-2">
@@ -368,16 +397,9 @@ export const ProductForm = ({
               {/* CURRENT IMAGES */}
               <div className="mt-6 grid grid-cols-2 gap-3">
 
-                {/* {product.imageURL.map((image, index) => (
-                  <img
-                    key={index}
-                    src={image}
-                    className="rounded-lg object-cover"
-                  />
-                ))} */}
                  {product.imageURL && (
                     <img
-                    src={product.imageURL}
+                    src={getFullImageUrl(product.imageURL)}
                     className="rounded-lg object-cover"
                     />
                 )}
@@ -395,8 +417,68 @@ export const ProductForm = ({
                   ))}
                 </div>
               )}
+             
+            </div>
+
+               {/* PRODUCT STATUS */}
+          <div className="bg-white rounded-2xl shadow-md border border-slate-100 p-6">
+            <h2 className="text-lg font-semibold text-slate-800 mb-5">
+              Estado del producto
+            </h2>
+
+            <div className="space-y-3">
+
+              {/* Estado activo */}
+              <div className="flex items-center justify-between p-3 bg-slate-50 rounded-xl">
+                <span className="text-sm font-medium text-slate-700">
+                  Estado
+                </span>
+                <span
+                  className={`px-3 py-1 text-xs font-medium rounded-full ${
+                    product.currentStock
+                      ? "bg-green-100 text-green-800"
+                      : "bg-gray-200 text-gray-600"
+                  }`}
+                >
+                  {product.currentStock ? "Activo" : "Inactivo"}
+                </span>
+              </div>
+
+              {/* Inventario */}
+              <div className="flex items-center justify-between p-3 bg-slate-50 rounded-xl">
+                <span className="text-sm font-medium text-slate-700">
+                  Inventario
+                </span>
+                <span
+                  className={`px-3 py-1 text-xs font-medium rounded-full ${product.currentStock}`}
+                >
+                  {product.currentStock}
+                </span>
+              </div>
+
+              {/* Cantidad exacta */}
+              <div className="flex items-center justify-between p-3 bg-slate-50 rounded-xl">
+                <span className="text-sm font-medium text-slate-700">
+                  Cantidad
+                </span>
+                <span className="text-sm font-semibold text-slate-800">
+                  {product.currentStock} unidades
+                </span>
+              </div>
+
+              {/* Imágenes */}
+              <div className="flex items-center justify-between p-3 bg-slate-50 rounded-xl">
+                <span className="text-sm font-medium text-slate-700">
+                  Imágenes
+                </span>
+                <span className="text-sm text-slate-600">
+                  {(product.imageURL ? 1 : 0) + files.length} imágenes
+                </span>
+              </div>
 
             </div>
+          </div>
+
 
           </div>
 

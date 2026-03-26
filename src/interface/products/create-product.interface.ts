@@ -8,6 +8,7 @@ export interface CreateProduct {
   productCurrentStock: number;   
   productMinStock: number;       
   productMaxStock: number;       
-  productCategoryId: string;     
+  productCategoryId: string;
+  productProviderId: string;       
   productImage: string;          
 }

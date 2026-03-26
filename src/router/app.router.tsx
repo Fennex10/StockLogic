@@ -4,8 +4,8 @@ import { Register } from '@/auth/pages/register/Register';
 import { MainLayout } from '@/components/layout/MainLayout';
 import { Dashboard } from '@/inventory/dashboard/pages/Dashboard/Dashboard';
 import { Configuracion } from '@/inventory/configuracion/Configuracion';
-import { Products } from '@/inventory/productos/Products';
-import { Proveedores } from '@/inventory/proveedores/Proveedores';
+import { Products } from '@/inventory/productos/pages/products/Products';
+import { Providers } from '@/inventory/providers/pages/providers/Providers';
 import { Reportes } from '@/inventory/reportes/Reportes';
 import { Ventas } from '@/inventory/ventas/Ventas';
 import { createBrowserRouter, Navigate} from 'react-router';
@@ -13,6 +13,7 @@ import { AuthenticatedRoute, NotAuthenticatedRoute} from './ProtectedRoutes';
 import ResetPassword from '@/auth/pages/reset/ResetPassword';
 import { ForgotPassword } from '@/auth/pages/forgot/ForgotPassword';
 import { ProductPage } from '@/inventory/productos/ui/ProductsPage';
+import { Categories } from '@/inventory/categories/pages/categories/Categories';
 // import { RoleCode } from '@/auth/type/roleCode';
 // import { ProductForm } from '@/inventory/productos/ui/ProductsForm';
 
@@ -49,6 +50,16 @@ export const appRouter = createBrowserRouter([
         ],
        },
 
+        {
+         path: 'categories',
+          children: [
+          {
+            index: true,
+            element: <Categories />,
+          },
+        ],
+       },
+
        {
          path: 'ventas',
          element: <Ventas />,
@@ -57,11 +68,18 @@ export const appRouter = createBrowserRouter([
          path: 'reportes',
          element: <Reportes />,
        },
-        {
-         path: 'proveedores',
-         element: <Proveedores />,
+        
+       {
+         path: 'providers',
+          children: [
+          {
+            index: true,
+            element: <Providers />,
+          },
+        ],
        },
-        {
+       
+       {
          path: 'configuracion',
          
          element: 
