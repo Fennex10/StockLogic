@@ -9,6 +9,7 @@ import {
   ChevronLeft,
   Box,
   Layers,
+  Users,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useAuthStore } from "@/auth/store/auth.store";
@@ -20,6 +21,7 @@ const navItems = [
   { icon: ShoppingCart, label: "Ventas", path: "/dashboard/ventas" },
   { icon: BarChart3, label: "Reportes", path: "/dashboard/reportes" },
   { icon: Truck, label: "Proveedores", path: "/dashboard/providers" },
+  { icon: Users, label: "Usuarios", path: "/dashboard/users" },
   { icon: Settings, label: "Configuración", path: "/dashboard/configuracion" },
 ];
 

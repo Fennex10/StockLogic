@@ -1,4 +1,4 @@
-import type { User } from '@/interface/user.interface'
+import type { User } from '@/interface/user/user.interface'
 import { create } from 'zustand'
 import { loginAction } from '../actions/login.action';
 import { checkAuthAction } from '../actions/check-auth.action';

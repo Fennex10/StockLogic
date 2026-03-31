@@ -18,7 +18,7 @@ const CheckAuthProvider = ({children}: PropsWithChildren) => {
       queryFn: checkAuthStatus,
       retry: false,
       refetchInterval: 1000 * 60 * 1.5,
-      refetchOnWindowFocus: true,
+      refetchOnWindowFocus: false,
     });
 
     if (isLoading) return <CustomFullScreenLoading/>

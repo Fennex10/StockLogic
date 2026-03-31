@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { DeleteProductsByAction } from "../action/delete-product"; // Ajusta la ruta
-import { toast } from "sonner"; // O la librería de notificaciones que uses
+import { DeleteProductsByAction } from "../action/delete-product"; 
+import { toast } from "sonner"; 
 
 export const useDeleteProduct = () => {
   const queryClient = useQueryClient();

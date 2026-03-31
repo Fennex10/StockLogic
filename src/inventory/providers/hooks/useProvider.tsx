@@ -1,6 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import { getProviderByIdAction } from "../action/get-provider-by.action";
-import { createUpdateProviderAction } from "../action/create-update-category.action";
+import { createUpdateProviderAction } from "../action/create-update-providers.action";
 import type { Provider } from "@/interface/providers/provider.interface";
 
 

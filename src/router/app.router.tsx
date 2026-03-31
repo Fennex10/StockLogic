@@ -14,8 +14,8 @@ import ResetPassword from '@/auth/pages/reset/ResetPassword';
 import { ForgotPassword } from '@/auth/pages/forgot/ForgotPassword';
 import { ProductPage } from '@/inventory/productos/ui/ProductsPage';
 import { Categories } from '@/inventory/categories/pages/categories/Categories';
+import { UserManagerPage } from '@/inventory/users/pages/UserManagerPage';
 // import { RoleCode } from '@/auth/type/roleCode';
-// import { ProductForm } from '@/inventory/productos/ui/ProductsForm';
 
 const AuthLayout = lazy(() => import('../auth/layout/AuthLayout'));
 // const AdminLayout = lazy(() => import('./admin/layouts/AdminLayout'));
@@ -75,6 +75,16 @@ export const appRouter = createBrowserRouter([
           {
             index: true,
             element: <Providers />,
+          },
+        ],
+       },
+
+       {
+         path: 'users',
+          children: [
+          {
+            index: true,
+            element: <UserManagerPage />,
           },
         ],
        },
