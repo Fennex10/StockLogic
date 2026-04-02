@@ -166,7 +166,7 @@ export const Providers = () => {
             <Input placeholder="Buscar por nombre o contacto..." value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} className="pl-9 max-w-md" />
           </div> */}
 
-          <div className="flex flex-col md:flex-row gap-4 items-center animate-slide-up" style={{ animationDelay: "100ms" }}>
+<div className="flex flex-col md:flex-row gap-4 items-center animate-slide-up" style={{ animationDelay: "100ms" }}>
   
   {/* Buscador - Ahora ocupa el espacio flexible */}
   <div className="relative flex-1 w-full">

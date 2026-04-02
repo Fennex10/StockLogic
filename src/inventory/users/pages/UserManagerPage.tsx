@@ -80,6 +80,7 @@ export const UserManagerPage = () => {
     toast("¿Eliminar usuario?", {
       description: "Esta acción no se puede deshacer",
       action: { label: "Eliminar", onClick: () => deleteProvider(id) },
+      cancel: { label: "Cancelar", onClick: () => {}, },
     });
   };
 

@@ -11,6 +11,7 @@ import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { cn } from "@/lib/utils";
 import { Link } from "react-router";
+import { Title } from "@/components/components/Title";
 import { CustomFullScreenLoading } from "@/components/custom/CustomFullScreemLoading";
 import { useProducts } from "../../hooks/useProducts";
 import { useCategories } from "@/inventory/categories/hooks/useCategories";
@@ -73,8 +74,9 @@ export const Products = () => {
       {/* Header Section */}
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div className="space-y-1">
-          <h1 className="text-3xl font-extrabold tracking-tight text-slate-900">Inventario</h1>
-          <p className="text-slate-500 text-sm">Monitorea niveles de stock y rendimiento de productos.</p>
+          {/* <h1 className="text-3xl font-extrabold tracking-tight text-slate-900">Inventario</h1>
+          <p className="text-slate-500 text-sm">Monitorea niveles de stock y rendimiento de productos.</p> */}
+          <Title title="Inventario" subtitle="Monitorea niveles de stock y rendimiento de productos." />
         </div>
         <Button asChild className="blue-900 hover:bg-blue-800 shadow-md transition-all active:scale-95">
           <Link to="/dashboard/products/new">

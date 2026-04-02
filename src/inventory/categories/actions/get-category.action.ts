@@ -4,6 +4,7 @@ import type { CategoriesResponse } from "@/interface/categories/categories.repon
 export const getCategorytByAction = async (): Promise<CategoriesResponse> => {
     
     const {data} = await stockLogicApi.get<CategoriesResponse>(`/categories`);
+    console.log(data);
     return data;
 }
 
