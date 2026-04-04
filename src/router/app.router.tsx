@@ -7,7 +7,7 @@ import { Configuracion } from '@/inventory/configuracion/Configuracion';
 import { Products } from '@/inventory/productos/pages/products/Products';
 import { Providers } from '@/inventory/providers/pages/providers/Providers';
 import { Reportes } from '@/inventory/reportes/Reportes';
-import { Ventas } from '@/inventory/ventas/Ventas';
+import { Sales } from '@/inventory/ventas/Sales';
 import { createBrowserRouter, Navigate} from 'react-router';
 import { AuthenticatedRoute, NotAuthenticatedRoute} from './ProtectedRoutes';
 import ResetPassword from '@/auth/pages/reset/ResetPassword';
@@ -60,10 +60,16 @@ export const appRouter = createBrowserRouter([
         ],
        },
 
-       {
+        {
          path: 'ventas',
-         element: <Ventas />,
+          children: [
+          {
+            index: true,
+            element: <Sales />,
+          },
+        ],
        },
+
        {
          path: 'reportes',
          element: <Reportes />,

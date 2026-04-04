@@ -11,9 +11,12 @@ export interface Product {
     currentStock: number;
     minStock:     number;
     maxStock:     number;
+    isActive:      boolean;
+    deactivatedAt: null,
     categoryId:   string;
     providerId:   string;
     companyId:    User;
     createdAt:    Date;
     updatedAt:    Date;
 }
+

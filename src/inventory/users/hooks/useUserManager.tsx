@@ -17,14 +17,14 @@ export const useUserManager = (id: string) => {
 
   const mutation = useMutation({
     mutationFn: createUpdateUsersManagerAction,
-    onSuccess: (provider: UserManager) => {
+    onSuccess: (user: UserManager) => {
       //Invalidate cache
       queryClient.invalidateQueries({queryKey: ['users']});
       queryClient.invalidateQueries({
-        queryKey: ['user', {id: provider.id}]
+        queryKey: ['user', {id: user.id}]
       });
       //Update queryData
-      queryClient.setQueryData(['users', {id: provider.id}], provider);
+      queryClient.setQueryData(['users', {id: user.id}], user);
     }
   })
 

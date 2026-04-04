@@ -18,6 +18,8 @@ export const getProductByIdAction = async (id: string): Promise<Product> => {
             currentStock: 0,
             minStock: 0,
             maxStock: 0,
+            isActive:  false,
+            deactivatedAt: null,
             categoryId: '',
             providerId: '',
             companyId: {} as User,

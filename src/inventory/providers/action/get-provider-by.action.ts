@@ -16,7 +16,7 @@ export const getProviderByIdAction = async (id: string): Promise<Provider> => {
             phone:        '',
             address:      '',
             website:      '',
-            isActive: true,
+            isActive: false,
             companyId: {} as User,
             createdAt: new Date(),
             updatedAt: new Date(),

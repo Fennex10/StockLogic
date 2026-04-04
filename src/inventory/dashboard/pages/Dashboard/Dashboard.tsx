@@ -63,10 +63,7 @@ const lowStockAlerts = [
   { id: "5", productName: "Webcam Logitech", currentStock: 4, minStock: 15 },
 ]
 
-export const Dashboard = () => {
-
-
-  
+export const Dashboard = () => {  
   return (
     <div className="p-6 space-y-6">
       {/* Header */}

@@ -11,7 +11,7 @@ import { cn } from "@/lib/utils";
 import type { CreateUserManager } from "@/interface/userManager/create-user-manager";
 import type { UserManager } from "@/interface/userManager/userManager.interface";
 import type { UserRolesResponse } from "@/interface/userManager/roles/roles.response";
-import { mapToCreateProvider } from "../mapping/mapUserManager";
+import { mapToCreateUser } from "../mapping/mapUserManager";
 
 interface Props {
   user: UserManager;
@@ -29,14 +29,15 @@ export const UserManagerForm = ({ user, roles, onSubmit, isPending }: Props) => 
     reset,
   } = useForm<CreateUserManager>({
     defaultValues: {
-      ...mapToCreateProvider(user),
+      ...mapToCreateUser(user),
     },
   });
 
   useEffect(() => {
-    reset(mapToCreateProvider(user));
+    reset(mapToCreateUser(user));
   }, [user, reset]);
 
+  // eslint-disable-next-line react-hooks/incompatible-library
   const password = watch("userPassword");
 
   // Clase común para los inputs basada en tu imagen (menos redondeado, borde suave)
