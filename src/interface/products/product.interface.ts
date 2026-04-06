@@ -1,4 +1,4 @@
-import type { User } from "../user.interface";
+import type { User } from "../user/user.interface";
 
 export interface Product {
     id:           string;
@@ -11,9 +11,12 @@ export interface Product {
     currentStock: number;
     minStock:     number;
     maxStock:     number;
+    isActive:      boolean;
+    deactivatedAt: null,
     categoryId:   string;
     providerId:   string;
     companyId:    User;
     createdAt:    Date;
     updatedAt:    Date;
 }
+

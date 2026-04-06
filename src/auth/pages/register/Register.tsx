@@ -28,13 +28,17 @@ export const Register = () => {
     const userPasswordConfirm = formData.get('userPasswordConfirm') as string;
  
     
-    const isValid = await register(companyName, userName, companyEmail, userPasswordConfirm, userPassword);
+    const isValid = await register(companyName, userName, 
+                                  companyEmail, userPassword, userPasswordConfirm);
+    
     if (isValid) {
-       navigate('/');
-       return;   
-    }
+        toast.success("Cuenta creada. Revisa tu correo para activarla");
+        navigate('/login');
+      } else {
+        toast.error('Correo o/y contraseña no válidos');
+      }
      
-    toast.error('Correo o/y contrasena no validos');
+    // toast.error('Correo o/y contrasena no validos');
     setIsPosting(false);
   }
 

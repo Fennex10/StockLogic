@@ -1,7 +1,7 @@
 import { stockLogicApi } from "@/api/stockLogicApi";
 import type { ProvidersResponse } from "@/interface/providers/provider.response";
 import type { Provider } from "@/interface/providers/provider.interface";
-import type { User } from "@/interface/user.interface";
+import type { User } from "@/interface/user/user.interface";
 
 export const getProviderByIdAction = async (id: string): Promise<Provider> => {
     if (!id || id === 'undefined') throw new Error('Id is required');
@@ -16,7 +16,7 @@ export const getProviderByIdAction = async (id: string): Promise<Provider> => {
             phone:        '',
             address:      '',
             website:      '',
-            isActive: true,
+            isActive: false,
             companyId: {} as User,
             createdAt: new Date(),
             updatedAt: new Date(),

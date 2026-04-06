@@ -7,15 +7,15 @@ import { Configuracion } from '@/inventory/configuracion/Configuracion';
 import { Products } from '@/inventory/productos/pages/products/Products';
 import { Providers } from '@/inventory/providers/pages/providers/Providers';
 import { Reportes } from '@/inventory/reportes/Reportes';
-import { Ventas } from '@/inventory/ventas/Ventas';
+import { Sales } from '@/inventory/ventas/pages/Sales';
 import { createBrowserRouter, Navigate} from 'react-router';
 import { AuthenticatedRoute, NotAuthenticatedRoute} from './ProtectedRoutes';
 import ResetPassword from '@/auth/pages/reset/ResetPassword';
 import { ForgotPassword } from '@/auth/pages/forgot/ForgotPassword';
 import { ProductPage } from '@/inventory/productos/ui/ProductsPage';
 import { Categories } from '@/inventory/categories/pages/categories/Categories';
+import { UserManagerPage } from '@/inventory/users/pages/UserManagerPage';
 // import { RoleCode } from '@/auth/type/roleCode';
-// import { ProductForm } from '@/inventory/productos/ui/ProductsForm';
 
 const AuthLayout = lazy(() => import('../auth/layout/AuthLayout'));
 // const AdminLayout = lazy(() => import('./admin/layouts/AdminLayout'));
@@ -60,10 +60,16 @@ export const appRouter = createBrowserRouter([
         ],
        },
 
-       {
+        {
          path: 'ventas',
-         element: <Ventas />,
+          children: [
+          {
+            index: true,
+            element: <Sales />,
+          },
+        ],
        },
+
        {
          path: 'reportes',
          element: <Reportes />,
@@ -75,6 +81,16 @@ export const appRouter = createBrowserRouter([
           {
             index: true,
             element: <Providers />,
+          },
+        ],
+       },
+
+       {
+         path: 'users',
+          children: [
+          {
+            index: true,
+            element: <UserManagerPage />,
           },
         ],
        },

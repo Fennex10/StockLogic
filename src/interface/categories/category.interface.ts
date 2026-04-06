@@ -1,4 +1,4 @@
-import type { User } from "../user.interface";
+import type { User } from "../user/user.interface";
 
 export interface Category {
     id:          string;
