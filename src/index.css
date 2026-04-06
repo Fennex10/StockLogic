@@ -163,3 +163,18 @@
 @theme {
   --font-montserrat: "Montserrat Alternates", sans-serif;
 }
+
+/* 🔥 Modo especial para exportar PDF */
+.pdf-mode * {
+  color: rgb(15, 23, 42) !important;
+  background-color: #ffffff !important;
+  border-color: #e5e7eb !important;
+  box-shadow: none !important;
+  filter: none !important;
+  backdrop-filter: none !important;
+}
+
+/* 🔥 Fix para gráficos (Recharts / SVG) */
+.pdf-mode svg {
+  overflow: visible !important;
+}

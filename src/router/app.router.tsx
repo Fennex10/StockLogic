@@ -7,7 +7,7 @@ import { Configuracion } from '@/inventory/configuracion/Configuracion';
 import { Products } from '@/inventory/productos/pages/products/Products';
 import { Providers } from '@/inventory/providers/pages/providers/Providers';
 import { Reportes } from '@/inventory/reportes/Reportes';
-import { Sales } from '@/inventory/ventas/Sales';
+import { Sales } from '@/inventory/ventas/pages/Sales';
 import { createBrowserRouter, Navigate} from 'react-router';
 import { AuthenticatedRoute, NotAuthenticatedRoute} from './ProtectedRoutes';
 import ResetPassword from '@/auth/pages/reset/ResetPassword';

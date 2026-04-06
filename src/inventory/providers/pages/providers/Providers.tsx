@@ -70,7 +70,7 @@ export const Providers = () => {
   
   return (
     <div className="space-y-6">
-      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between animate-fade-in">
+      {/* <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between animate-fade-in">
         <div>
           <h1 className="text-2xl font-bold text-foreground">Proveedores</h1>
           <p className="text-muted-foreground">Gestiona tu red de proveedores</p>
@@ -79,92 +79,121 @@ export const Providers = () => {
           <Plus className="mr-2 h-4 w-4" />
           Agregar Proveedor
         </Button>
-      </div>
-
-      {/* Stats */}
-
-      {/* <div className="grid gap-4 sm:grid-cols-3 animate-slide-up"> */}
-
-      {/* Total */}
-      {/* <div className="rounded-2xl border border-border bg-card p-5 flex items-center gap-4">
-        <div className="rounded-xl bg-primary/10 p-3">
-          <Building2 className="h-6 w-6 text-primary" />
-        </div>
-        <div>
-          <p className="text-sm text-muted-foreground">Total Proveedores</p>
-          <p className="text-2xl font-bold">{totalProviders}</p>
-        </div>
       </div> */}
 
-      {/* Activos */}
-      {/* <div className="rounded-2xl border border-border bg-card p-5 flex items-center gap-4">
-        <div className="rounded-xl bg-success/10 p-3">
-          <Globe className="h-6 w-6 text-success" />
-        </div>
-        <div>
-          <p className="text-sm text-muted-foreground">Activos</p>
-          <p className="text-2xl font-bold">{activeProviders}</p>
-        </div>
-      </div> */}
 
-      {/* Inactivos */}
-      {/* <div className="rounded-2xl border border-border bg-card p-5 flex items-center gap-4">
-        <div className="rounded-xl bg-warning/10 p-3">
-          <Building2 className="h-6 w-6 text-warning" />
-        </div>
+ <div className="grid gap-6 sm:grid-cols-3 animate-slide-up">
+  
+  {/* Card: Total Proveedores */}
+  <div className="group relative overflow-hidden rounded-2xl border border-border/50 bg-white p-6 shadow-sm transition-all duration-300 hover:shadow-xl dark:bg-zinc-950">
+    <div className="absolute bottom-0 left-0 right-0 h-[40%] opacity-20 transition-opacity group-hover:opacity-40">
+      <svg viewBox="0 0 100 100" preserveAspectRatio="none" className="h-full w-full">
+        <path 
+          d="M0,80 Q20,90 40,70 T70,75 T100,40 L100,100 L0,100 Z" 
+          fill="url(#gradient-indigo)" 
+          stroke="#6366f1" 
+          strokeWidth="2"
+        />
+        <defs>
+          <linearGradient id="gradient-indigo" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stopColor="#6366f1" />
+            <stop offset="100%" stopColor="transparent" />
+          </linearGradient>
+        </defs>
+      </svg>
+    </div>
+
+    <div className="relative z-10 flex flex-col justify-between h-full">
+      <div className="flex justify-between items-start">
         <div>
-          <p className="text-sm text-muted-foreground">Inactivos</p>
-          <p className="text-2xl font-bold">{inactiveProviders}</p>
+          <p className="text-[11px] font-bold uppercase tracking-wider text-muted-foreground">Red de Suministro</p>
+          <p className="text-4xl font-black tracking-tighter text-slate-900 dark:text-white mt-1">{totalProviders}</p>
+        </div>
+        <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-indigo-50 text-indigo-600 shadow-sm dark:bg-indigo-500/10 transition-transform group-hover:rotate-12">
+          <Building2 className="h-6 w-6" />
         </div>
       </div>
-
-    </div> */}
-
-    <div className="grid gap-4 sm:grid-cols-3 animate-slide-up">
-  {/* Total */}
-  <div className="group rounded-2xl border border-border bg-card px-5 py-4 shadow-sm transition-all hover:shadow-md">
-    <div className="flex items-center gap-4">
-      <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-indigo-50 border border-indigo-100/50">
-        <Building2 className="h-6 w-6 text-indigo-600" />
-      </div>
-      <div className="min-w-0 flex-1">
-        <p className="text-[11px] font-bold text-slate-400 uppercase tracking-wider truncate">Total Proveedores</p>
-        <p className="text-2xl font-black text-slate-800 leading-none mt-0.5">{totalProviders}</p>
+      <div className="mt-4 flex items-center gap-1.5">
+        <span className="flex items-center text-[10px] font-bold text-indigo-600 bg-indigo-50 px-2 py-0.5 rounded-full dark:bg-indigo-500/20">
+          Global
+        </span>
+        <span className="text-[10px] font-medium text-muted-foreground">Proveedores registrados</span>
       </div>
     </div>
   </div>
 
-  {/* Activos */}
-  <div className="group rounded-2xl border border-border bg-card px-5 py-4 shadow-sm transition-all hover:shadow-md">
-    <div className="flex items-center gap-4">
-      <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-emerald-50 border border-emerald-100/50">
-        <Globe className="h-6 w-6 text-emerald-600" />
+  {/* Card: Proveedores Activos */}
+  <div className="group relative overflow-hidden rounded-2xl border border-border/50 bg-white p-6 shadow-sm transition-all duration-300 hover:shadow-xl dark:bg-zinc-950">
+    <div className="absolute bottom-0 left-0 right-0 h-[40%] opacity-20">
+      <svg viewBox="0 0 100 100" preserveAspectRatio="none" className="h-full w-full">
+        <path 
+          d="M0,50 Q25,45 45,55 T75,40 T100,45 L100,100 L0,100 Z" 
+          fill="url(#gradient-emerald)" 
+          stroke="#10b981" 
+          strokeWidth="2"
+        />
+        <defs>
+          <linearGradient id="gradient-emerald" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stopColor="#10b981" />
+            <stop offset="100%" stopColor="transparent" />
+          </linearGradient>
+        </defs>
+      </svg>
+    </div>
+
+    <div className="relative z-10 flex flex-col justify-between h-full">
+      <div className="flex justify-between items-start">
+        <div>
+          <p className="text-[11px] font-bold uppercase tracking-wider text-muted-foreground">Capacidad Activa</p>
+          <p className="text-4xl font-black tracking-tighter text-emerald-600 mt-1">{activeProviders}</p>
+        </div>
+        <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-emerald-50 text-emerald-500 shadow-sm dark:bg-emerald-500/10 transition-transform group-hover:scale-110">
+          <Globe className="h-6 w-6" />
+        </div>
       </div>
-      <div className="min-w-0 flex-1">
-        <p className="text-[11px] font-bold text-slate-400 uppercase tracking-wider truncate">Activos</p>
-        <p className="text-2xl font-black text-emerald-600 leading-none mt-0.5">{activeProviders}</p>
+      <div className="mt-4 flex items-center gap-1.5 text-[10px] font-medium text-muted-foreground">
+        <span className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse" /> Operativos actualmente
       </div>
     </div>
   </div>
 
-  {/* Inactivos */}
-  <div className="group rounded-2xl border border-border bg-card px-5 py-4 shadow-sm transition-all hover:shadow-md">
-    <div className="flex items-center gap-4">
-      <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-slate-100 border border-slate-200/60">
-        <Building2 className="h-6 w-6 text-slate-400" />
+  {/* Card: Proveedores Inactivos (Rojo) */}
+  <div className="group relative overflow-hidden rounded-2xl border border-red-100 bg-white p-6 shadow-sm transition-all duration-300 hover:shadow-xl hover:border-red-200 dark:bg-zinc-950 dark:border-red-900/30">
+    <div className="absolute bottom-0 left-0 right-0 h-[40%] opacity-10 group-hover:opacity-20 transition-opacity">
+      <svg viewBox="0 0 100 100" preserveAspectRatio="none" className="h-full w-full">
+        <path 
+          d="M0,20 Q30,40 50,30 T80,50 T100,80 L100,100 L0,100 Z" 
+          fill="url(#gradient-red)" 
+          stroke="#ef4444" 
+          strokeWidth="2"
+        />
+        <defs>
+          <linearGradient id="gradient-red" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stopColor="#ef4444" />
+            <stop offset="100%" stopColor="transparent" />
+          </linearGradient>
+        </defs>
+      </svg>
+    </div>
+
+    <div className="relative z-10 flex flex-col justify-between h-full">
+      <div className="flex justify-between items-start">
+        <div>
+          <p className="text-[11px] font-bold uppercase tracking-wider text-red-500/80">Proveedores Inactivos</p>
+          <p className="text-4xl font-black tracking-tighter text-red-600 mt-1">{inactiveProviders}</p>
+        </div>
+        <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-red-50 text-red-500 shadow-sm dark:bg-red-500/10 transition-transform group-hover:shake">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m2 2 20 20"/><path d="M16 8v5M9 11v1M8 8v1M20 8v1"/></svg>
+        </div>
       </div>
-      <div className="min-w-0 flex-1">
-        <p className="text-[11px] font-bold text-slate-400 uppercase tracking-wider truncate">Inactivos</p>
-        <p className="text-2xl font-black text-slate-400 leading-none mt-0.5">{inactiveProviders}</p>
+      <div className="mt-4 flex items-center gap-1.5 text-[10px] font-medium text-red-500/70">
+        <span className="h-2 w-2 rounded-full bg-red-500" /> Sin actividad comercial
       </div>
     </div>
   </div>
 </div>
 
-          {/* <div className="relative animate-slide-up" style={{ animationDelay: "100ms" }}>
-            <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-            <Input placeholder="Buscar por nombre o contacto..." value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} className="pl-9 max-w-md" />
-          </div> */}
+        
 
 <div className="flex flex-col md:flex-row gap-4 items-center animate-slide-up" style={{ animationDelay: "100ms" }}>
   
@@ -209,6 +238,10 @@ export const Providers = () => {
     </DropdownMenu>
 
   </div>
+  <Button className="bg-primary hover:bg-primary/90 shadow-md shadow-primary/20" onClick={openNew}>
+          <Plus className="mr-2 h-4 w-4" />
+          Agregar Proveedor
+        </Button>
 </div>
 
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3">
@@ -291,67 +324,6 @@ export const Providers = () => {
       ))}
     </div>
 
-      {/* <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
-        {filtered.map((prov, index) => (
-          <div
-            key={prov.id}
-            className="group rounded-2xl border border-border bg-card p-6 transition-all duration-300 hover:shadow-lg hover:-translate-y-0.5 animate-slide-up"
-            style={{ animationDelay: `${(index + 2) * 50}ms` }}
-          >
-            <div className="flex items-start justify-between mb-4">
-              <div className="flex items-center gap-3">
-                <div>
-                  <h3 className="font-semibold text-foreground">{prov.name}</h3>
-                  <p className="text-sm text-muted-foreground">{prov.contactName}</p>
-                </div>
-              </div>
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button variant="ghost" size="icon" className="opacity-0 group-hover:opacity-100 transition-opacity"><MoreHorizontal className="h-4 w-4" /></Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent align="end" className="bg-popover">
-                  <DropdownMenuItem onClick={() => openEdit(prov)}>
-                    <Edit className="mr-2 h-4 w-4" />Editar
-                  </DropdownMenuItem>
-                  <DropdownMenuItem
-                      disabled={isPending}  
-                      className="text-destructive" 
-                      onClick={() => handleDelete(prov.id)}>
-                    <Trash2 className="mr-2 h-4 w-4" />Eliminar
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
-            </div>
-
-            <div className="space-y-2.5 mb-4">
-              <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                <Package className="h-4 w-4 flex-shrink-0" /><span className="truncate">{prov.taxId}</span>
-              </div>
-              <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                <Mail className="h-4 w-4 flex-shrink-0" /><span className="truncate">{prov.email}</span>
-              </div>
-              <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                <Phone className="h-4 w-4 flex-shrink-0" /><span>{prov.phone}</span>
-              </div>
-              <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                <MapPin className="h-4 w-4 flex-shrink-0" /><span>{prov.address}</span>
-              </div>
-            </div>
-
-            <div className="flex items-center justify-between pt-4 border-t border-border">
-              <div className="flex items-center gap-2">
-                
-               
-                <Badge className={`text-xs ${prov.isActive === true ? "bg-success/10 text-success border-success/20" : "bg-muted text-muted-foreground"}`}>
-                  {prov.isActive === true ? "Activo" : "Inactivo"}
-                </Badge>
-              </div>
-              <span className="text-sm font-medium text-muted-foreground">{prov.productCount} productos</span>
-            </div>
-          </div>
-        ))}
-      </div> */}
-
     <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
     <DialogContent>
         <DialogHeader>
@@ -384,7 +356,6 @@ export const Providers = () => {
         />
     </DialogContent>
     </Dialog>
-
     </div>
   );
 }

@@ -90,7 +90,7 @@ export const UserManagerPage = () => {
   return (
     <div className="space-y-6 animate-fade-in">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+      {/* <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
           <h1 className="text-2xl font-bold tracking-tight">Gestión de Usuarios</h1>
           <p className="text-muted-foreground text-sm">Administra los accesos de tu plataforma</p>
@@ -98,38 +98,128 @@ export const UserManagerPage = () => {
         <Button className="h-11 px-6 rounded-xl shadow-md bg-primary hover:bg-primary/90" onClick={openNew}>
           <UserPlus className="h-4 w-4 mr-2" /> Nuevo Usuario
         </Button>
-      </div>
+      </div> */}
 
-      {/* KPI Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-        <div className="bg-card border border-border/60 p-5 rounded-2xl flex items-center gap-4">
-          <div className="h-12 w-12 rounded-xl bg-primary/10 flex items-center justify-center text-primary">
-            <Users className="h-6 w-6" />
-          </div>
-          <div>
-            <p className="text-sm text-muted-foreground font-medium">Total</p>
-            <p className="text-2xl font-bold">{totalUsers}</p>
-          </div>
+     <div className="grid gap-6 grid-cols-1 sm:grid-cols-3 animate-slide-up p-4 mb-1" >
+  
+  {/* Card 1: Comunidad Total - Estilo Indigo */}
+  <div className="group relative overflow-hidden rounded-2xl border border-border/50 bg-white p-6 shadow-sm transition-all duration-300 hover:shadow-xl hover:border-indigo-100 dark:bg-zinc-950 dark:border-indigo-900/30">
+    {/* Gradiente Indigo Suave en el fondo */}
+    <div className="absolute bottom-0 left-0 right-0 h-[40%] opacity-[0.03] transition-opacity group-hover:opacity-[0.06]">
+      <svg viewBox="0 0 100 100" preserveAspectRatio="none" className="h-full w-full">
+        <path 
+          d="M0,80 Q20,90 40,70 T70,75 T100,40 L100,100 L0,100 Z" 
+          fill="url(#gradient-indigo)" 
+          stroke="#6366f1" 
+          strokeWidth="1.5"
+          opacity="0.8"
+        />
+        <defs>
+          <linearGradient id="gradient-indigo" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stopColor="#6366f1" />
+            <stop offset="100%" stopColor="transparent" />
+          </linearGradient>
+        </defs>
+      </svg>
+    </div>
+
+    <div className="relative z-10 flex flex-col justify-between h-full">
+      <div className="flex justify-between items-start">
+        <div>
+          <p className="text-[11px] font-bold uppercase tracking-wider text-muted-foreground">Usuarios Totales</p>
+          <p className="text-4xl font-black tracking-tighter text-slate-900 dark:text-white mt-1.5">{totalUsers}</p>
         </div>
-        <div className="bg-card border border-border/60 p-5 rounded-2xl flex items-center gap-4">
-          <div className="h-12 w-12 rounded-xl bg-emerald-500/10 flex items-center justify-center text-emerald-600">
-            <Activity className="h-6 w-6" />
-          </div>
-          <div>
-            <p className="text-sm text-muted-foreground font-medium">Activos</p>
-            <p className="text-2xl font-bold">{activeUsers}</p>
-          </div>
-        </div>
-        <div className="bg-card border border-border/60 p-5 rounded-2xl flex items-center gap-4">
-          <div className="h-12 w-12 rounded-xl bg-amber-500/10 flex items-center justify-center text-amber-600">
-            <ShieldCheck className="h-6 w-6" />
-          </div>
-          <div>
-            <p className="text-sm text-muted-foreground font-medium">Admins</p>
-            <p className="text-2xl font-bold">{adminUsers}</p>
-          </div>
+        {/* Contenedor del icono con color Indigo vibrante */}
+        <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-indigo-50 border border-indigo-100/50 text-indigo-600 shadow-inner dark:bg-indigo-500/10 dark:border-indigo-800/50 transition-transform group-hover:scale-105">
+          <Users className="h-6 w-6" />
         </div>
       </div>
+      <div className="mt-5 flex items-center gap-2">
+        <span className="flex items-center text-[10px] font-bold text-indigo-700 bg-indigo-50 px-2.5 py-1 rounded-full border border-indigo-100 dark:bg-indigo-500/10 dark:text-indigo-400 dark:border-indigo-800/30">
+          Global
+        </span>
+        <span className="text-[10px] font-medium text-muted-foreground">Usuarios registrados</span>
+      </div>
+    </div>
+  </div>
+
+  {/* Card 2: Sesiones Activas - Estilo Emerald Vibrante */}
+  <div className="group relative overflow-hidden rounded-2xl border border-border/50 bg-white p-6 shadow-sm transition-all duration-300 hover:shadow-xl hover:border-emerald-100 dark:bg-zinc-950 dark:border-emerald-900/30">
+    {/* Gradiente Emerald Vibrante */}
+    <div className="absolute bottom-0 left-0 right-0 h-[40%] opacity-[0.03]">
+      <svg viewBox="0 0 100 100" preserveAspectRatio="none" className="h-full w-full">
+        <path 
+          d="M0,50 L10,45 L20,55 L30,40 L40,50 L50,30 L60,45 L70,35 L80,55 L90,30 L100,20 L100,100 L0,100 Z" 
+          fill="url(#gradient-emerald)" 
+          stroke="#10b981" 
+          strokeWidth="1.5"
+          opacity="0.8"
+        />
+        <defs>
+          <linearGradient id="gradient-emerald" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stopColor="#10b981" />
+            <stop offset="100%" stopColor="transparent" />
+          </linearGradient>
+        </defs>
+      </svg>
+    </div>
+
+    <div className="relative z-10 flex flex-col justify-between h-full">
+      <div className="flex justify-between items-start">
+        <div>
+          <p className="text-[11px] font-bold uppercase tracking-wider text-muted-foreground">Sesiones Activas</p>
+          <p className="text-4xl font-black tracking-tighter text-emerald-600 mt-1.5">{activeUsers}</p>
+        </div>
+        {/* Contenedor del icono con color Emerald vibrante */}
+        <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-emerald-50 border border-emerald-100/50 text-emerald-600 shadow-inner dark:bg-emerald-500/10 dark:border-emerald-800/50 transition-transform group-hover:scale-110">
+          <Activity className="h-6 w-6" />
+        </div>
+      </div>
+      <div className="mt-5 flex items-center gap-1.5 text-[10px] font-medium text-muted-foreground">
+        <span className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse" /> 
+        En línea ahora
+      </div>
+    </div>
+  </div>
+
+  {/* Card 3: Staff de Sistema - Estilo Blue Profesional */}
+  <div className="group relative overflow-hidden rounded-2xl border border-border/50 bg-white p-6 shadow-sm transition-all duration-300 hover:shadow-xl hover:border-blue-100 dark:bg-zinc-950 dark:border-blue-900/30">
+    {/* Gradiente Blue sutil */}
+    <div className="absolute bottom-0 left-0 right-0 h-[40%] opacity-[0.02]">
+      <svg viewBox="0 0 100 100" preserveAspectRatio="none" className="h-full w-full">
+        <path 
+          d="M0,50 Q15,45 30,55 T60,40 T85,50 T100,20 L100,100 L0,100 Z" 
+          fill="url(#gradient-blue)" 
+          stroke="#3b82f6" 
+          strokeWidth="1.5" 
+          opacity="0.8"
+        />
+        <defs>
+          <linearGradient id="gradient-blue" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stopColor="#3b82f6" />
+            <stop offset="100%" stopColor="transparent" />
+          </linearGradient>
+        </defs>
+      </svg>
+    </div>
+
+    <div className="relative z-10 flex flex-col justify-between h-full">
+      <div className="flex justify-between items-start">
+        <div>
+          <p className="text-[11px] font-bold uppercase tracking-wider text-muted-foreground">Administradores</p>
+          <p className="text-4xl font-black tracking-tighter text-slate-900 dark:text-white mt-1.5">{adminUsers}</p>
+        </div>
+        {/* Contenedor del icono con color Blue vibrante */}
+        <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-blue-50 border border-blue-100/50 text-blue-600 shadow-inner dark:bg-blue-500/10 dark:border-blue-800/50 transition-transform group-hover:scale-105">
+          <ShieldCheck className="h-6 w-6" />
+        </div>
+      </div>
+      <div className="mt-5 flex items-center gap-1.5 text-[10px] font-medium text-muted-foreground">
+        <span className="font-bold text-blue-600">Privilegiados</span> Acceso total al sistema
+      </div>
+    </div>
+  </div>
+</div>
 
       {/* Filters */}
       <div className="bg-card border border-border/60 p-4 rounded-2xl flex flex-col sm:flex-row gap-3 shadow-sm">
@@ -141,6 +231,7 @@ export const UserManagerPage = () => {
             value={searchTerm} 
             onChange={(e) => setSearchTerm(e.target.value)} 
           />
+          
         </div>
 
         <Select value={roleFilter} onValueChange={setRoleFilter}>
@@ -165,6 +256,9 @@ export const UserManagerPage = () => {
             <SelectItem value="inactive">Inactivo</SelectItem>
           </SelectContent>
         </Select>
+         <Button className="h-11 px-6 rounded-xl shadow-md bg-primary hover:bg-primary/90" onClick={openNew}>
+          <UserPlus className="h-4 w-4 mr-2" /> Nuevo Usuario
+        </Button>
       </div>
 
       {/* User Table */}
