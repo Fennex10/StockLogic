@@ -1,105 +1,138 @@
-import {
-  Package,
-  TrendingDown,
-  ShoppingCart,
-  DollarSign,
+import { Package, TrendingDown, ShoppingCart, DollarSign,
 } from "lucide-react"
-
 import { StatCard } from "@/inventory/dashboard/components/StatCard"
 import { AlertCard } from "@/inventory/dashboard/components/AlertCard"
-
-import {
-  BarChart,
-  Bar,
-  AreaChart,
-  Area,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  ResponsiveContainer,
-  Legend,
+import { BarChart, Bar, AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend,
 } from "recharts"
-
-import {
-  Card,
-  CardHeader,
-  CardTitle,
-  CardContent,
+import { Card, CardHeader, CardTitle, CardContent,
 } from "@/components/ui/card"
-
-// Mock Data
-
-const salesData = [
-  { month: "Ene", ventas: 45000, ingresos: 52000 },
-  { month: "Feb", ventas: 52000, ingresos: 61000 },
-  { month: "Mar", ventas: 48000, ingresos: 55000 },
-  { month: "Abr", ventas: 61000, ingresos: 71000 },
-  { month: "May", ventas: 55000, ingresos: 64000 },
-  { month: "Jun", ventas: 67000, ingresos: 78000 },
-]
-
-const topProductsData = [
-  { product: "Laptop Dell XPS", cantidad: 245 },
-  { product: "iPhone 15 Pro", cantidad: 189 },
-  { product: 'Monitor LG 27"', cantidad: 167 },
-  { product: "Teclado Mecánico", cantidad: 134 },
-  { product: "Mouse Logitech", cantidad: 112 },
-]
-
-const inventoryData = [
-  { category: "Electrónicos", stock: 850 },
-  { category: "Accesorios", stock: 1240 },
-  { category: "Componentes", stock: 670 },
-  { category: "Periféricos", stock: 920 },
-  { category: "Audio", stock: 580 },
-]
-
-const lowStockAlerts = [
-  { id: "1", productName: "Cable HDMI 2m", currentStock: 5, minStock: 20 },
-  { id: "2", productName: "Batería Laptop HP", currentStock: 8, minStock: 15 },
-  { id: "3", productName: "SSD Samsung 1TB", currentStock: 12, minStock: 25 },
-  { id: "4", productName: "RAM DDR4 16GB", currentStock: 6, minStock: 20 },
-  { id: "5", productName: "Webcam Logitech", currentStock: 4, minStock: 15 },
-]
+import { useProducts } from "@/inventory/productos/hooks/useProducts"
+import { useSales } from "@/inventory/ventas/hooks/useSales"
+import { useCategories } from "@/inventory/categories/hooks/useCategories"
+import type { Sale } from "@/interface/sales/sale.interface"
 
 export const Dashboard = () => {  
+  
+  const {data: products} = useProducts();
+  const {data: sales} = useSales();
+  const {data: categories} = useCategories();
+
+  const productsList = products?.data ?? [];
+
+  const categoriesList = categories?.data ?? [];
+  const stats = sales?.data?.stats;
+
+  const totalRevenue = stats?.totalRevenue ?? 0;
+ const monthlySales = stats?.currentMonthSalesCount ?? 0;
+  
+  const topProductsData = productsList.map(p => ({
+      product: p.name,
+      cantidad: p.currentStock
+   }));
+
+   const inventoryData = categoriesList.map(c => {
+    const totalStock = productsList
+      .filter(p => p.categoryId === c.id) // productos de esa categoría
+      .reduce((acc, p) => acc + (p.currentStock || 0), 0); // suma de stock
+
+    return {
+      category: c.name,
+      stock: totalStock
+    };
+  });
+
+  const lowStockAlerts = productsList
+    .filter(p => (p.currentStock ?? 0) <= (p.minStock ?? 0))
+    .map(p => ({
+      id: p.id,
+      productName: p.name,
+      currentStock: p.currentStock,
+      minStock: p.minStock
+    }));
+   
+    //Ventas Grafica 
+    const salesList: Sale[] = Array.isArray(sales?.data?.sales)
+  ? sales.data.sales
+  : [];
+
+    const currentYear = new Date().getFullYear();
+
+    // Filtrar ventas válidas
+    const filteredSales = salesList.filter(s => {
+      const date = new Date(s.registerDate);
+      return (
+        s.isCompleted &&
+        date.getFullYear() === currentYear
+      );
+    });
+
+    // Agrupar por mes
+    const salesByMonth: Record<string, { ventas: number; ingresos: number }> = {};
+
+    filteredSales.forEach(s => {
+      const date = new Date(s.registerDate);
+
+      const month = date.toLocaleString("es-ES", { month: "short" }); // ene, feb...
+
+      if (!salesByMonth[month]) {
+        salesByMonth[month] = {
+          ventas: 0,
+          ingresos: 0,
+        };
+      }
+
+      salesByMonth[month].ventas += s.quantity;
+      salesByMonth[month].ingresos += s.totalPrice;
+    });
+
+    // Convertir a array
+    const salesData = Object.entries(salesByMonth).map(([month, data]) => ({
+      month: month.charAt(0).toUpperCase() + month.slice(1), // Ene
+      ventas: data.ventas,
+      ingresos: data.ingresos,
+    }));
+
+    // Orden correcto de meses
+    const monthOrder = [
+      "Ene","Feb","Mar","Abr","May","Jun",
+      "Jul","Ago","Sep","Oct","Nov","Dic"
+    ];
+
+    const salesDataSorted = salesData.sort(
+      (a, b) => monthOrder.indexOf(a.month) - monthOrder.indexOf(b.month)
+    );
+
   return (
-    <div className="p-6 space-y-6">
-      {/* Header */}
-      {/* <div>
-        <h1 className="text-3xl font-semibold mb-2">Dashboard</h1>
-        <p className="text-muted-foreground">
-          Resumen general de tu inventario y ventas
-        </p>
-      </div> */}
+    // <div className="p-6 space-y-6">
+    <div className="space-y-6 animate-fade-in">
+    
 
       {/* KPI Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
         <StatCard
           title="Total Productos"
-          value="1,247"
+          value={productsList.length}
           change="+12% vs mes anterior"
           changeType="positive"
           icon={Package}
         />
         <StatCard
           title="Stock Bajo"
-          value="23"
+          value={lowStockAlerts.length.toString()}
           change="Requiere atención"
           changeType="negative"
           icon={TrendingDown}
         />
         <StatCard
           title="Ventas del Mes"
-          value="892"
+          value={monthlySales}
           change="+8.2% vs mes anterior"
           changeType="positive"
           icon={ShoppingCart}
         />
         <StatCard
           title="Ingresos del Mes"
-          value="$67,000"
+           value={totalRevenue.toLocaleString()}
           change="+15.3% vs mes anterior"
           changeType="positive"
           icon={DollarSign}
@@ -116,7 +149,7 @@ export const Dashboard = () => {
 
           <CardContent>
             <ResponsiveContainer width="100%" height={300}>
-              <AreaChart data={salesData}>
+              <AreaChart data={salesDataSorted}>
                 <CartesianGrid strokeDasharray="3 3" />
                 <XAxis dataKey="month" />
                 <YAxis />

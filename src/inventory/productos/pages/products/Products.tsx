@@ -1,7 +1,5 @@
 import { useState, useMemo } from "react";
-import { 
-  Search, Plus, Filter, Edit, Trash2, Tag,
-  PackageSearch,
+import { Search,  Filter, Edit, Trash2, Tag, PackageSearch, AlertTriangle, ArrowUpRight, Boxes,Package,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -10,8 +8,8 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { cn } from "@/lib/utils";
-import { Link } from "react-router";
-import { Title } from "@/components/components/Title";
+import { Link} from "react-router";
+// import { Title } from "@/components/components/Title";
 import { CustomFullScreenLoading } from "@/components/custom/CustomFullScreemLoading";
 import { useProducts } from "../../hooks/useProducts";
 import { useCategories } from "@/inventory/categories/hooks/useCategories";
@@ -20,6 +18,39 @@ import { useDeleteProduct } from "../../hooks/useDeleteProduct";
 import { useProviders } from "../../../providers/hooks/useProviders";
 import { getFullImageUrl } from "@/lib/formatUrl";
 import { toast } from "sonner";
+// import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+// import { RestartStockForm } from "../../ui/RestartStockForm";
+// import type { CreateRestartStock } from "@/interface/providers/create-restart-stock";
+
+
+function Sparkline({ data, color }: { data: number[]; color: string }) {
+  const max = Math.max(...data);
+  const min = Math.min(...data);
+  const range = max - min || 1;
+  const w = 80;
+  const h = 24;
+  const points = data.map((v, i) => `${(i / (data.length - 1)) * w},${h - ((v - min) / range) * (h - 4) - 2}`).join(" ");
+  const areaPoints = `0,${h} ${points} ${w},${h}`;
+  const colorMap: Record<string, string> = {
+    "emerald-500": "#10b981",
+    "blue-500": "#3b82f6",
+    "rose-500": "#f43f5e"
+  };
+  const strokeColor = colorMap[color] || color;
+
+  return (
+    <svg width={w} height={h} className="overflow-visible">
+      <defs>
+        <linearGradient id={`grad-${color}`} x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stopColor={strokeColor} stopOpacity="0.2" />
+          <stop offset="100%" stopColor={strokeColor} stopOpacity="0" />
+        </linearGradient>
+      </defs>
+      <path d={`M ${areaPoints} Z`} fill={`url(#grad-${color})`} />
+      <polyline points={points} fill="none" stroke={strokeColor} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}
 
 export const Products = () => {
   const { data: product, isLoading } = useProducts();
@@ -29,6 +60,10 @@ export const Products = () => {
   
   const [searchTerm, setSearchTerm] = useState("");
   const [categoryFilter, setCategoryFilter] = useState("all");
+  // const [dialogOpen, setDialogOpen] = useState(false);
+  // const [editing, setEditing] = useState<Sale | null>(null);
+
+  //   const { mutation } = useRestartStock(editing?.productId ?? "new");
 
   const providersList = providers?.data ?? [];
 
@@ -61,7 +96,18 @@ export const Products = () => {
     });
   };
 
-  if (isLoading || isLoadingCategories || isLoadingProviders) return <CustomFullScreenLoading />;
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const productsList = product?.data ?? [];
+  
+const stats = useMemo(() => {
+     
+    const totalItems = productsList.length;
+    const inventoryValue = productsList.reduce((acc, p) => acc + (p.price * p.currentStock), 0);
+    const lowStockCount = productsList.filter(p => p.currentStock <= p.minStock && p.currentStock > 0).length;
+    
+    return { totalItems, inventoryValue, lowStockCount };
+  }, [productsList]);
+   
 
   const getStatusBadge = (stock: number, minStock: number) => {
     if (stock === 0) return <Badge className="bg-red-100 text-red-700 border-red-200 hover:bg-red-100 shadow-none">Agotado</Badge>;
@@ -69,22 +115,88 @@ export const Products = () => {
     return <Badge className="bg-emerald-100 text-emerald-700 border-emerald-200 hover:bg-emerald-100 shadow-none font-medium">Bueno</Badge>;
   };
 
+  // if (!product || !providers) return <Navigate to='/dashboard/products' />;
+  
+  if (isLoading || isLoadingCategories || isLoadingProviders) return <CustomFullScreenLoading />;
+
   return (
-    <div className="p-4 md:p-8 space-y-8 animate-in fade-in duration-700">
+    <div className="space-y-6 animate-fade-in">
       {/* Header Section */}
-      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-        <div className="space-y-1">
-          {/* <h1 className="text-3xl font-extrabold tracking-tight text-slate-900">Inventario</h1>
-          <p className="text-slate-500 text-sm">Monitorea niveles de stock y rendimiento de productos.</p> */}
-          <Title title="Inventario" subtitle="Monitorea niveles de stock y rendimiento de productos." />
+      
+      {/* KPI Bento Grid - Estilo Premium */}
+      <div className="grid gap-4 grid-cols-1 sm:grid-cols-3 animate-slide-up">
+        
+        {/* Total Productos */}
+        <div className="group kpi-card relative overflow-hidden bg-white dark:bg-zinc-950 p-5 rounded-2xl border border-border/50 shadow-sm">
+          <div className="absolute top-0 right-0 w-24 h-24 bg-blue-500/5 rounded-full -translate-y-8 translate-x-8 group-hover:scale-110 transition-transform duration-500" />
+          <div className="relative z-10 flex flex-col h-full justify-between">
+            <div className="flex justify-between items-start">
+              <div className="space-y-1">
+                <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider">Total Productos</p>
+                <p className="text-3xl font-bold tracking-tight text-foreground">{stats.totalItems}</p>
+              </div>
+              <div className="rounded-xl bg-blue-500/10 p-2.5">
+                <Package className="h-5 w-5 text-blue-600" />
+              </div>
+            </div>
+            <div className="flex justify-between items-end mt-4">
+              <div className="flex items-center gap-1">
+                <Boxes className="h-3 w-3 text-blue-500" />
+                <span className="text-xs font-medium text-blue-600">Items en catálogo</span>
+              </div>
+              <Sparkline data={[5, 10, 8, 15, 12, 18, 20]} color="blue-500" />
+            </div>
+          </div>
         </div>
-        <Button asChild className="blue-900 hover:bg-blue-800 shadow-md transition-all active:scale-95">
-          <Link to="/dashboard/products/new">
-            <Plus className="mr-2 h-4 w-4" /> Nuevo Producto
-          </Link>
-        </Button>
+
+        {/* Valor Inventario */}
+        <div className="group kpi-card relative overflow-hidden bg-white dark:bg-zinc-950 p-5 rounded-2xl border border-border/50 shadow-sm">
+          <div className="absolute top-0 right-0 w-24 h-24 bg-emerald-500/5 rounded-full -translate-y-8 translate-x-8 group-hover:scale-110 transition-transform duration-500" />
+          <div className="relative z-10 flex flex-col h-full justify-between">
+            <div className="flex justify-between items-start">
+              <div className="space-y-1">
+                <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider">Valor Capital</p>
+                <p className="text-3xl font-bold tracking-tight text-foreground">RD$ {stats.inventoryValue.toLocaleString()}</p>
+              </div>
+              <div className="rounded-xl bg-emerald-500/10 p-2.5">
+                <ArrowUpRight className="h-5 w-5 text-emerald-600" />
+              </div>
+            </div>
+            <div className="flex justify-between items-end mt-4">
+              <div className="flex items-center gap-1">
+                <span className="text-xs font-medium text-emerald-600">Inversión en stock</span>
+              </div>
+              <Sparkline data={[40, 35, 50, 45, 60, 55, 70]} color="emerald-500" />
+            </div>
+          </div>
+        </div>
+
+        {/* Alerta de Stock Bajo */}
+        <div className="group kpi-card relative overflow-hidden bg-white dark:bg-zinc-950 p-5 rounded-2xl border border-border/50 shadow-sm">
+          <div className="absolute top-0 right-0 w-24 h-24 bg-rose-500/5 rounded-full -translate-y-8 translate-x-8 group-hover:scale-110 transition-transform duration-500" />
+          <div className="relative z-10 flex flex-col h-full justify-between">
+            <div className="flex justify-between items-start">
+              <div className="space-y-1">
+                <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider">Stock Crítico</p>
+                <p className="text-3xl font-bold tracking-tight text-foreground">{stats.lowStockCount}</p>
+              </div>
+              <div className="rounded-xl bg-rose-500/10 p-2.5">
+                <AlertTriangle className="h-5 w-5 text-rose-600" />
+              </div>
+            </div>
+            <div className="flex justify-between items-end mt-4">
+              <div className="flex items-center gap-1">
+                <span className={cn("text-xs font-medium", stats.lowStockCount > 0 ? "text-rose-600 animate-pulse" : "text-slate-400")}>
+                  {stats.lowStockCount > 0 ? "Requiere atención" : "Stock saludable"}
+                </span>
+              </div>
+              <Sparkline data={[2, 4, 3, 1, 5, 2, 8]} color="rose-500" />
+            </div>
+          </div>
+        </div>
       </div>
 
+    
       {/* Filters Section */}
       <div className="flex flex-col md:flex-row gap-4">
         <div className="relative flex-1">
@@ -96,6 +208,8 @@ export const Products = () => {
             className="pl-10 bg-white border-slate-200 focus:ring-2 focus:ring-slate-900/5 transition-all"
           />
         </div>
+       
+       {categories && (
         <Select value={categoryFilter} onValueChange={setCategoryFilter}>
           <SelectTrigger className="w-full md:w-[220px] bg-white border-slate-200">
             <Filter className="h-4 w-4 mr-2 text-slate-400" />
@@ -108,6 +222,18 @@ export const Products = () => {
             ))}
           </SelectContent>
         </Select>
+       )}
+
+        {/* <Button className="blue-900 hover:bg-blue-800 shadow-md transition-all active:scale-95" onClick={openNew}>
+             Rellenar stock
+        </Button> */}
+
+        <Button asChild className="blue-900 hover:bg-blue-800 shadow-md transition-all active:scale-95">
+          <Link to="/dashboard/products/new">
+            Nuevo Producto
+          </Link>
+        </Button>
+
       </div>
 
       {/* Table Section */}
@@ -237,6 +363,37 @@ export const Products = () => {
           </TableBody>
         </Table>
       </div>
+
+      {/* Modal Para rellenar stock */}
+      {/* <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
+        <DialogContent className="max-w-2xl rounded-2xl">
+          <DialogHeader>
+            <DialogTitle className="text-xl font-bold">
+              {editing ? "Actualizar Venta" : "Rellenar Stock"}
+            </DialogTitle>
+          </DialogHeader>
+          
+          {product && (
+          <RestartStockForm
+            restartStock={{ productId: "new" } as CreateRestartStock}
+            products={product}
+            isPending={mutation.isPending}
+            onSubmit={async (data) => {
+              try {
+                console.log("FINAL DATA:", data);
+
+                await mutation.mutateAsync(data); // FIX REAL
+
+                setDialogOpen(false);
+                toast.success(editing ? 'Venta actualizada' : 'Stock Rellenado correctamente');
+              } catch (error) {
+                console.error(error);
+              }
+            }}
+          />
+          )}
+        </DialogContent>
+      </Dialog> */}
       
       {/* Footer / Pagination Section */}
       <div className="pt-2 flex justify-between items-center text-sm text-slate-500">

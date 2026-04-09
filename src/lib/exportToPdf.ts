@@ -14,12 +14,7 @@ type ExportPDFParams = {
   lowRotation: LowRotation[];
 };
 
-export const exportReportPDF = ({
-  startDate,
-  endDate,
-  salesChartData,
-  topProducts,
-  lowRotation,
+export const exportReportPDF = ({ startDate, endDate, salesChartData, topProducts, lowRotation,
 }: ExportPDFParams) => {
   const doc = new jsPDF();
   const pageWidth = doc.internal.pageSize.getWidth();

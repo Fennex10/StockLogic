@@ -1,5 +1,8 @@
 export interface Stats {
-    totalCompleted:         number;
+    totalCompletedSales:    number;
     totalRevenue:           number;
     currentMonthSalesCount: number;
+    totalInvestment:        number;
+    netProfit:              number;
+    status:                 string;
 }

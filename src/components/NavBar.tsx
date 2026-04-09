@@ -1,14 +1,12 @@
 // import { RoleCode } from "@/auth/type/roleCode";
-
-import { Bell, Search, User} from "lucide-react";
-import { Input } from "@/components/ui/input";
+import { User} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
+  // DropdownMenuContent,
+  // DropdownMenuItem,
+  // DropdownMenuLabel,
+  // DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useAuthStore } from "@/auth/store/auth.store";
@@ -30,16 +28,16 @@ export const Navbar = () => {
 
       <div className="flex items-center gap-4">
         {/* Search */}
-        <div className="relative hidden md:block">
+        {/* <div className="relative hidden md:block">
           <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
           <Input
             placeholder="Buscar productos, ventas..."
             className="w-64 pl-9 bg-secondary/50 border-transparent focus:border-primary/30 focus:bg-background transition-all"
           />
-        </div>
+        </div> */}
 
         {/* Notifications */}
-        <DropdownMenu>
+        {/* <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="ghost" size="icon" className="relative">
               <Bell className="h-5 w-5 text-muted-foreground" />
@@ -70,7 +68,7 @@ export const Navbar = () => {
               </span>
             </DropdownMenuItem>
           </DropdownMenuContent>
-        </DropdownMenu>
+        </DropdownMenu> */}
 
          {authStatus === "not-authenticated" ? (
             <Link to="/auth/login">
@@ -101,7 +99,7 @@ export const Navbar = () => {
               </div>
             </Button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent align="end" className="bg-popover">
+          {/* <DropdownMenuContent align="end" className="bg-popover">
             <DropdownMenuLabel>Mi Cuenta</DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuItem>Perfil</DropdownMenuItem>
@@ -110,7 +108,7 @@ export const Navbar = () => {
             <DropdownMenuItem className="text-destructive">
               Cerrar Sesión
             </DropdownMenuItem>
-          </DropdownMenuContent>
+          </DropdownMenuContent> */}
         </DropdownMenu>
       </div>
     </header>

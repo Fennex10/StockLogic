@@ -7,6 +7,6 @@ export interface SalesResponse {
 }
 
 export interface Data {
-    sales: Sale;
+    sales: Sale[];
     stats: Stats;
 }

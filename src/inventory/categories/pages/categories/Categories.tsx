@@ -135,21 +135,6 @@ export const Categories = () => {
 
   return (
     <div className="space-y-8 p-4 animate-fade-in">
-      {/* Header */}
-      {/* <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-        <div>
-          <h1 className="text-3xl font-extrabold tracking-tight text-foreground">Categorías</h1>
-          <p className="text-sm text-muted-foreground mt-1">
-            Organiza tu inventario y gestiona las clasificaciones de productos.
-          </p>
-        </div>
-        <Button 
-          onClick={openNew} 
-          className="h-11 px-6 rounded-xl shadow-md bg-primary hover:bg-primary/90 transition-all active:scale-95"
-        >
-          <Plus className="mr-2 h-4 w-4" /> Nueva Categoría
-        </Button>
-      </div> */}
 
       {/* Stats Section */}
       <div className="grid gap-6 md:grid-cols-3 animate-slide-up">
@@ -175,7 +160,7 @@ export const Categories = () => {
       </div>
 
       {/* Toolbar */}
-      <div className="flex items-center justify-between gap-4">
+      {/* <div className="flex items-center justify-between gap-4">
         <div className="relative flex-1 max-w-md group">
           <Search className="absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground group-focus-within:text-primary transition-colors" />
           <Input
@@ -191,7 +176,25 @@ export const Categories = () => {
         >
           <Plus className="mr-2 h-4 w-4" /> Nueva Categoría
         </Button>
-      </div>
+      </div> */}
+
+      <div className="flex items-center justify-between gap-4">
+  <div className="relative flex-1 group"> {/* Se eliminó max-w-md para que use todo el espacio disponible */}
+    <Search className="absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground group-focus-within:text-primary transition-colors" />
+    <Input
+      placeholder="Buscar por nombre o descripción..."
+      value={searchTerm}
+      onChange={(e) => setSearchTerm(e.target.value)}
+      className="pl-10 h-11 rounded-xl border-border/60 bg-card/50 focus-visible:ring-primary/20 transition-all"
+    />
+  </div>
+  <Button 
+    onClick={openNew} 
+    className="h-11 px-6 rounded-xl shadow-md bg-primary hover:bg-primary/90 transition-all active:scale-95 shrink-0"
+  >
+    <Plus className="mr-2 h-4 w-4" /> Nueva Categoría
+  </Button>
+</div>
 
       {/* Table Section */}
       <div className="rounded-2xl border border-border/50 bg-card shadow-sm overflow-hidden animate-slide-up">

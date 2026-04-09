@@ -163,8 +163,8 @@ export const SalesForm = ({ sale, products, onSubmit, isPending }: Props) => {
 
               <SelectContent className="rounded-xl">
                 <SelectItem value="CASH">Efectivo</SelectItem>
-                <SelectItem value="CREDIT_CARD">Tarjeta de Crédito</SelectItem>
-                <SelectItem value="DEBIT_CARD">Tarjeta de Débito</SelectItem>
+                <SelectItem value="CREDIT CARD">Tarjeta de Crédito</SelectItem>
+                <SelectItem value="DEBIT CARD">Tarjeta de Débito</SelectItem>
                 <SelectItem value="TRANSFER">Transferencia</SelectItem>
               </SelectContent>
             </Select>

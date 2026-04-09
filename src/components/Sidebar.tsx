@@ -69,7 +69,7 @@ export function Sidebar({ collapsed, setCollapsed }: SidebarProps) {
         </div>
 
         {/* Navigation */}
-        <nav className="flex-1 space-y-1.5 p-4">
+        {/* <nav className="flex-1 space-y-1.5 p-4">
           {navItems.map((item) => (
             <NavLink
               key={item.path}
@@ -87,7 +87,7 @@ export function Sidebar({ collapsed, setCollapsed }: SidebarProps) {
                   <item.icon className={cn("h-5 w-5 flex-shrink-0 transition-colors", isActive ? "text-blue-600" : "text-gray-400 group-hover:text-gray-600")} />
                   {!collapsed && <span>{item.label}</span>}
                   
-                  {/* El borde lateral derecho cuando está activo */}
+                  
                   {isActive && (
                     <div className="absolute right-0 top-1/4 h-1/2 w-1 bg-blue-600 rounded-l-full" />
                   )}
@@ -95,7 +95,42 @@ export function Sidebar({ collapsed, setCollapsed }: SidebarProps) {
               )}
             </NavLink>
           ))}
-        </nav>
+        </nav> */}
+
+        {/* Navigation */}
+            <nav className="flex-1 space-y-1.5 p-4">
+              {navItems.map((item) => (
+                <NavLink
+                  key={item.path}
+                  to={item.path}
+                  // AGREGAMOS ESTO: Si el path es exactamente '/dashboard', usamos 'end'
+                  end={item.path === "/dashboard"} 
+                  className={({ isActive }) =>
+                    cn(
+                      "group flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all duration-200 font-medium relative",
+                      "text-gray-500 hover:bg-gray-50 hover:text-gray-900",
+                      isActive && "bg-blue-50 text-blue-600"
+                    )
+                  }
+                >
+                  {({ isActive }) => (
+                    <>
+                      <item.icon 
+                        className={cn(
+                          "h-5 w-5 flex-shrink-0 transition-colors", 
+                          isActive ? "text-blue-600" : "text-gray-400 group-hover:text-gray-600"
+                        )} 
+                      />
+                      {!collapsed && <span>{item.label}</span>}
+                      
+                      {isActive && (
+                        <div className="absolute right-0 top-1/4 h-1/2 w-1 bg-blue-600 rounded-l-full" />
+                      )}
+                    </>
+                  )}
+                </NavLink>
+              ))}
+            </nav>
 
         {/* User Profile */}
         <div className="border-t border-gray-100 p-4">

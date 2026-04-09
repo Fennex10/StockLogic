@@ -1,11 +1,17 @@
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { Building2, Key, Mail, UserCheck, ShieldCheck, User } from "lucide-react";
+import { motion, type Variants } from "framer-motion";
+import {
+  Mail,
+  User,
+  Key,
+  ShieldCheck,
+  Loader2,
+  Save,
+} from "lucide-react";
 
 import { Button } from "@/components/ui/button";
-import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
-import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
 
 import type { CreateUserManager } from "@/interface/userManager/create-user-manager";
@@ -20,6 +26,20 @@ interface Props {
   onSubmit: (data: Partial<CreateUserManager>) => Promise<void>;
 }
 
+/* 🔥 Animaciones */
+const container: Variants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: { staggerChildren: 0.08 },
+  },
+};
+
+const item: Variants = {
+  hidden: { opacity: 0, y: 8 },
+  visible: { opacity: 1, y: 0 },
+};
+
 export const UserManagerForm = ({ user, roles, onSubmit, isPending }: Props) => {
   const {
     register,
@@ -28,9 +48,7 @@ export const UserManagerForm = ({ user, roles, onSubmit, isPending }: Props) => 
     formState: { errors },
     reset,
   } = useForm<CreateUserManager>({
-    defaultValues: {
-      ...mapToCreateUser(user),
-    },
+    defaultValues: mapToCreateUser(user),
   });
 
   useEffect(() => {
@@ -40,154 +58,331 @@ export const UserManagerForm = ({ user, roles, onSubmit, isPending }: Props) => 
   // eslint-disable-next-line react-hooks/incompatible-library
   const password = watch("userPassword");
 
-  // Clase común para los inputs basada en tu imagen (menos redondeado, borde suave)
-  const inputStyle = "pl-10 h-11 rounded-lg border-muted-foreground/20 bg-background focus:ring-1 focus:ring-primary/30 transition-all shadow-none";
-
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="space-y-8 animate-in fade-in duration-500">
-      
-      {/* SECCIÓN: Información Personal */}
-      <div className="space-y-4">
-        <div className="flex items-center gap-2 mb-2">
-          <div className="p-2 bg-primary/10 rounded-lg">
-            <User className="h-4 w-4 text-primary" />
-          </div>
-          <div>
-            <h3 className="text-sm font-semibold text-foreground">Perfil de Usuario</h3>
-            <p className="text-[12px] text-muted-foreground">Datos principales de acceso e identidad</p>
-          </div>
-        </div>
+    <motion.form
+      variants={container}
+      initial="hidden"
+      animate="visible"
+      onSubmit={handleSubmit(onSubmit)}
+      className="max-w-3xl mx-auto space-y-10"
+    >
+      {/* HEADER */}
+      <motion.div variants={item} className="space-y-2">
+        <h2 className="text-xl font-semibold tracking-tight">
+          {user.id === "new" ? "Crear Usuario" : "Editar Usuario"}
+        </h2>
+        <p className="text-sm text-muted-foreground">
+          Configura la información y permisos del usuario
+        </p>
+      </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div className="space-y-2">
-            <Label htmlFor="userName" className="text-xs font-semibold uppercase tracking-wider text-muted-foreground/80 ml-1">
-              Nombre de Usuario
-            </Label>
-            <div className="relative group">
-              <Building2 className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground/50 group-focus-within:text-primary transition-colors" />
-              <Input
-                id="userName"
-                {...register("userName", { required: "El nombre es obligatorio" })}
-                className={cn(inputStyle, { "border-destructive": errors.userName })}
-                placeholder="Ej: jmendez"
-              />
-            </div>
-            {errors.userName && <p className="text-destructive text-[11px] font-medium ml-1">{errors.userName.message}</p>}
-          </div>
+      {/* GRID */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
 
-          <div className="space-y-2">
-            <Label htmlFor="userEmail" className="text-xs font-semibold uppercase tracking-wider text-muted-foreground/80 ml-1">
-              Correo Electrónico
-            </Label>
-            <div className="relative group">
-              <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground/50 group-focus-within:text-primary transition-colors" />
-              <Input
-                id="userEmail"
-                type="email"
-                {...register("userEmail", { 
-                    required: "El email es obligatorio",
-                    pattern: { value: /^\S+@\S+$/i, message: "Email inválido" } 
-                })}
-                className={cn(inputStyle, { "border-destructive": errors.userEmail })}
-                placeholder="correo@ejemplo.com"
-              />
-            </div>
-            {errors.userEmail && <p className="text-destructive text-[11px] font-medium ml-1">{errors.userEmail.message}</p>}
+        {/* USERNAME */}
+        <motion.div variants={item} className="space-y-2">
+          <span className="text-xs text-muted-foreground">Usuario</span>
+          <div className="relative group">
+            <User className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground group-focus-within:text-foreground transition" />
+            <Input
+              {...register("userName", { required: "Requerido" })}
+              placeholder="jmendez"
+              className={cn(
+                "pl-10 h-11 bg-muted/40 border border-transparent focus:border-border focus:bg-background transition",
+                errors.userName && "border-destructive"
+              )}
+            />
           </div>
-        </div>
+        </motion.div>
+
+        {/* EMAIL */}
+        <motion.div variants={item} className="space-y-2">
+          <span className="text-xs text-muted-foreground">Email</span>
+          <div className="relative group">
+            <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground group-focus-within:text-foreground transition" />
+            <Input
+              type="email"
+              {...register("userEmail", {
+                required: "Requerido",
+                pattern: { value: /^\S+@\S+$/, message: "Email inválido" },
+              })}
+              placeholder="correo@ejemplo.com"
+              className={cn(
+                "pl-10 h-11 bg-muted/40 border border-transparent focus:border-border focus:bg-background transition",
+                errors.userEmail && "border-destructive"
+              )}
+            />
+          </div>
+        </motion.div>
+
+        {/* PASSWORD */}
+        <motion.div variants={item} className="space-y-2">
+          <span className="text-xs text-muted-foreground">Contraseña</span>
+          <div className="relative group">
+            <Key className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground group-focus-within:text-foreground transition" />
+            <Input
+              type="password"
+              {...register("userPassword", {
+                required: user.id === "new" ? "Requerido" : false,
+                minLength: { value: 6, message: "Min 6 caracteres" },
+              })}
+              className="pl-10 h-11 bg-muted/40 border border-transparent focus:border-border focus:bg-background transition"
+            />
+          </div>
+        </motion.div>
+
+        {/* CONFIRM PASSWORD */}
+        <motion.div variants={item} className="space-y-2">
+          <span className="text-xs text-muted-foreground">Confirmar</span>
+          <div className="relative group">
+            <ShieldCheck className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground group-focus-within:text-foreground transition" />
+            <Input
+              type="password"
+              {...register("userPasswordConfirm", {
+                validate: (v) => v === password || "No coincide",
+              })}
+              className="pl-10 h-11 bg-muted/40 border border-transparent focus:border-border focus:bg-background transition"
+            />
+          </div>
+        </motion.div>
+
+        {/* ROLE */}
+        <motion.div variants={item} className="md:col-span-2 space-y-2">
+          <span className="text-xs text-muted-foreground">Rol</span>
+          <select
+            {...register("userRoleId", { required: true })}
+            className="w-full h-11 px-3 bg-muted/40 border border-transparent rounded-md text-sm focus:border-border focus:bg-background transition"
+          >
+            <option value="">Seleccionar rol...</option>
+            {roles.data?.map((r) => (
+              <option key={r.id} value={r.id}>
+                {r.name}
+              </option>
+            ))}
+          </select>
+        </motion.div>
       </div>
 
-      <Separator className="opacity-50" />
-
-      {/* SECCIÓN: Seguridad y Permisos */}
-      <div className="space-y-4">
-        <div className="flex items-center gap-2 mb-2">
-          <div className="p-2 bg-amber-500/10 rounded-lg">
-            <ShieldCheck className="h-4 w-4 text-amber-600" />
-          </div>
-          <div>
-            <h3 className="text-sm font-semibold text-foreground">Seguridad y Roles</h3>
-            <p className="text-[12px] text-muted-foreground">Credenciales y nivel de acceso</p>
-          </div>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div className="space-y-2">
-            <Label htmlFor="userPassword" className="text-xs font-semibold uppercase tracking-wider text-muted-foreground/80 ml-1">
-              Contraseña
-            </Label>
-            <div className="relative group">
-              <Key className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground/50 group-focus-within:text-amber-600 transition-colors" />
-              <Input
-                id="userPassword"
-                type="password"
-                {...register("userPassword", { 
-                  required: user.id === 'new' ? "La contraseña es obligatoria" : false,
-                  minLength: { value: 6, message: "Mínimo 6 caracteres" }
-                })}
-                className={cn(inputStyle, { "border-destructive": errors.userPassword })}
-                placeholder="••••••••"
-              />
-            </div>
-          </div>
-
-          <div className="space-y-2">
-            <Label htmlFor="userPasswordConfirm" className="text-xs font-semibold uppercase tracking-wider text-muted-foreground/80 ml-1">
-              Confirmar Contraseña
-            </Label>
-            <div className="relative group">
-              <ShieldCheck className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground/50 group-focus-within:text-amber-600 transition-colors" />
-              <Input
-                id="userPasswordConfirm"
-                type="password"
-                {...register("userPasswordConfirm", { 
-                  validate: (value) => value === password || "No coincide"
-                })}
-                className={cn(inputStyle, { "border-destructive": errors.userPasswordConfirm })}
-                placeholder="••••••••"
-              />
-            </div>
-          </div>
-
-          <div className="space-y-2 md:col-span-2">
-            <Label htmlFor="roles" className="text-xs font-semibold uppercase tracking-wider text-muted-foreground/80 ml-1">
-              Rol corporativo
-            </Label>
-            <div className="relative group">
-              <UserCheck className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground/50 group-focus-within:text-primary transition-colors z-10" />
-              <select
-                {...register("userRoleId", { required: "Seleccionar un rol es obligatorio" })}
-                className={cn(
-                  "w-full h-11 pl-10 pr-10 border border-muted-foreground/20 rounded-lg bg-background appearance-none focus:outline-none focus:ring-1 focus:ring-primary/30 transition-all text-sm",
-                  { "border-destructive": errors.userRoleId }
-                )}
-              >
-                <option value="">Seleccionar un rol...</option>
-                {roles.data?.map((role) => (
-                  <option key={role.id} value={role.id}>{role.name}</option>
-                ))}
-              </select>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* FOOTER */}
-      <div className="flex flex-col-reverse sm:flex-row items-center justify-end gap-3 pt-6">
-        <Button type="button" variant="ghost" className="w-full sm:w-auto rounded-lg px-6 h-11">
+      {/* ACTIONS */}
+      <motion.div
+        variants={item}
+        className="flex justify-end gap-3 pt-6"
+      >
+        <Button
+          type="button"
+          variant="ghost"
+          className="h-10 px-5"
+          onClick={() => reset()}
+        >
           Cancelar
         </Button>
-        <Button 
-          type="submit" 
+
+        <Button
+          type="submit"
           disabled={isPending}
-          className="w-full sm:w-auto rounded-lg px-8 h-11 shadow-sm bg-primary hover:bg-primary/90 transition-all active:scale-95"
+          className="h-10 px-6 bg-foreground text-background bg-primary hover:bg-foreground/90 flex items-center gap-2"
         >
-          {isPending ? "Guardando..." : user.id === 'new' ? "Crear cuenta" : "Guardar cambios"}
+          {isPending ? (
+            <Loader2 className="h-4 w-4 animate-spin" />
+          ) : (
+            <Save className="h-4 w-4" />
+          )}
+          {user.id === "new" ? "Crear Usuario" : "Guardar Usuario"}
         </Button>
-      </div>
-    </form>
+      </motion.div>
+    </motion.form>
   );
 };
+// import { useEffect } from "react";
+// import { useForm } from "react-hook-form";
+// import { Building2, Key, Mail, UserCheck, ShieldCheck, User } from "lucide-react";
+
+// import { Button } from "@/components/ui/button";
+// import { Label } from "@/components/ui/label";
+// import { Input } from "@/components/ui/input";
+// import { Separator } from "@/components/ui/separator";
+// import { cn } from "@/lib/utils";
+
+// import type { CreateUserManager } from "@/interface/userManager/create-user-manager";
+// import type { UserManager } from "@/interface/userManager/userManager.interface";
+// import type { UserRolesResponse } from "@/interface/userManager/roles/roles.response";
+// import { mapToCreateUser } from "../mapping/mapUserManager";
+
+// interface Props {
+//   user: UserManager;
+//   roles: UserRolesResponse;
+//   isPending: boolean;
+//   onSubmit: (data: Partial<CreateUserManager>) => Promise<void>;
+// }
+
+// export const UserManagerForm = ({ user, roles, onSubmit, isPending }: Props) => {
+//   const {
+//     register,
+//     handleSubmit,
+//     watch,
+//     formState: { errors },
+//     reset,
+//   } = useForm<CreateUserManager>({
+//     defaultValues: {
+//       ...mapToCreateUser(user),
+//     },
+//   });
+
+//   useEffect(() => {
+//     reset(mapToCreateUser(user));
+//   }, [user, reset]);
+
+//   // eslint-disable-next-line react-hooks/incompatible-library
+//   const password = watch("userPassword");
+
+//   // Clase común para los inputs basada en tu imagen (menos redondeado, borde suave)
+//   const inputStyle = "pl-10 h-11 rounded-lg border-muted-foreground/20 bg-background focus:ring-1 focus:ring-primary/30 transition-all shadow-none";
+
+//   return (
+//     <form onSubmit={handleSubmit(onSubmit)} className="space-y-8 animate-in fade-in duration-500">
+      
+//       {/* SECCIÓN: Información Personal */}
+//       <div className="space-y-4">
+//         <div className="flex items-center gap-2 mb-2">
+//           <div className="p-2 bg-primary/10 rounded-lg">
+//             <User className="h-4 w-4 text-primary" />
+//           </div>
+//           <div>
+//             <h3 className="text-sm font-semibold text-foreground">Perfil de Usuario</h3>
+//             <p className="text-[12px] text-muted-foreground">Datos principales de acceso e identidad</p>
+//           </div>
+//         </div>
+
+//         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+//           <div className="space-y-2">
+//             <Label htmlFor="userName" className="text-xs font-semibold uppercase tracking-wider text-muted-foreground/80 ml-1">
+//               Nombre de Usuario
+//             </Label>
+//             <div className="relative group">
+//               <Building2 className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground/50 group-focus-within:text-primary transition-colors" />
+//               <Input
+//                 id="userName"
+//                 {...register("userName", { required: "El nombre es obligatorio" })}
+//                 className={cn(inputStyle, { "border-destructive": errors.userName })}
+//                 placeholder="Ej: jmendez"
+//               />
+//             </div>
+//             {errors.userName && <p className="text-destructive text-[11px] font-medium ml-1">{errors.userName.message}</p>}
+//           </div>
+
+//           <div className="space-y-2">
+//             <Label htmlFor="userEmail" className="text-xs font-semibold uppercase tracking-wider text-muted-foreground/80 ml-1">
+//               Correo Electrónico
+//             </Label>
+//             <div className="relative group">
+//               <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground/50 group-focus-within:text-primary transition-colors" />
+//               <Input
+//                 id="userEmail"
+//                 type="email"
+//                 {...register("userEmail", { 
+//                     required: "El email es obligatorio",
+//                     pattern: { value: /^\S+@\S+$/i, message: "Email inválido" } 
+//                 })}
+//                 className={cn(inputStyle, { "border-destructive": errors.userEmail })}
+//                 placeholder="correo@ejemplo.com"
+//               />
+//             </div>
+//             {errors.userEmail && <p className="text-destructive text-[11px] font-medium ml-1">{errors.userEmail.message}</p>}
+//           </div>
+//         </div>
+//       </div>
+
+//       <Separator className="opacity-50" />
+
+//       {/* SECCIÓN: Seguridad y Permisos */}
+//       <div className="space-y-4">
+//         <div className="flex items-center gap-2 mb-2">
+//           <div className="p-2 bg-amber-500/10 rounded-lg">
+//             <ShieldCheck className="h-4 w-4 text-amber-600" />
+//           </div>
+//           <div>
+//             <h3 className="text-sm font-semibold text-foreground">Seguridad y Roles</h3>
+//             <p className="text-[12px] text-muted-foreground">Credenciales y nivel de acceso</p>
+//           </div>
+//         </div>
+
+//         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+//           <div className="space-y-2">
+//             <Label htmlFor="userPassword" className="text-xs font-semibold uppercase tracking-wider text-muted-foreground/80 ml-1">
+//               Contraseña
+//             </Label>
+//             <div className="relative group">
+//               <Key className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground/50 group-focus-within:text-amber-600 transition-colors" />
+//               <Input
+//                 id="userPassword"
+//                 type="password"
+//                 {...register("userPassword", { 
+//                   required: user.id === 'new' ? "La contraseña es obligatoria" : false,
+//                   minLength: { value: 6, message: "Mínimo 6 caracteres" }
+//                 })}
+//                 className={cn(inputStyle, { "border-destructive": errors.userPassword })}
+//                 placeholder="••••••••"
+//               />
+//             </div>
+//           </div>
+
+//           <div className="space-y-2">
+//             <Label htmlFor="userPasswordConfirm" className="text-xs font-semibold uppercase tracking-wider text-muted-foreground/80 ml-1">
+//               Confirmar Contraseña
+//             </Label>
+//             <div className="relative group">
+//               <ShieldCheck className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground/50 group-focus-within:text-amber-600 transition-colors" />
+//               <Input
+//                 id="userPasswordConfirm"
+//                 type="password"
+//                 {...register("userPasswordConfirm", { 
+//                   validate: (value) => value === password || "No coincide"
+//                 })}
+//                 className={cn(inputStyle, { "border-destructive": errors.userPasswordConfirm })}
+//                 placeholder="••••••••"
+//               />
+//             </div>
+//           </div>
+
+//           <div className="space-y-2 md:col-span-2">
+//             <Label htmlFor="roles" className="text-xs font-semibold uppercase tracking-wider text-muted-foreground/80 ml-1">
+//               Rol corporativo
+//             </Label>
+//             <div className="relative group">
+//               <UserCheck className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground/50 group-focus-within:text-primary transition-colors z-10" />
+//               <select
+//                 {...register("userRoleId", { required: "Seleccionar un rol es obligatorio" })}
+//                 className={cn(
+//                   "w-full h-11 pl-10 pr-10 border border-muted-foreground/20 rounded-lg bg-background appearance-none focus:outline-none focus:ring-1 focus:ring-primary/30 transition-all text-sm",
+//                   { "border-destructive": errors.userRoleId }
+//                 )}
+//               >
+//                 <option value="">Seleccionar un rol...</option>
+//                 {roles.data?.map((role) => (
+//                   <option key={role.id} value={role.id}>{role.name}</option>
+//                 ))}
+//               </select>
+//             </div>
+//           </div>
+//         </div>
+//       </div>
+
+//       {/* FOOTER */}
+//       <div className="flex flex-col-reverse sm:flex-row items-center justify-end gap-3 pt-6">
+//         <Button type="button" variant="ghost" className="w-full sm:w-auto rounded-lg px-6 h-11">
+//           Cancelar
+//         </Button>
+//         <Button 
+//           type="submit" 
+//           disabled={isPending}
+//           className="w-full sm:w-auto rounded-lg px-8 h-11 shadow-sm bg-primary hover:bg-primary/90 transition-all active:scale-95"
+//         >
+//           {isPending ? "Guardando..." : user.id === 'new' ? "Crear cuenta" : "Guardar cambios"}
+//         </Button>
+//       </div>
+//     </form>
+//   );
+// };
 
 // import { useEffect } from "react";
 // import { useForm } from "react-hook-form";
