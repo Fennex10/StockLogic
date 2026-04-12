@@ -139,14 +139,11 @@ export const Dashboard = () => {
         />
       </div>
 
-      {/* Charts Row 1 */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {/* Sales Trend */}
         <Card className="rounded-2xl">
           <CardHeader>
             <CardTitle>Tendencia de Ventas e Ingresos</CardTitle>
           </CardHeader>
-
           <CardContent>
             <ResponsiveContainer width="100%" height={300}>
               <AreaChart data={salesDataSorted}>
@@ -155,7 +152,6 @@ export const Dashboard = () => {
                 <YAxis />
                 <Tooltip />
                 <Legend />
-
                 <Area
                   type="monotone"
                   dataKey="ventas"
@@ -163,9 +159,8 @@ export const Dashboard = () => {
                   fill="var(--primary)"
                   fillOpacity={0.2}
                   strokeWidth={2}
-                  name="Ventas"
+                  name="Unidades vendidas"
                 />
-
                 <Area
                   type="monotone"
                   dataKey="ingresos"
@@ -180,41 +175,38 @@ export const Dashboard = () => {
           </CardContent>
         </Card>
 
-        {/* Top Products */}
         <Card className="rounded-2xl">
           <CardHeader>
             <CardTitle>Productos Más Vendidos</CardTitle>
           </CardHeader>
-
           <CardContent>
             <ResponsiveContainer width="100%" height={300}>
               <BarChart data={topProductsData} layout="vertical">
                 <CartesianGrid strokeDasharray="3 3" />
                 <XAxis type="number" />
-                <YAxis dataKey="product" type="category" width={130} />
+                <YAxis dataKey="product" type="category" width={150} />
                 <Tooltip />
-
                 <Bar
                   dataKey="cantidad"
                   fill="var(--primary)"
                   radius={[0, 8, 8, 0]}
-                />
+                  isAnimationActive={false}
+                >
+                  {topProductsData.map((_, index) => (
+                    <Cell key={`cell-${index}`} fillOpacity={1 - index * 0.12} />
+                  ))}
+                </Bar>
               </BarChart>
             </ResponsiveContainer>
           </CardContent>
         </Card>
       </div>
 
-      {/* Charts Row 2 */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Inventory */}
         <Card className="lg:col-span-2 rounded-2xl">
           <CardHeader>
-            <CardTitle>
-              Estado del Inventario por Categoría
-            </CardTitle>
+            <CardTitle>Inventario por Categoría</CardTitle>
           </CardHeader>
-
           <CardContent>
             <ResponsiveContainer width="100%" height={300}>
               <BarChart data={inventoryData}>
@@ -222,18 +214,12 @@ export const Dashboard = () => {
                 <XAxis dataKey="category" />
                 <YAxis />
                 <Tooltip />
-
-                <Bar
-                  dataKey="stock"
-                  fill="var(--primary)"
-                  radius={[8, 8, 0, 0]}
-                />
+                <Bar dataKey="stock" fill="var(--primary)" radius={[8, 8, 0, 0]} />
               </BarChart>
             </ResponsiveContainer>
           </CardContent>
         </Card>
 
-        {/* Alerts */}
         <div>
           <AlertCard alerts={lowStockAlerts} />
         </div>
