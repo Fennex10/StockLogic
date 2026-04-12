@@ -1,5 +1,5 @@
 import { useState, useMemo } from "react";
-import { Search, TrendingUp, DollarSign, ShoppingCart, Package, ArrowUpRight, Check, Download
+import { Search, TrendingUp, DollarSign, ShoppingCart, Package, ArrowUpRight, Check, Download, ShieldCheck
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -11,7 +11,7 @@ import {
 import { toast } from "sonner";
 import { SalesForm } from "../ui/SaleForm";
 import { useSales } from "../hooks/useSales";
-import { useDeleteSales } from "../hooks/useDeleteSales";
+import { useCompleteSales } from "../hooks/useCompleteSales";
 import { useProducts } from "../../productos/hooks/useProducts";
 import { useSale } from "../hooks/useSale";
 import type { Sale } from "@/interface/sales/sale.interface";
@@ -65,7 +65,7 @@ function Sparkline({ data, color }: { data: number[]; color: string }) {
 
 export const Sales = () => {
   const { data: sales, isLoading } = useSales();
-  const { mutate: deleteSales } = useDeleteSales();
+  const { mutate: completeSales } = useCompleteSales();
   const { data: products, isLoading: isLoadingProduct } = useProducts();
 
   const [searchTerm, setSearchTerm] = useState("");
@@ -264,7 +264,7 @@ const monthlySales = stats?.currentMonthSalesCount ?? 0;
               <TableCell className="py-4 px-6">
                 <div className="flex flex-col gap-0.5">
                   <span className="font-mono text-[10px] font-bold text-primary bg-primary/5 px-1.5 py-0.5 rounded w-fit">
-                    {sale.id.split('-')[0]}...{sale.id.split('-').pop()} 
+                    {sale.code.split('-')[0]}...{sale.code.split('-').pop()} 
                   </span>
                   <span className="text-xs text-muted-foreground">
                     {new Date(sale.registerDate).toLocaleDateString('es-DO')}
@@ -334,14 +334,32 @@ const monthlySales = stats?.currentMonthSalesCount ?? 0;
                   <Button variant="ghost" size="icon" className="h-8 w-8 rounded-lg" onClick={() => generateInvoicePDF(sale)}>
                     <Download className="h-4 w-4 text-muted-foreground" />
                   </Button>
-                  <Button 
+
+                  {sale.isCompleted ? (
+                      /* Icono informativo cuando ya está completada */
+                      <div className="flex h-8 w-8 items-center justify-center text-emerald-600 bg-emerald-50 rounded-lg">
+                        <ShieldCheck className="h-4 w-4" /> 
+                      </div>
+                    ) : (
+                      /* Botón de acción cuando está pendiente */
+                      <Button 
+                        variant="ghost" 
+                        size="icon" 
+                        className="h-8 w-8 rounded-lg text-muted-foreground hover:text-emerald-600 hover:bg-emerald-50"
+                        onClick={() => completeSales(sale.id)}
+                      >
+                        <Check className="h-4 w-4" />
+                      </Button>
+                    )}
+
+                  {/* <Button 
                     variant="ghost" 
                     size="icon" 
                     className="h-8 w-8 rounded-lg text-muted-foreground hover:text-emerald-600 hover:bg-emerald-50"
-                    onClick={() => deleteSales(sale.id)}
+                    onClick={() => completeSales(sale.id)}
                   >
                     <Check className="h-4 w-4" />
-                  </Button>
+                  </Button> */}
                 </div>
               </TableCell>
             </TableRow>

@@ -1,6 +1,4 @@
 import { lazy } from 'react';
-import { Login } from '@/auth/pages/login/Login';
-import { Register } from '@/auth/pages/register/Register';
 import { MainLayout } from '@/components/layout/MainLayout';
 import { Dashboard } from '@/inventory/dashboard/pages/Dashboard/Dashboard';
 import { Configuracion } from '@/inventory/configuracion/Configuracion';
@@ -10,15 +8,16 @@ import { Reportes } from '@/inventory/reportes/Reportes';
 import { Sales } from '@/inventory/ventas/pages/Sales';
 import { createBrowserRouter, Navigate} from 'react-router';
 import { AuthenticatedRoute, NotAuthenticatedRoute} from './ProtectedRoutes';
-import ResetPassword from '@/auth/pages/reset/ResetPassword';
 import { ForgotPassword } from '@/auth/pages/forgot/ForgotPassword';
 import { ProductPage } from '@/inventory/productos/ui/ProductsPage';
 import { Categories } from '@/inventory/categories/pages/categories/Categories';
 import { UserManagerPage } from '@/inventory/users/pages/UserManagerPage';
+import { Register } from '@/auth/pages/register/Register';
+import { Login } from '@/auth/pages/login/Login';
+import { ResetPassword } from '@/auth/pages/reset/ResetPassword';
+import { ActivateUser } from '@/auth/pages/activateUser/ActivateUser';
 // import { RoleCode } from '@/auth/type/roleCode';
-
 const AuthLayout = lazy(() => import('../auth/layout/AuthLayout'));
-// const AdminLayout = lazy(() => import('./admin/layouts/AdminLayout'));
 
 export const appRouter = createBrowserRouter([
   // Main routes
@@ -138,6 +137,10 @@ export const appRouter = createBrowserRouter([
       {
         path: 'reset-password',
         element: <ResetPassword />,
+      },
+      {
+        path: 'activate/user',
+        element: <ActivateUser />,
       },
     ],
   },

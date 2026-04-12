@@ -58,9 +58,9 @@ export const UserManagerPage = () => {
   };
 
   const handleDelete = (id: string) => {
-    toast("¿Eliminar usuario?", {
+    toast("¿Deseas cambiar status usuario?", {
       description: "Esta acción no se puede deshacer",
-      action: { label: "Eliminar", onClick: () => deleteProvider(id) },
+      action: { label: "Cambiar", onClick: () => deleteProvider(id) },
       cancel: { label: "Cancelar", onClick: () => {}, },
     });
   };
@@ -443,15 +443,19 @@ export const UserManagerPage = () => {
             isPending={mutation.isPending}
             onSubmit={async (data) => {
               try {
-                await mutation.mutateAsync({
+                const res = await mutation.mutateAsync({
                   ...data,
                   id: editing ? editing.id : undefined,
                 });
+                
+                 console.log("RESPUESTA:", res);
                 setDialogOpen(false);
                 toast.success(editing ? 'Usuario actualizado' : 'Usuario creado', {
                   position: 'bottom-right',
                 });
-              } catch (error) {
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
+              } catch (error: any) {
+                console.error("ERROR BACKEND:", error.response?.data);
                 console.error(error);
               }
             }}

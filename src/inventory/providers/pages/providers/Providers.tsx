@@ -11,7 +11,7 @@ import { useDeleteProvider } from "../../hooks/useDeleteProvider";
 import { useProviders } from "../../hooks/useProviders";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { ProviderForm } from "../ui/ProviderForm";
-import { RestartStockForm } from "@/inventory/productos/ui/RestartStockForm";
+import { RestartStockForm } from "@/inventory/providers/pages/ui/RestartStockForm";
 import type { CreateRestartStock } from "@/interface/providers/create-restart-stock";
 import { useProducts } from "@/inventory/productos/hooks/useProducts";
 import { useRestartStock } from "../../hooks/useRestartStock";

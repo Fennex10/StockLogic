@@ -16,3 +16,4 @@ export interface Sale {
     updatedAt:     Date;
     Product:       Product;
 }
+

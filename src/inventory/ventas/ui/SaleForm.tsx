@@ -1,28 +1,11 @@
 import { useEffect, useMemo, useState } from "react";
 import { useForm, useWatch } from "react-hook-form";
-import {
-  ShoppingBag,
-  User,
-  Calendar,
-  Hash,
-  Wallet,
-  ArrowRight,
-  Loader2,
-  DollarSign
-} from "lucide-react";
-
+import { ShoppingBag, User, Calendar, Hash, Wallet, ArrowRight, Loader2, DollarSign } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { cn } from "@/lib/utils";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue
-} from "@/components/ui/select";
-
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import type { Sale } from "@/interface/sales/sale.interface";
 import type { CreateSale } from "@/interface/sales/create-sale";
 import type { ProductsResponse } from "@/interface/products/products.response";
@@ -116,13 +99,26 @@ export const SalesForm = ({ sale, products, onSubmit, isPending }: Props) => {
       </div>
 
       {/* 3. TOTAL DE LA VENTA */}
-      <div className="py-6 px-4 rounded-2xl bg-muted/20 border border-border/40 flex flex-col items-center justify-center space-y-1">
+      {/* <div className="py-6 px-4 rounded-2xl bg-muted/20 border border-border/40 flex flex-col items-center justify-center space-y-1">
         <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-muted-foreground/60">
           TOTAL DE LA VENTA
         </span>
         <div className="flex items-baseline gap-2">
           <span className="text-2xl font-bold text-primary/40">RD$</span>
           <span className="text-6xl font-black tracking-tighter text-primary">
+            {currentTotal.toLocaleString('en-US', { minimumFractionDigits: 2 })}
+          </span>
+        </div>
+      </div> */}
+
+      {/* 3. TOTAL DE LA VENTA */}
+      <div className="py-6 px-4 rounded-2xl bg-muted/20 border border-border/40 flex flex-col items-center justify-center space-y-1 overflow-hidden">
+        <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-muted-foreground/60">
+          TOTAL DE LA VENTA
+        </span>
+        <div className="flex flex-wrap items-baseline justify-center gap-2 w-full px-2">
+          <span className="text-xl md:text-2xl font-bold text-primary/40 shrink-0">RD$</span>
+          <span className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black tracking-tighter text-primary break-all text-center leading-none">
             {currentTotal.toLocaleString('en-US', { minimumFractionDigits: 2 })}
           </span>
         </div>
