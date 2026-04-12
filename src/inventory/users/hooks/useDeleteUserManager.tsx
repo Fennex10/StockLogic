@@ -9,11 +9,11 @@ export const useDeleteUserManager = () => {
     mutationFn: (id: string) => deleteUserManagersByAction(id),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["users"] });
-      toast.success("Usuario eliminado correctamente");
+      toast.success("Status del usuario cambiado correctamente");
     },
     onError: (error) => {
       console.error(error);
-      toast.error("Hubo un error al eliminar el usuario");
+      toast.error("Hubo un error al cambiar el status del usuario");
     },
   });
 

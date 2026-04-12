@@ -1,5 +1,5 @@
 import { useState, useMemo } from "react";
-import { Search, TrendingUp, DollarSign, ShoppingCart, Eye,Package, ArrowUpRight, Check
+import { Search, TrendingUp, DollarSign, ShoppingCart, Package, ArrowUpRight, Check, Download, ShieldCheck
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -11,14 +11,14 @@ import {
 import { toast } from "sonner";
 import { SalesForm } from "../ui/SaleForm";
 import { useSales } from "../hooks/useSales";
-import { useDeleteSales } from "../hooks/useDeleteSales";
+import { useCompleteSales } from "../hooks/useCompleteSales";
 import { useProducts } from "../../productos/hooks/useProducts";
 import { useSale } from "../hooks/useSale";
 import type { Sale } from "@/interface/sales/sale.interface";
 import { CustomFullScreenLoading } from "@/components/custom/CustomFullScreemLoading";
-import { Navigate } from "react-router";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { cn } from "@/lib/utils";
+import { generateInvoicePDF } from "@/lib/facturaPdf";
 
 const ITEMS_PER_PAGE = 6;
 
@@ -65,7 +65,7 @@ function Sparkline({ data, color }: { data: number[]; color: string }) {
 
 export const Sales = () => {
   const { data: sales, isLoading } = useSales();
-  const { mutate: deleteSales } = useDeleteSales();
+  const { mutate: completeSales } = useCompleteSales();
   const { data: products, isLoading: isLoadingProduct } = useProducts();
 
   const [searchTerm, setSearchTerm] = useState("");
@@ -93,7 +93,7 @@ const filteredSales = useMemo(() => {
 }, [salesList, searchTerm, statusFilter]);
 
 // --- Stats desde el Backend ---
-const totalCompleted = stats?.totalCompleted ?? 0;
+const totalCompleted = stats?.totalCompletedSales ?? 0;
 const totalRevenue = stats?.totalRevenue ?? 0;
 const monthlySales = stats?.currentMonthSalesCount ?? 0;
 
@@ -108,27 +108,10 @@ const monthlySales = stats?.currentMonthSalesCount ?? 0;
     setDialogOpen(true);
   };
 
-  const handleAction = (action: string, saleId: string) => {
-    toast.info(`Acción: ${action} para la orden ${saleId}`);
-  };
-
-  if (isLoading || isLoadingProduct) return <CustomFullScreenLoading />;
-  if (!sales || !products) return <Navigate to='/dashboard/users' />;
+   if (isLoading || isLoadingProduct) return <CustomFullScreenLoading />;
 
   return (
     <div className="space-y-6 animate-fade-in">
-      {/* Header */}
-      {/* <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-        <div>
-          
-          <p className="text-muted-foreground text-sm"></p>
-        </div>
-        <Button className="h-11 px-6 rounded-xl shadow-md bg-primary hover:bg-primary/90" onClick={openNew}>
-          <Plus className="h-4 w-4 mr-2" /> Nueva Venta
-        </Button>
-      </div> */}
-    
-      {/* KPI Cards (Estilo User Manager) */}
 
       {/* KPI Bento Grid */}
     <div className="grid gap-4 grid-cols-1 sm:grid-cols-3 animate-slide-up">
@@ -215,41 +198,6 @@ const monthlySales = stats?.currentMonthSalesCount ?? 0;
       </div>
     </div>
 
-
-      {/* KPI Bento Grid */}
-    
-      {/* <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-        <div className="bg-card border border-border/60 p-5 rounded-2xl flex items-center gap-4">
-          <div className="h-12 w-12 rounded-xl bg-emerald-500/10 flex items-center justify-center text-emerald-600">
-            <ShoppingCart className="h-6 w-6" />
-          </div>
-          <div>
-            <p className="text-sm text-muted-foreground font-medium">Completadas</p>
-            <p className="text-2xl font-bold">{totalCompleted }</p>
-          </div>
-        </div>
-        
-        <div className="bg-card border border-border/60 p-5 rounded-2xl flex items-center gap-4">
-          <div className="h-12 w-12 rounded-xl bg-primary/10 flex items-center justify-center text-primary">
-            <DollarSign className="h-6 w-6" />
-          </div>
-          <div>
-            <p className="text-sm text-muted-foreground font-medium">Ingresos Totales</p>
-            <p className="text-2xl font-bold">${totalRevenue.toLocaleString()}</p>
-          </div>
-        </div>
-
-        <div className="bg-card border border-border/60 p-5 rounded-2xl flex items-center gap-4">
-          <div className="h-12 w-12 rounded-xl bg-amber-500/10 flex items-center justify-center text-amber-600">
-            <TrendingUp className="h-6 w-6" />
-          </div>
-          <div>
-            <p className="text-sm text-muted-foreground font-medium">Ventas Mes</p>
-            <p className="text-2xl font-bold">{monthlySales}</p>
-          </div>
-        </div>
-      </div> */}
-
       {/* Toolbar / Filters */}
       <div className="bg-card border border-border/60 p-4 rounded-2xl flex flex-col sm:flex-row gap-3 shadow-sm">
         <div className="relative flex-1">
@@ -316,7 +264,7 @@ const monthlySales = stats?.currentMonthSalesCount ?? 0;
               <TableCell className="py-4 px-6">
                 <div className="flex flex-col gap-0.5">
                   <span className="font-mono text-[10px] font-bold text-primary bg-primary/5 px-1.5 py-0.5 rounded w-fit">
-                    {sale.id.split('-')[0]}...{sale.id.split('-').pop()} 
+                    {sale.code.split('-')[0]}...{sale.code.split('-').pop()} 
                   </span>
                   <span className="text-xs text-muted-foreground">
                     {new Date(sale.registerDate).toLocaleDateString('es-DO')}
@@ -383,17 +331,35 @@ const monthlySales = stats?.currentMonthSalesCount ?? 0;
               {/* ACCIONES */}
               <TableCell className="text-right pr-6">
                 <div className="flex items-center justify-end gap-1">
-                  <Button variant="ghost" size="icon" className="h-8 w-8 rounded-lg" onClick={() => handleAction("view", sale.id)}>
-                    <Eye className="h-4 w-4 text-muted-foreground" />
+                  <Button variant="ghost" size="icon" className="h-8 w-8 rounded-lg" onClick={() => generateInvoicePDF(sale)}>
+                    <Download className="h-4 w-4 text-muted-foreground" />
                   </Button>
-                  <Button 
+
+                  {sale.isCompleted ? (
+                      /* Icono informativo cuando ya está completada */
+                      <div className="flex h-8 w-8 items-center justify-center text-emerald-600 bg-emerald-50 rounded-lg">
+                        <ShieldCheck className="h-4 w-4" /> 
+                      </div>
+                    ) : (
+                      /* Botón de acción cuando está pendiente */
+                      <Button 
+                        variant="ghost" 
+                        size="icon" 
+                        className="h-8 w-8 rounded-lg text-muted-foreground hover:text-emerald-600 hover:bg-emerald-50"
+                        onClick={() => completeSales(sale.id)}
+                      >
+                        <Check className="h-4 w-4" />
+                      </Button>
+                    )}
+
+                  {/* <Button 
                     variant="ghost" 
                     size="icon" 
                     className="h-8 w-8 rounded-lg text-muted-foreground hover:text-emerald-600 hover:bg-emerald-50"
-                    onClick={() => deleteSales(sale.id)}
+                    onClick={() => completeSales(sale.id)}
                   >
                     <Check className="h-4 w-4" />
-                  </Button>
+                  </Button> */}
                 </div>
               </TableCell>
             </TableRow>
@@ -441,6 +407,7 @@ const monthlySales = stats?.currentMonthSalesCount ?? 0;
             </DialogTitle>
           </DialogHeader>
           
+        {products && (
           <SalesForm
             sale={ ({ id: "new" } as Sale)}
             products={products}
@@ -458,6 +425,7 @@ const monthlySales = stats?.currentMonthSalesCount ?? 0;
               }
             }}
           />
+        )}
         </DialogContent>
       </Dialog>
     </div>

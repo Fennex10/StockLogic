@@ -4,12 +4,12 @@ import type { Sale } from "@/interface/sales/sale.interface";
 import { sleep } from "@/lib/sleep";
 
 export const createSalesAction = async (
-  providerLike: Partial<CreateSale> 
+  salesLike: Partial<CreateSale> 
 ): Promise<Sale> => {
 
   await sleep(1500);
 
-  const { id, ...rest } = providerLike;
+  const { id, ...rest } = salesLike;
   const isCreating = !id || id === "new";
 
   const formData = new FormData();

@@ -6,6 +6,7 @@ import { registerAction } from '../actions/register.action';
 import { forgotPasswordAction } from '../actions/forgot-password.action';
 import { resetPasswordAction } from '../actions/reset-password.action';
 import { RoleCode } from '../type/roleCode';
+import { activateUserAction } from '../actions/activate-user';
 
 type AuthStatus = 'authenticated' | 'not-authenticated' |'checking';
 
@@ -26,7 +27,12 @@ type AuthState = {
                userPassword: string, userPasswordConfirm: string) => Promise<boolean>;
 
     forgotPassword: (userEmail: string) => Promise<boolean>;
-    resetPassword:  (userPassword: string, userPasswordConfirm: string, userPasswordToken: string) => Promise<boolean>; 
+
+    resetPassword:  (userPassword: string, userPasswordConfirm: string, 
+                    userPasswordToken: string) => Promise<boolean>; 
+    
+    activateUser: (token: string) => Promise<boolean>
+
 }
 
 export const useAuthStore = create<AuthState>()((set, get) => ({
@@ -86,24 +92,6 @@ export const useAuthStore = create<AuthState>()((set, get) => ({
           return false;
        }
     },
-    
-    //  register: async(companyName: string, userName: string, companyEmail: string,
-    //            userPassword: string, userPasswordConfirm: string) => {
-        
-    //     try {
-    //         const data = await registerAction(companyName, userName, companyEmail, userPassword, userPasswordConfirm);
-    //         localStorage.setItem('token', data.token);
-
-    //         set({user: data.user, token: data.token, authStatus:'authenticated'})
-    //         return true;
-
-    //     } catch (error) {
-    //        console.log(error)
-    //        localStorage.removeItem('token');
-    //        set({user: null, token: null, authStatus:'not-authenticated'})
-    //        return false;
-    //     }
-    // },
 
     register: async (companyName: string, userName: string, companyEmail: string,
         userPassword: string, userPasswordConfirm: string
@@ -127,22 +115,34 @@ export const useAuthStore = create<AuthState>()((set, get) => ({
         }
     },
 
-    forgotPassword: async(userEmail: string) => {
-        
+    activateUser: async (token: string) => {
         try {
-            const data = await forgotPasswordAction(userEmail);
+            const data = await activateUserAction(token);
+
             localStorage.setItem('token', data.token);
 
-            set({user: data.user, token: data.token, authStatus:'authenticated'})
+            set({
+            user: data.user,
+            token: data.token,
+            authStatus: 'authenticated',
+            });
+
+            return true;
+        } catch (error) {
+            console.log(error)
+            return false;
+        }
+        },
+
+    forgotPassword: async (userEmail: string) => {
+        try {
+            await forgotPasswordAction(userEmail);
             return true;
 
         } catch (error) {
-           console.log(error)
-           localStorage.removeItem('token');
-           set({user: null, token: null, authStatus:'not-authenticated'})
-           return false;
+            console.log(error);
+            return false;
         }
-
     },
 
      resetPassword: async(userPassword: string, userPasswordConfirm: string, userPasswordToken: string) => {
@@ -151,13 +151,13 @@ export const useAuthStore = create<AuthState>()((set, get) => ({
             const data = await resetPasswordAction(userPassword, userPasswordConfirm, userPasswordToken);
             localStorage.setItem('token', data.token);
 
-            set({user: data.user, token: data.token, authStatus:'authenticated'})
+            set({user: data.user, 
+                token: data.token, 
+                authStatus:'authenticated'})
             return true;
 
         } catch (error) {
            console.log(error)
-           localStorage.removeItem('token');
-           set({user: null, token: null, authStatus:'not-authenticated'})
            return false;
         }
     },

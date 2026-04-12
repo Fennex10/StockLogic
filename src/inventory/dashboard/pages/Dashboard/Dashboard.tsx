@@ -1,190 +1,139 @@
-import { useMemo } from "react"
-import { Package, TrendingDown, ShoppingCart, DollarSign } from "lucide-react"
-import { useSales } from "@/inventory/ventas/hooks/useSales"
-import { useProducts } from "@/inventory/productos/hooks/useProducts"
-import { useCategories } from "@/inventory/categories/hooks/useCategories"
-import { CustomFullScreenLoading } from "@/components/custom/CustomFullScreemLoading"
+import { Package, TrendingDown, ShoppingCart, DollarSign,
+} from "lucide-react"
 import { StatCard } from "@/inventory/dashboard/components/StatCard"
 import { AlertCard } from "@/inventory/dashboard/components/AlertCard"
-
-import {
-  BarChart,
-  Bar,
-  AreaChart,
-  Area,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  ResponsiveContainer,
-  Legend,
-  Cell,
+import { BarChart, Bar, AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend,
 } from "recharts"
-
-import {
-  Card,
-  CardHeader,
-  CardTitle,
-  CardContent,
+import { Card, CardHeader, CardTitle, CardContent,
 } from "@/components/ui/card"
+import { useProducts } from "@/inventory/productos/hooks/useProducts"
+import { useSales } from "@/inventory/ventas/hooks/useSales"
+import { useCategories } from "@/inventory/categories/hooks/useCategories"
 import type { Sale } from "@/interface/sales/sale.interface"
-import type { Product } from "@/interface/products/product.interface"
 
-const monthNames = ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"]
+export const Dashboard = () => {  
+  
+  const {data: products} = useProducts();
+  const {data: sales} = useSales();
+  const {data: categories} = useCategories();
 
-export const Dashboard = () => {
-  const { data: salesResponse, isLoading: isLoadingSales } = useSales()
-  const { data: productsResponse, isLoading: isLoadingProducts } = useProducts()
-  const { data: categoriesResponse, isLoading: isLoadingCategories } = useCategories()
+  const productsList = products?.data ?? [];
 
-  const salesList: Sale[] = Array.isArray(salesResponse?.data?.sales)
-    ? salesResponse.data.sales
-    : []
+  const categoriesList = categories?.data ?? [];
+  const stats = sales?.data?.stats;
 
-  const productsList: Product[] = productsResponse?.data ?? []
-  const categoriesList = categoriesResponse?.data ?? []
+  const totalRevenue = stats?.totalRevenue ?? 0;
+ const monthlySales = stats?.currentMonthSalesCount ?? 0;
+  
+  const topProductsData = productsList.map(p => ({
+      product: p.name,
+      cantidad: p.currentStock
+   }));
 
-  const currentMonthIndex = new Date().getMonth()
+   const inventoryData = categoriesList.map(c => {
+    const totalStock = productsList
+      .filter(p => p.categoryId === c.id) // productos de esa categoría
+      .reduce((acc, p) => acc + (p.currentStock || 0), 0); // suma de stock
 
-  const totalProducts = productsList.length
-  const lowStockProducts = useMemo(
-    () =>
-      productsList
-        .filter((product) => product.currentStock <= product.minStock)
-        .sort((a, b) => a.currentStock - b.currentStock),
-    [productsList]
-  )
+    return {
+      category: c.name,
+      stock: totalStock
+    };
+  });
 
-  const lowStockCount = lowStockProducts.length
-  const totalRevenue =
-    salesResponse?.data?.stats?.totalRevenue ??
-    salesList.reduce((sum, sale) => sum + sale.totalPrice, 0)
-  const totalCompleted =
-    salesResponse?.data?.stats?.totalCompleted ??
-    salesList.filter((sale) => sale.isCompleted).length
-  const monthlySalesCount =
-    salesResponse?.data?.stats?.currentMonthSalesCount ??
-    salesList.filter(
-      (sale) => new Date(sale.registerDate).getMonth() === currentMonthIndex
-    ).length
+  const lowStockAlerts = productsList
+    .filter(p => (p.currentStock ?? 0) <= (p.minStock ?? 0))
+    .map(p => ({
+      id: p.id,
+      productName: p.name,
+      currentStock: p.currentStock,
+      minStock: p.minStock
+    }));
+   
+    //Ventas Grafica 
+    const salesList: Sale[] = Array.isArray(sales?.data?.sales)
+  ? sales.data.sales
+  : [];
 
-  const monthlyRevenue = useMemo(
-    () =>
-      salesList
-        .filter((sale) => new Date(sale.registerDate).getMonth() === currentMonthIndex)
-        .reduce((sum, sale) => sum + sale.totalPrice, 0),
-    [salesList, currentMonthIndex]
-  )
+    const currentYear = new Date().getFullYear();
 
-  const salesTrendData = useMemo(() => {
-    const period = Array.from({ length: 6 }, (_, offset) => {
-      const date = new Date()
-      date.setMonth(currentMonthIndex - (5 - offset))
-      const monthKey = `${date.getFullYear()}-${date.getMonth()}`
-      return {
-        key: monthKey,
-        month: monthNames[date.getMonth()],
-        ventas: 0,
-        ingresos: 0,
+    // Filtrar ventas válidas
+    const filteredSales = salesList.filter(s => {
+      const date = new Date(s.registerDate);
+      return (
+        s.isCompleted &&
+        date.getFullYear() === currentYear
+      );
+    });
+
+    // Agrupar por mes
+    const salesByMonth: Record<string, { ventas: number; ingresos: number }> = {};
+
+    filteredSales.forEach(s => {
+      const date = new Date(s.registerDate);
+
+      const month = date.toLocaleString("es-ES", { month: "short" }); // ene, feb...
+
+      if (!salesByMonth[month]) {
+        salesByMonth[month] = {
+          ventas: 0,
+          ingresos: 0,
+        };
       }
-    })
 
-    const lookup = new Map(period.map((item) => [item.key, item]))
+      salesByMonth[month].ventas += s.quantity;
+      salesByMonth[month].ingresos += s.totalPrice;
+    });
 
-    salesList.forEach((sale) => {
-      const date = new Date(sale.registerDate)
-      const key = `${date.getFullYear()}-${date.getMonth()}`
-      const target = lookup.get(key)
-      if (target) {
-        target.ventas += sale.quantity
-        target.ingresos += sale.totalPrice
-      }
-    })
+    // Convertir a array
+    const salesData = Object.entries(salesByMonth).map(([month, data]) => ({
+      month: month.charAt(0).toUpperCase() + month.slice(1), // Ene
+      ventas: data.ventas,
+      ingresos: data.ingresos,
+    }));
 
-    return Array.from(lookup.values())
-  }, [salesList, currentMonthIndex])
+    // Orden correcto de meses
+    const monthOrder = [
+      "Ene","Feb","Mar","Abr","May","Jun",
+      "Jul","Ago","Sep","Oct","Nov","Dic"
+    ];
 
-  const topProductsData = useMemo(() => {
-    const productMap = new Map<string, { product: string; cantidad: number }>()
-
-    salesList.forEach((sale) => {
-      const productName = sale.Product?.name ?? "Producto desconocido"
-      const existing = productMap.get(productName)
-      if (existing) {
-        existing.cantidad += sale.quantity
-      } else {
-        productMap.set(productName, { product: productName, cantidad: sale.quantity })
-      }
-    })
-
-    return Array.from(productMap.values())
-      .sort((a, b) => b.cantidad - a.cantidad)
-      .slice(0, 5)
-  }, [salesList])
-
-  const inventoryData = useMemo(() => {
-    const categoryMap = new Map<string, { category: string; stock: number }>()
-
-    productsList.forEach((product) => {
-      const categoryName =
-        categoriesList.find((category) => category.id === product.categoryId)?.name ??
-        "Sin categoría"
-      const existing = categoryMap.get(categoryName)
-      if (existing) {
-        existing.stock += product.currentStock
-      } else {
-        categoryMap.set(categoryName, {
-          category: categoryName,
-          stock: product.currentStock,
-        })
-      }
-    })
-
-    return Array.from(categoryMap.values()).sort((a, b) => b.stock - a.stock)
-  }, [productsList, categoriesList])
-
-  const lowStockAlerts = useMemo(
-    () =>
-      lowStockProducts.slice(0, 5).map((product) => ({
-        id: product.id,
-        productName: product.name,
-        currentStock: product.currentStock,
-        minStock: product.minStock,
-      })),
-    [lowStockProducts]
-  )
-
-  if (isLoadingSales || isLoadingProducts || isLoadingCategories)
-    return <CustomFullScreenLoading />
+    const salesDataSorted = salesData.sort(
+      (a, b) => monthOrder.indexOf(a.month) - monthOrder.indexOf(b.month)
+    );
 
   return (
-    <div className="p-6 space-y-6">
+    // <div className="p-6 space-y-6">
+    <div className="space-y-6 animate-fade-in">
+    
+
+      {/* KPI Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
         <StatCard
           title="Total Productos"
-          value={totalProducts}
-          change={`${lowStockCount} con stock bajo`}
-          changeType={lowStockCount > 0 ? "negative" : "positive"}
+          value={productsList.length}
+          change="+12% vs mes anterior"
+          changeType="positive"
           icon={Package}
         />
         <StatCard
           title="Stock Bajo"
-          value={lowStockCount}
-          change="Ver alertas"
+          value={lowStockAlerts.length.toString()}
+          change="Requiere atención"
           changeType="negative"
           icon={TrendingDown}
         />
         <StatCard
           title="Ventas del Mes"
-          value={monthlySalesCount}
-          change={`$${monthlyRevenue.toLocaleString()} este mes`}
+          value={monthlySales}
+          change="+8.2% vs mes anterior"
           changeType="positive"
           icon={ShoppingCart}
         />
         <StatCard
-          title="Ingresos Totales"
-          value={`$${totalRevenue.toLocaleString()}`}
-          change={`${totalCompleted} ventas completadas`}
+          title="Ingresos del Mes"
+           value={totalRevenue.toLocaleString()}
+          change="+15.3% vs mes anterior"
           changeType="positive"
           icon={DollarSign}
         />
@@ -197,7 +146,7 @@ export const Dashboard = () => {
           </CardHeader>
           <CardContent>
             <ResponsiveContainer width="100%" height={300}>
-              <AreaChart data={salesTrendData}>
+              <AreaChart data={salesDataSorted}>
                 <CartesianGrid strokeDasharray="3 3" />
                 <XAxis dataKey="month" />
                 <YAxis />
