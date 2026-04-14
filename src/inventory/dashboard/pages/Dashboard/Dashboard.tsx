@@ -2,7 +2,7 @@ import { Package, TrendingDown, ShoppingCart, DollarSign,
 } from "lucide-react"
 import { StatCard } from "@/inventory/dashboard/components/StatCard"
 import { AlertCard } from "@/inventory/dashboard/components/AlertCard"
-import { BarChart, Bar, AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend,
+import { BarChart, Bar, AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend, Cell,
 } from "recharts"
 import { Card, CardHeader, CardTitle, CardContent,
 } from "@/components/ui/card"
