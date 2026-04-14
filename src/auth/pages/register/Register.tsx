@@ -39,11 +39,11 @@ export const Register = () => {
       setIsPosting(false);
       return;
     }
-    // if (!companyEmail || !/\S+@\S+\.\S+/.test(companyEmail)) {
-    //   toast.error("Ingrese un correo válido");
-    //   setIsPosting(false);
-    //   return;
-    // }
+    if (!companyEmail || !/\S+@\S+\.\S+/.test(companyEmail)) {
+      toast.error("Ingrese un correo válido");
+      setIsPosting(false);
+      return;
+    }
     if (!userPassword || userPassword.length < 8) {
       toast.error("La contraseña debe tener al menos 8 caracteres");
       setIsPosting(false);

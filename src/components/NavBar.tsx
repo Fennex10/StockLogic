@@ -3,16 +3,10 @@ import { User} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
-  // DropdownMenuContent,
-  // DropdownMenuItem,
-  // DropdownMenuLabel,
-  // DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useAuthStore } from "@/auth/store/auth.store";
 import { Link } from "react-router";
-
-
 
 export const Navbar = () => {
 
