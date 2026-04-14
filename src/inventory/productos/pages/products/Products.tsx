@@ -302,7 +302,7 @@ const stats = useMemo(() => {
 
                      
                         <TableCell>
-                          <span className="text-xs font-mono text-slate-500 bg-slate-100 px-1.5 py-0.5 rounded border border-slate-200">
+                          <span className="text-xs font-bold text-slate-900">
                             {provider ? provider.name : "Sin proveedor"}
                           </span>
                         </TableCell>

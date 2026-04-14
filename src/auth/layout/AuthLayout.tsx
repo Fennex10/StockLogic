@@ -1,6 +1,6 @@
 
 import { Outlet } from "react-router";
-import authIllustration from "../../../public/auth-illustration.jpg";
+import authIllustration from "/auth-illustration.jpg";
 import { Package } from "lucide-react";
 
 export const AuthLayout = () => {
@@ -8,8 +8,11 @@ export const AuthLayout = () => {
     <div className="min-h-screen grid lg:grid-cols-2 bg-background">
 
       
-      <div className="hidden lg:flex relative items-center justify-center p-12 bg-gradient-to-br from-indigo-500 to-purple-600 overflow-hidden">
-        
+      {/* <div className="hidden lg:flex relative items-center justify-center p-12 bg-gradient-to-br from-indigo-500 to-purple-600 overflow-hidden"> */}
+        {/* Cambia la línea de abajo */}
+      {/* <div className="hidden lg:flex relative items-center justify-center p-12 bg-gradient-to-br from-blue-600 to-indigo-800 overflow-hidden"> */}
+      <div className="hidden lg:flex relative items-center justify-center p-12 bg-gradient-to-br from-blue-500 to-blue-700 overflow-hidden">
+
         {/* Efectos blur */}
         <div className="absolute inset-0 opacity-10">
           <div className="absolute top-20 left-10 w-72 h-72 rounded-full bg-white blur-3xl" />
@@ -41,8 +44,14 @@ export const AuthLayout = () => {
           {/* Logo */}
           <div className="flex flex-col items-center text-center gap-2 mb-8">
          
-            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center">
+            {/* <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center">
               <Package className="text-white font-bold text-sm" />
+            </div>
+            <span className="font-semibold text-foreground">StockLogic</span>
+          </div> */}
+
+        <div className="w-8 h-8 rounded-lg bg-blue-600 flex items-center justify-center shadow-md">
+           <Package className="text-white font-bold text-sm" />
             </div>
             <span className="font-semibold text-foreground">StockLogic</span>
           </div>

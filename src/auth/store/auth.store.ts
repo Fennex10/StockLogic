@@ -117,22 +117,13 @@ export const useAuthStore = create<AuthState>()((set, get) => ({
 
     activateUser: async (token: string) => {
         try {
-            const data = await activateUserAction(token);
-
-            localStorage.setItem('token', data.token);
-
-            set({
-            user: data.user,
-            token: data.token,
-            authStatus: 'authenticated',
-            });
-
+            await activateUserAction(token);
             return true;
         } catch (error) {
-            console.log(error)
+            console.log(error);
             return false;
         }
-        },
+    },
 
     forgotPassword: async (userEmail: string) => {
         try {
@@ -145,20 +136,17 @@ export const useAuthStore = create<AuthState>()((set, get) => ({
         }
     },
 
-     resetPassword: async(userPassword: string, userPasswordConfirm: string, userPasswordToken: string) => {
+     resetPassword: async(userPassword: string, userPasswordConfirm: string, 
+        userPasswordToken: string) => {
         
-        try {
-            const data = await resetPasswordAction(userPassword, userPasswordConfirm, userPasswordToken);
-            localStorage.setItem('token', data.token);
+    try {
+        await resetPasswordAction( userPassword, userPasswordConfirm,userPasswordToken
+        );
 
-            set({user: data.user, 
-                token: data.token, 
-                authStatus:'authenticated'})
-            return true;
-
+        return true;
         } catch (error) {
-           console.log(error)
-           return false;
+            console.log(error);
+            return false;
         }
     },
 }))

@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
-import { SocialButtons } from "@/auth/components/SocialButtons";
+// import { SocialButtons } from "@/auth/components/SocialButtons";
 import { useAuthStore } from "@/auth/store/auth.store";
 
 export const Login = () => {
@@ -105,7 +105,7 @@ export const Login = () => {
           {isPosting ? "Ingresando..." : "Ingresar"}
         </Button>
 
-        <SocialButtons />
+        {/* <SocialButtons /> */}
 
         <p className="text-center text-sm text-muted-foreground">
           ¿No tienes una cuenta?{" "}

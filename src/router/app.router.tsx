@@ -135,11 +135,11 @@ export const appRouter = createBrowserRouter([
         element: <ForgotPassword />,
       },
       {
-        path: 'reset-password',
+        path: 'reset-password/:token',
         element: <ResetPassword />,
       },
       {
-        path: 'activate/user',
+        path: 'activate-user/:token',
         element: <ActivateUser />,
       },
     ],

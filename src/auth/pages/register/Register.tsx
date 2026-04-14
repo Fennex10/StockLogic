@@ -5,7 +5,7 @@ import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { SocialButtons } from "@/auth/components/SocialButtons";
+// import { SocialButtons } from "@/auth/components/SocialButtons";
 import { PasswordStrength } from "@/auth/components/PasswordStrength";
 import { useAuthStore } from "@/auth/store/auth.store";
 
@@ -160,7 +160,7 @@ export const Register = () => {
           {isPosting ? "Creando cuenta..." : "Crear cuenta"}
         </Button>
 
-        <SocialButtons />
+        {/* <SocialButtons /> */}
 
         <p className="text-center text-sm text-muted-foreground">
           ¿Ya tienes cuenta?{" "}
