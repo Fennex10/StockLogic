@@ -9,18 +9,13 @@ import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { cn } from "@/lib/utils";
 import { Link} from "react-router";
-// import { Title } from "@/components/components/Title";
 import { CustomFullScreenLoading } from "@/components/custom/CustomFullScreemLoading";
 import { useProducts } from "../../hooks/useProducts";
 import { useCategories } from "@/inventory/categories/hooks/useCategories";
-import { CustomPagination } from "@/components/custom/CustomPagination";
 import { useDeleteProduct } from "../../hooks/useDeleteProduct";
 import { useProviders } from "../../../providers/hooks/useProviders";
 import { getFullImageUrl } from "@/lib/formatUrl";
 import { toast } from "sonner";
-// import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-// import { RestartStockForm } from "../../ui/RestartStockForm";
-// import type { CreateRestartStock } from "@/interface/providers/create-restart-stock";
 
 
 function Sparkline({ data, color }: { data: number[]; color: string }) {
@@ -60,24 +55,33 @@ export const Products = () => {
   
   const [searchTerm, setSearchTerm] = useState("");
   const [categoryFilter, setCategoryFilter] = useState("all");
-  // const [dialogOpen, setDialogOpen] = useState(false);
-  // const [editing, setEditing] = useState<Sale | null>(null);
-
-  //   const { mutation } = useRestartStock(editing?.productId ?? "new");
+  const [currentPage, setCurrentPage] = useState(1);
 
   const providersList = providers?.data ?? [];
 
   // Filtrado en el cliente para respuesta inmediata
-  const filteredProducts = useMemo(() => {
-    return product?.data?.filter(p => {
-      const matchesSearch = p.name.toLowerCase().includes(searchTerm.toLowerCase()) || 
-                           p.sku.toLowerCase().includes(searchTerm.toLowerCase());
-      const matchesCategory = categoryFilter === "all" || p.categoryId === categoryFilter;
-      return matchesSearch && matchesCategory;
+  // const filteredProducts = useMemo(() => {
+  //   return product?.data?.filter(p => {
+  //     const matchesSearch = p.name.toLowerCase().includes(searchTerm.toLowerCase()) || 
+  //                          p.sku.toLowerCase().includes(searchTerm.toLowerCase());
+  //     const matchesCategory = categoryFilter === "all" || p.categoryId === categoryFilter;
+  //     return matchesSearch && matchesCategory;
 
-   
-    });
-  }, [product, searchTerm, categoryFilter]);  
+  //   });
+  // }, [product, searchTerm, categoryFilter]);  
+
+  const filteredProducts = useMemo(() => {
+     return product?.data?.filter(p => {
+        const matchesSearch =
+          p.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          p.sku.toLowerCase().includes(searchTerm.toLowerCase());
+
+        const matchesCategory =
+          categoryFilter === "all" || p.categoryId === categoryFilter;
+
+        return matchesSearch && matchesCategory;
+      }) ?? []; 
+    }, [product, searchTerm, categoryFilter]);
 
   const handleDelete = (id: string) => {
     toast("¿Eliminar producto?", {
@@ -86,7 +90,6 @@ export const Products = () => {
         label: "Eliminar",
         onClick: () => {
           deleteProduct(id);
-          // toast.success("Categoría eliminada correctamente");
         },
       },
       cancel: {
@@ -99,14 +102,14 @@ export const Products = () => {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const productsList = product?.data ?? [];
   
-const stats = useMemo(() => {
+  const stats = useMemo(() => {
      
     const totalItems = productsList.length;
     const inventoryValue = productsList.reduce((acc, p) => acc + (p.price * p.currentStock), 0);
     const lowStockCount = productsList.filter(p => p.currentStock <= p.minStock && p.currentStock > 0).length;
     
     return { totalItems, inventoryValue, lowStockCount };
-  }, [productsList]);
+   }, [productsList]);
    
 
   const getStatusBadge = (stock: number, minStock: number) => {
@@ -115,13 +118,16 @@ const stats = useMemo(() => {
     return <Badge className="bg-emerald-100 text-emerald-700 border-emerald-200 hover:bg-emerald-100 shadow-none font-medium">Bueno</Badge>;
   };
 
-  // if (!product || !providers) return <Navigate to='/dashboard/products' />;
+  const ITEMS_PER_PAGE = 6;
+
+  // --- Pagination Logic ---
+  const totalPages = Math.ceil(filteredProducts.length / ITEMS_PER_PAGE);
+  const paginatedProducts = filteredProducts.slice((currentPage - 1) * ITEMS_PER_PAGE, currentPage * ITEMS_PER_PAGE);
   
   if (isLoading || isLoadingCategories || isLoadingProviders) return <CustomFullScreenLoading />;
 
   return (
     <div className="space-y-6 animate-fade-in">
-      {/* Header Section */}
       
       {/* KPI Bento Grid - Estilo Premium */}
       <div className="grid gap-4 grid-cols-1 sm:grid-cols-3 animate-slide-up">
@@ -224,10 +230,6 @@ const stats = useMemo(() => {
         </Select>
        )}
 
-        {/* <Button className="blue-900 hover:bg-blue-800 shadow-md transition-all active:scale-95" onClick={openNew}>
-             Rellenar stock
-        </Button> */}
-
         <Button asChild className="blue-900 hover:bg-blue-800 shadow-md transition-all active:scale-95">
           <Link to="/dashboard/products/new">
             Nuevo Producto
@@ -252,7 +254,7 @@ const stats = useMemo(() => {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {filteredProducts?.length === 0 ? (
+            {paginatedProducts?.length === 0 ? (
               <TableRow>
                 <TableCell colSpan={6} className="h-64 text-center">
                   <div className="flex flex-col items-center justify-center text-slate-400">
@@ -263,7 +265,7 @@ const stats = useMemo(() => {
                 </TableCell>
               </TableRow>
             ) : (
-              filteredProducts?.map((item) => {
+              paginatedProducts?.map((item) => {
                 const category = categories?.data.find((cat) => cat.id === item.categoryId);
                 const stockPercentage = Math.min((item.currentStock / (item.maxStock || 100)) * 100, 100);
                  const provider = providersList.find(
@@ -274,15 +276,11 @@ const stats = useMemo(() => {
                   <TableRow key={item.id} className="group hover:bg-slate-50/50 transition-colors">
                     <TableCell>
                       <div className="flex items-center gap-4">
-                        {/* <div className="h-12 w-12 rounded-lg border border-slate-100 bg-slate-50 overflow-hidden flex-shrink-0"> */}
                         <div className="h-16 w-16 min-w-[64px] overflow-hidden rounded-lg border border-gray-200 bg-gray-50 group">
                           <img
-                            // src={`${import.meta.env.VITE_API_URL}${item.imageURL.replace(/\\/g, '/')}`}
                             src={getFullImageUrl(item.imageURL)}
-                            // src={item.imageURL.replace(/\\/g, '/')}
                             alt={item.name}
                             className="h-full w-full object-cover group-hover:scale-110 transition-transform duration-500"
-                            // onError={(e) => { e.currentTarget.src = "https://placehold.co/400x400?text=📦"; }}
                           />
                         </div>
                         <div className="flex flex-col overflow-hidden">
@@ -362,9 +360,40 @@ const stats = useMemo(() => {
             )}
           </TableBody>
         </Table>
+          {/* Paginación simple al estilo UserManager */}
+        {totalPages > 1 && (
+          <div className="flex items-center justify-between px-6 py-4 bg-muted/20 border-t border-border/40">
+            <span className="text-xs text-muted-foreground">
+              Página {currentPage} de {totalPages}
+            </span>
+            <div className="flex gap-2">
+              <Button 
+                variant="outline" 
+                size="sm" 
+                disabled={currentPage === 1}
+                onClick={() => setCurrentPage(p => p - 1)}
+                className="h-8 rounded-lg"
+              >
+                Anterior
+              </Button>
+              <Button 
+                variant="outline" 
+                size="sm" 
+                disabled={currentPage === totalPages}
+                onClick={() => setCurrentPage(p => p + 1)}
+                className="h-8 rounded-lg"
+              >
+                Siguiente
+              </Button>
+            </div>
+          </div>
+        )}
       </div>
+    </div>
+  );
+};
 
-      {/* Modal Para rellenar stock */}
+ {/* Modal Para rellenar stock */}
       {/* <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
         <DialogContent className="max-w-2xl rounded-2xl">
           <DialogHeader>
@@ -394,13 +423,3 @@ const stats = useMemo(() => {
           )}
         </DialogContent>
       </Dialog> */}
-      
-      {/* Footer / Pagination Section */}
-      <div className="pt-2 flex justify-between items-center text-sm text-slate-500">
-        <p>Mostrando {filteredProducts?.length || 0} productos</p>
-        <CustomPagination totalPage={Number(product?.data) || 0} />
-      </div>
-    </div>
-  );
-};
-
