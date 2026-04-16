@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
-import { Link, useNavigate, useSearchParams } from "react-router";
+import { Link, useNavigate, useParams } from "react-router";
 import { Loader2, CheckCircle, XCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useAuthStore } from "@/auth/store/auth.store";
 
 export const ActivateUser = () => {
-  const [searchParams] = useSearchParams();
-  const token = searchParams.get("token");
+
+ const { token } = useParams();
 
   const [status, setStatus] = useState<"loading" | "success" | "error">("loading");
 
@@ -35,9 +35,9 @@ export const ActivateUser = () => {
     };
 
     activate();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [token]);
 
-  // 🔄 LOADING (igual estilo que botón loading)
   if (status === "loading") {
     return (
       <div className="flex flex-col items-center gap-4 text-center">
@@ -49,7 +49,6 @@ export const ActivateUser = () => {
     );
   }
 
-  // ✅ SUCCESS
   if (status === "success") {
     return (
       <div className="space-y-5 text-center">
@@ -62,7 +61,7 @@ export const ActivateUser = () => {
         </p>
 
         <Button
-          onClick={() => navigate("/login")}
+          onClick={() => navigate("/auth/login")}
           className="w-full h-11 rounded-xl auth-gradient text-primary-foreground"
         >
           Ir a iniciar sesión

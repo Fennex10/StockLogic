@@ -65,7 +65,7 @@ export const ForgotPassword = () => {
             className="flex items-center justify-center gap-2 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
           >
             <ArrowLeft className="h-4 w-4" />
-            Back to sign in
+            Ir a iniciar sesión
           </Link>
         </div>
   
@@ -97,7 +97,7 @@ export const ForgotPassword = () => {
         </Button>
 
         <Link
-          to="/login"
+          to="/auth/login"
           className="flex items-center justify-center gap-2 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
         >
           <ArrowLeft className="h-4 w-4" />

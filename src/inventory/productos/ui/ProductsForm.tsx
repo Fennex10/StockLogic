@@ -21,16 +21,16 @@ interface Props {
   categories: CategoriesResponse;
   providers: ProvidersResponse;
   isPending: boolean;
-  onSubmit: (productLike: Partial<CreateProduct> & { files?: File[] }) => Promise<void>;
+  // onSubmit: (productLike: Partial<CreateProduct> & { files?: File[] }) => Promise<void>;
+  onSubmit: (productLike: Partial<CreateProduct> & { file?: File | null }) => Promise<void>;
 }
 
-interface FormInputs extends CreateProduct {
-  files?: File[];
-}
+// eslint-disable-next-line @typescript-eslint/no-empty-object-type
+interface FormInputs extends CreateProduct {}
 
 export const ProductForm = ({ title, subTitle, product, categories, providers, onSubmit, isPending }: Props) => {
   const [dragActive, setDragActive] = useState(false);
-  const [files, setFiles] = useState<File[]>([]);
+const [file, setFile] = useState<File | null>(null);
 
   const { register, handleSubmit, formState: { errors }, reset } = useForm<FormInputs>({
     defaultValues: mapToCreateProduct(product),
@@ -42,8 +42,11 @@ export const ProductForm = ({ title, subTitle, product, categories, providers, o
     }
   }, [product, reset]);
 
+  // const handleFormSubmit = (data: FormInputs) => {
+  //   onSubmit({ ...data, file });
+  // };
   const handleFormSubmit = (data: FormInputs) => {
-    onSubmit({ ...data, files });
+    onSubmit({ ...data, file });
   };
 
   const handleDrag = (e: React.DragEvent) => {
@@ -51,25 +54,47 @@ export const ProductForm = ({ title, subTitle, product, categories, providers, o
     setDragActive(e.type === "dragenter" || e.type === "dragover");
   };
 
+  // const handleDrop = (e: React.DragEvent) => {
+  //   e.preventDefault(); e.stopPropagation();
+  //   setDragActive(false);
+  //   const droppedFiles = e.dataTransfer.files;
+  //   if (!droppedFiles) return;
+  //   const newFiles = Array.from(droppedFiles);
+  //   setFile((prev) => [...prev, ...newFiles]);
+  // };
+
   const handleDrop = (e: React.DragEvent) => {
-    e.preventDefault(); e.stopPropagation();
-    setDragActive(false);
-    const droppedFiles = e.dataTransfer.files;
-    if (!droppedFiles) return;
-    const newFiles = Array.from(droppedFiles);
-    setFiles((prev) => [...prev, ...newFiles]);
-  };
+  e.preventDefault();
+  e.stopPropagation();
+  setDragActive(false);
+
+  const droppedFile = e.dataTransfer.files?.[0];
+  if (!droppedFile) return;
+
+  setFile(droppedFile);
+};
+
+  // const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  //   const inputFiles = e.target.files;
+  //   if (!inputFiles) return;
+  //   const newFiles = Array.from(inputFiles);
+  //   setFiles((prev) => [...prev, ...newFiles]);
+  // };
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const inputFiles = e.target.files;
-    if (!inputFiles) return;
-    const newFiles = Array.from(inputFiles);
-    setFiles((prev) => [...prev, ...newFiles]);
+  const selectedFile = e.target.files?.[0];
+  if (!selectedFile) return;
+     console.log("FILE SELECTED:", file); 
+    setFile(selectedFile);
   };
 
-  const removeFile = (index: number) => {
-    setFiles((prev) => prev.filter((_, i) => i !== index));
-  };
+  // const removeFile = (index: number) => {
+  //   setFiles((prev) => prev.filter((_, i) => i !== index));
+  // };
+
+//   const removeFile = () => {
+//   setFile(null);
+// };
 
   // ESTILO DE INPUT MEJORADO: Borde definido y fondo sólido para que NO se vea transparente
   const inputStyles = "h-11 rounded-lg border border-slate-300 bg-white px-4 text-sm focus:border-primary focus:ring-1 focus:ring-primary/20 transition-all outline-none text-slate-700 shadow-sm";
@@ -209,13 +234,13 @@ export const ProductForm = ({ title, subTitle, product, categories, providers, o
               )}
               onDragEnter={handleDrag} onDragLeave={handleDrag} onDragOver={handleDrag} onDrop={handleDrop}
             >
-              <input type="file" multiple accept="image/*" className="absolute inset-0 w-full h-full opacity-0 cursor-pointer" onChange={handleFileChange} />
+              <input type="file"  accept="image/*" className="absolute inset-0 w-full h-full opacity-0 cursor-pointer" onChange={handleFileChange} />
               <Upload className="mx-auto h-8 w-8 text-slate-400 mb-2" />
               <p className="text-xs font-medium text-slate-600">Subir imagen</p>
             </div>
 
             {/* PREVIEW DE IMÁGENES CON BOTÓN ELIMINAR */}
-            <div className="space-y-2">
+            {/* <div className="space-y-2">
               {product.imageURL && (
                 <div className="relative rounded-lg overflow-hidden border border-slate-200 group">
                   <img src={getFullImageUrl(product.imageURL)} className="w-full h-32 object-cover" alt="Actual" />
@@ -226,12 +251,12 @@ export const ProductForm = ({ title, subTitle, product, categories, providers, o
               )}
               
               <div className="grid grid-cols-2 gap-2">
-                {files.map((file, i) => (
+                {file.map((file, i) => (
                   <div key={i} className="relative aspect-square rounded-lg overflow-hidden border border-slate-200 group">
                     <img src={URL.createObjectURL(file)} className="w-full h-full object-cover" alt="New" />
                     <button 
                       type="button"
-                      onClick={() => removeFile(i)}
+                      onClick={() => removeFile()}
                       className="absolute top-1 right-1 p-1 bg-red-500 text-white rounded-full opacity-0 group-hover:opacity-100 transition-opacity shadow-lg"
                     >
                       <Trash2 className="w-3 h-3" />
@@ -239,7 +264,40 @@ export const ProductForm = ({ title, subTitle, product, categories, providers, o
                   </div>
                 ))}
               </div>
+            </div> */}
+
+           <div className="space-y-2">
+
+              {file ? (
+                <div className="relative rounded-lg overflow-hidden border border-slate-200">
+                  <img 
+                    src={URL.createObjectURL(file)} 
+                    className="w-full h-32 object-cover" 
+                    alt="Nueva imagen" 
+                  />
+
+                  <button 
+                    type="button"
+                    onClick={() => setFile(null)}
+                    className="absolute top-2 right-2 p-1 bg-red-500 text-white rounded-full"
+                  >
+                    <Trash2 className="w-3 h-3" />
+                  </button>
+                </div>
+              ) : (
+                product.imageURL && (
+                  <div className="relative rounded-lg overflow-hidden border border-slate-200">
+                    <img 
+                      src={getFullImageUrl(product.imageURL)} 
+                      className="w-full h-32 object-cover" 
+                      alt="Actual" 
+                    />
+                  </div>
+                )
+              )}
+
             </div>
+
           </div>
 
           <div className="bg-slate-50 rounded-xl border border-slate-200 p-6 space-y-4">

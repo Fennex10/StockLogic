@@ -75,9 +75,9 @@ export const Providers = () => {
   const totalProviders = providersList.length;
   const activeProviders = providersList.filter(p => p.isActive).length;
   const inactiveProviders = providersList.filter(p => !p.isActive).length;
-  const totalInvestment = sales?.data.stats.totalInvestment ?? 0;
-  const netProfit = sales?.data.stats.netProfit ?? 0;
-  const status = sales?.data.stats.status ?? '';
+  const totalInvestment = sales?.data?.stats?.totalInvestment ?? 0;
+  const netProfit = sales?.data?.stats?.netProfit ?? 0;
+  const status = sales?.data?.stats?.status ?? '';
   
 
    const filtered = providersList.filter((p) =>
@@ -114,250 +114,169 @@ export const Providers = () => {
         },
     });
   };
-
+  
+  
   if (isLoading || isLoadingProduct || isLoadingSales) return <CustomFullScreenLoading />;
   
   return (
     <div className="space-y-6">
 
-{/* KPI Bento Grid - 6 Stats */}
-<div className="grid gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 animate-slide-up">
-  
-  {/* 1. Total Proveedores */}
-  <div className="group kpi-card relative overflow-hidden bg-white dark:bg-zinc-950 p-5 rounded-2xl border border-border/50">
-    <div className="absolute top-0 right-0 w-24 h-24 bg-indigo-500/5 rounded-full -translate-y-8 translate-x-8 group-hover:scale-110 transition-transform duration-500" />
-    <div className="relative z-10 flex flex-col h-full justify-between">
-      <div className="flex justify-between items-start">
-        <div className="space-y-1">
-          <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider">Red de Suministro</p>
-          <p className="text-3xl font-bold tracking-tight text-foreground">{totalProviders}</p>
-        </div>
-        <div className="rounded-xl bg-indigo-500/10 p-2.5 transition-transform group-hover:rotate-12">
-          <Building2 className="h-5 w-5 text-indigo-600" />
-        </div>
-      </div>
-      <div className="flex justify-between items-end mt-4">
-        <div className="flex items-center gap-1">
-          <Users className="h-3 w-3 text-indigo-500" />
-          <span className="text-xs font-medium text-indigo-600">Registrados</span>
-        </div>
-        <div className="opacity-80">
-          <Sparkline data={[totalProviders-2, totalProviders-1, totalProviders]} color="#6366f1" />
-        </div>
-      </div>
-    </div>
-  </div>
-
-  {/* 2. Proveedores Activos */}
-  <div className="group kpi-card relative overflow-hidden bg-white dark:bg-zinc-950 p-5 rounded-2xl border border-border/50">
-    <div className="absolute top-0 right-0 w-24 h-24 bg-emerald-500/5 rounded-full -translate-y-8 translate-x-8 group-hover:scale-110 transition-transform duration-500" />
-    <div className="relative z-10 flex flex-col h-full justify-between">
-      <div className="flex justify-between items-start">
-        <div className="space-y-1">
-          <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider">Capacidad Activa</p>
-          <p className="text-3xl font-bold tracking-tight text-emerald-600">{activeProviders}</p>
-        </div>
-        <div className="rounded-xl bg-emerald-500/10 p-2.5">
-          <Globe className="h-5 w-5 text-emerald-600" />
-        </div>
-      </div>
-      <div className="flex justify-between items-end mt-4">
-        <div className="flex items-center gap-1.5">
-          <span className="relative flex h-2 w-2">
-            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-            <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
-          </span>
-          <span className="text-xs font-medium text-emerald-600">Operativos</span>
-        </div>
-        <div className="opacity-80">
-          <Sparkline data={[10, 12, 11, 13, 12, 14, activeProviders]} color="#10b981" />
-        </div>
-      </div>
-    </div>
-  </div>
-
-  {/* 3. Proveedores Inactivos */}
-  <div className="group kpi-card relative overflow-hidden bg-white dark:bg-zinc-950 p-5 rounded-2xl border border-red-100/50">
-    <div className="absolute top-0 right-0 w-24 h-24 bg-red-500/5 rounded-full -translate-y-8 translate-x-8 group-hover:scale-110 transition-transform duration-500" />
-    <div className="relative z-10 flex flex-col h-full justify-between">
-      <div className="flex justify-between items-start">
-        <div className="space-y-1">
-          <p className="text-[10px] font-bold text-red-500/80 uppercase tracking-wider">Fuera de Servicio</p>
-          <p className="text-3xl font-bold tracking-tight text-red-600">{inactiveProviders}</p>
-        </div>
-        <div className="rounded-xl bg-red-500/10 p-2.5 transition-all group-hover:bg-red-500/20">
-          <Ban className="h-5 w-5 text-red-600" />
-        </div>
-      </div>
-      <div className="flex justify-between items-end mt-4">
-        <div className="flex items-center gap-1">
-          <Activity className="h-3 w-3 text-red-500" />
-          <span className="text-xs font-medium text-red-600">Inactivos</span>
-        </div>
-        <div className="opacity-80">
-          <Sparkline data={[1, 3, 2, 4, 3, 2, inactiveProviders]} color="#ef4444" />
-        </div>
-      </div>
-    </div>
-  </div>
-
-  {/* 4. Inversión Total (NUEVA) */}
-  <div className="group kpi-card relative overflow-hidden bg-white dark:bg-zinc-950 p-5 rounded-2xl border border-border/50">
-    <div className="absolute top-0 right-0 w-24 h-24 bg-violet-500/5 rounded-full -translate-y-8 translate-x-8 group-hover:scale-110 transition-transform duration-500" />
-    <div className="relative z-10 flex flex-col h-full justify-between">
-      <div className="flex justify-between items-start">
-        <div className="space-y-1">
-          <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider">Inversión Total</p>
-          <p className="text-3xl font-bold tracking-tight text-foreground">${totalInvestment.toLocaleString()}</p>
-        </div>
-        <div className="rounded-xl bg-violet-500/10 p-2.5">
-          <Wallet className="h-5 w-5 text-violet-600" />
-        </div>
-      </div>
-      <div className="flex justify-between items-end mt-4">
-        <div className="flex items-center gap-1">
-          <DollarSign className="h-3 w-3 text-violet-500" />
-          <span className="text-xs font-medium text-violet-600">Capital en stock</span>
-        </div>
-        <div className="opacity-80">
-          <Sparkline data={[4000, 5500, 4800, 6000, 7500, 7000, totalInvestment]} color="#8b5cf6" />
-        </div>
-      </div>
-    </div>
-  </div>
-
-  {/* 5. Beneficio Neto (NUEVA) */}
-  <div className="group kpi-card relative overflow-hidden bg-white dark:bg-zinc-950 p-5 rounded-2xl border border-border/50">
-    <div className="absolute top-0 right-0 w-24 h-24 bg-amber-500/5 rounded-full -translate-y-8 translate-x-8 group-hover:scale-110 transition-transform duration-500" />
-    <div className="relative z-10 flex flex-col h-full justify-between">
-      <div className="flex justify-between items-start">
-        <div className="space-y-1">
-          <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider">Beneficio Neto</p>
-          <p className="text-3xl font-bold tracking-tight text-amber-600">${netProfit.toLocaleString()}</p>
-        </div>
-        <div className="rounded-xl bg-amber-500/10 p-2.5">
-          <TrendingUp className="h-5 w-5 text-amber-600" />
-        </div>
-      </div>
-      <div className="flex justify-between items-end mt-4">
-        <div className="flex items-center gap-1">
-          <div className="h-1.5 w-1.5 rounded-full bg-amber-500 animate-pulse" />
-          <span className="text-xs font-medium text-amber-600">Margen proyectado</span>
-        </div>
-        <div className="opacity-80">
-          <Sparkline data={[1200, 1500, 1800, 1600, 2100, 2500, netProfit]} color="#f59e0b" />
-        </div>
-      </div>
-    </div>
-  </div>
-
-  {/* 6. Status (NUEVA) */}
-  <div className="group kpi-card relative overflow-hidden bg-white dark:bg-zinc-950 p-5 rounded-2xl border border-border/50">
-    <div className="absolute top-0 right-0 w-24 h-24 bg-sky-500/5 rounded-full -translate-y-8 translate-x-8 group-hover:scale-110 transition-transform duration-500" />
-    <div className="relative z-10 flex flex-col h-full justify-between">
-      <div className="flex justify-between items-start">
-        <div className="space-y-1">
-          <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider">Estado de Cuenta</p>
-          <p className="text-2xl font-black tracking-tight text-foreground uppercase mt-1">{status}</p>
-        </div>
-        <div className="rounded-xl bg-sky-500/10 p-2.5">
-          <ShieldCheck className="h-5 w-5 text-sky-600" />
-        </div>
-      </div>
-      <div className="flex justify-between items-end mt-4">
-        <div className="flex items-center gap-1">
-          <span className="text-[10px] font-bold text-sky-600 bg-sky-50 dark:bg-sky-500/10 px-2 py-0.5 rounded-full">Sincronizado</span>
-        </div>
-        <div className="opacity-80">
-          <Sparkline data={[5, 5, 5, 5, 5, 5, 5]} color="#0ea5e9" />
-        </div>
-      </div>
-    </div>
-  </div>
-
-</div>
-
-    {/* <div className="grid gap-4 grid-cols-1 sm:grid-cols-3 animate-slide-up"> */}
-        
-        {/* Total Proveedores */}
-        {/* <div className="group kpi-card relative overflow-hidden bg-white dark:bg-zinc-950 p-5 rounded-2xl border border-border/50">
-          <div className="absolute top-0 right-0 w-24 h-24 bg-indigo-500/5 rounded-full -translate-y-8 translate-x-8 group-hover:scale-110 transition-transform duration-500" />
-          <div className="relative z-10 flex flex-col h-full justify-between">
-            <div className="flex justify-between items-start">
-              <div className="space-y-1">
-                <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider">Red de Suministro</p>
-                <p className="text-3xl font-bold tracking-tight text-foreground">{totalProviders}</p>
-              </div>
-              <div className="rounded-xl bg-indigo-500/10 p-2.5 transition-transform group-hover:rotate-12">
-                <Building2 className="h-5 w-5 text-indigo-600" />
-              </div>
+    {/* KPI Bento Grid - 6 Stats */}
+    <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 animate-slide-up">
+      
+      {/* 1. Total Proveedores */}
+      <div className="group kpi-card relative overflow-hidden bg-white dark:bg-zinc-950 p-5 rounded-2xl border border-border/50">
+        <div className="absolute top-0 right-0 w-24 h-24 bg-indigo-500/5 rounded-full -translate-y-8 translate-x-8 group-hover:scale-110 transition-transform duration-500" />
+        <div className="relative z-10 flex flex-col h-full justify-between">
+          <div className="flex justify-between items-start">
+            <div className="space-y-1">
+              <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider">Red de Suministro</p>
+              <p className="text-3xl font-bold tracking-tight text-foreground">{totalProviders}</p>
             </div>
-            <div className="flex justify-between items-end mt-4">
-              <div className="flex items-center gap-1">
-                <Users className="h-3 w-3 text-indigo-500" />
-                <span className="text-xs font-medium text-indigo-600">Registrados</span>
-              </div>
-              <div className="opacity-80">
-                <Sparkline data={[totalProviders-2, totalProviders-1, totalProviders]} color="#6366f1" />
-              </div>
+            <div className="rounded-xl bg-indigo-500/10 p-2.5 transition-transform group-hover:rotate-12">
+              <Building2 className="h-5 w-5 text-indigo-600" />
             </div>
           </div>
-        </div> */}
-
-        {/* Proveedores Activos */}
-        {/* <div className="group kpi-card relative overflow-hidden bg-white dark:bg-zinc-950 p-5 rounded-2xl border border-border/50">
-          <div className="absolute top-0 right-0 w-24 h-24 bg-emerald-500/5 rounded-full -translate-y-8 translate-x-8 group-hover:scale-110 transition-transform duration-500" />
-          <div className="relative z-10 flex flex-col h-full justify-between">
-            <div className="flex justify-between items-start">
-              <div className="space-y-1">
-                <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider">Capacidad Activa</p>
-                <p className="text-3xl font-bold tracking-tight text-emerald-600">{activeProviders}</p>
-              </div>
-              <div className="rounded-xl bg-emerald-500/10 p-2.5">
-                <Globe className="h-5 w-5 text-emerald-600" />
-              </div>
+          <div className="flex justify-between items-end mt-4">
+            <div className="flex items-center gap-1">
+              <Users className="h-3 w-3 text-indigo-500" />
+              <span className="text-xs font-medium text-indigo-600">Registrados</span>
             </div>
-            <div className="flex justify-between items-end mt-4">
-              <div className="flex items-center gap-1.5">
-                <span className="relative flex h-2 w-2">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                  <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
-                </span>
-                <span className="text-xs font-medium text-emerald-600">Operativos</span>
-              </div>
-              <div className="opacity-80">
-                <Sparkline data={[10, 12, 11, 13, 12, 14, activeProviders]} color="#10b981" />
-              </div>
-            </div>
-          </div>
-        </div> */}
-
-        {/* Proveedores Inactivos */}
-        {/* <div className="group kpi-card relative overflow-hidden bg-white dark:bg-zinc-950 p-5 rounded-2xl border border-red-100/50">
-          <div className="absolute top-0 right-0 w-24 h-24 bg-red-500/5 rounded-full -translate-y-8 translate-x-8 group-hover:scale-110 transition-transform duration-500" />
-          <div className="relative z-10 flex flex-col h-full justify-between">
-            <div className="flex justify-between items-start">
-              <div className="space-y-1">
-                <p className="text-[10px] font-bold text-red-500/80 uppercase tracking-wider">Fuera de Servicio</p>
-                <p className="text-3xl font-bold tracking-tight text-red-600">{inactiveProviders}</p>
-              </div>
-              <div className="rounded-xl bg-red-500/10 p-2.5 transition-all group-hover:bg-red-500/20">
-                <Ban className="h-5 w-5 text-red-600" />
-              </div>
-            </div>
-            <div className="flex justify-between items-end mt-4">
-              <div className="flex items-center gap-1">
-                <Activity className="h-3 w-3 text-red-500" />
-                <span className="text-xs font-medium text-red-600">Inactivos</span>
-              </div>
-              <div className="opacity-80">
-                <Sparkline data={[1, 3, 2, 4, 3, 2, inactiveProviders]} color="#ef4444" />
-              </div>
+            <div className="opacity-80">
+              <Sparkline data={[totalProviders-2, totalProviders-1, totalProviders]} color="#6366f1" />
             </div>
           </div>
         </div>
-      </div> */}
-          
+      </div>
+
+      {/* 2. Proveedores Activos */}
+      <div className="group kpi-card relative overflow-hidden bg-white dark:bg-zinc-950 p-5 rounded-2xl border border-border/50">
+        <div className="absolute top-0 right-0 w-24 h-24 bg-emerald-500/5 rounded-full -translate-y-8 translate-x-8 group-hover:scale-110 transition-transform duration-500" />
+        <div className="relative z-10 flex flex-col h-full justify-between">
+          <div className="flex justify-between items-start">
+            <div className="space-y-1">
+              <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider">Capacidad Activa</p>
+              <p className="text-3xl font-bold tracking-tight text-emerald-600">{activeProviders}</p>
+            </div>
+            <div className="rounded-xl bg-emerald-500/10 p-2.5">
+              <Globe className="h-5 w-5 text-emerald-600" />
+            </div>
+          </div>
+          <div className="flex justify-between items-end mt-4">
+            <div className="flex items-center gap-1.5">
+              <span className="relative flex h-2 w-2">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+              </span>
+              <span className="text-xs font-medium text-emerald-600">Operativos</span>
+            </div>
+            <div className="opacity-80">
+              <Sparkline data={[10, 12, 11, 13, 12, 14, activeProviders]} color="#10b981" />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* 3. Proveedores Inactivos */}
+      <div className="group kpi-card relative overflow-hidden bg-white dark:bg-zinc-950 p-5 rounded-2xl border border-red-100/50">
+        <div className="absolute top-0 right-0 w-24 h-24 bg-red-500/5 rounded-full -translate-y-8 translate-x-8 group-hover:scale-110 transition-transform duration-500" />
+        <div className="relative z-10 flex flex-col h-full justify-between">
+          <div className="flex justify-between items-start">
+            <div className="space-y-1">
+              <p className="text-[10px] font-bold text-red-500/80 uppercase tracking-wider">Fuera de Servicio</p>
+              <p className="text-3xl font-bold tracking-tight text-red-600">{inactiveProviders}</p>
+            </div>
+            <div className="rounded-xl bg-red-500/10 p-2.5 transition-all group-hover:bg-red-500/20">
+              <Ban className="h-5 w-5 text-red-600" />
+            </div>
+          </div>
+          <div className="flex justify-between items-end mt-4">
+            <div className="flex items-center gap-1">
+              <Activity className="h-3 w-3 text-red-500" />
+              <span className="text-xs font-medium text-red-600">Inactivos</span>
+            </div>
+            <div className="opacity-80">
+              <Sparkline data={[1, 3, 2, 4, 3, 2, inactiveProviders]} color="#ef4444" />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* 4. Inversión Total (NUEVA) */}
+      <div className="group kpi-card relative overflow-hidden bg-white dark:bg-zinc-950 p-5 rounded-2xl border border-border/50">
+        <div className="absolute top-0 right-0 w-24 h-24 bg-violet-500/5 rounded-full -translate-y-8 translate-x-8 group-hover:scale-110 transition-transform duration-500" />
+        <div className="relative z-10 flex flex-col h-full justify-between">
+          <div className="flex justify-between items-start">
+            <div className="space-y-1">
+              <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider">Inversión Total</p>
+              <p className="text-3xl font-bold tracking-tight text-foreground">${totalInvestment.toLocaleString()}</p>
+            </div>
+            <div className="rounded-xl bg-violet-500/10 p-2.5">
+              <Wallet className="h-5 w-5 text-violet-600" />
+            </div>
+          </div>
+          <div className="flex justify-between items-end mt-4">
+            <div className="flex items-center gap-1">
+              <DollarSign className="h-3 w-3 text-violet-500" />
+              <span className="text-xs font-medium text-violet-600">Capital en stock</span>
+            </div>
+            <div className="opacity-80">
+              <Sparkline data={[4000, 5500, 4800, 6000, 7500, 7000, totalInvestment]} color="#8b5cf6" />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* 5. Beneficio Neto (NUEVA) */}
+      <div className="group kpi-card relative overflow-hidden bg-white dark:bg-zinc-950 p-5 rounded-2xl border border-border/50">
+        <div className="absolute top-0 right-0 w-24 h-24 bg-amber-500/5 rounded-full -translate-y-8 translate-x-8 group-hover:scale-110 transition-transform duration-500" />
+        <div className="relative z-10 flex flex-col h-full justify-between">
+          <div className="flex justify-between items-start">
+            <div className="space-y-1">
+              <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider">Beneficio Neto</p>
+              <p className="text-3xl font-bold tracking-tight text-amber-600">${netProfit.toLocaleString()}</p>
+            </div>
+            <div className="rounded-xl bg-amber-500/10 p-2.5">
+              <TrendingUp className="h-5 w-5 text-amber-600" />
+            </div>
+          </div>
+          <div className="flex justify-between items-end mt-4">
+            <div className="flex items-center gap-1">
+              <div className="h-1.5 w-1.5 rounded-full bg-amber-500 animate-pulse" />
+              <span className="text-xs font-medium text-amber-600">Margen proyectado</span>
+            </div>
+            <div className="opacity-80">
+              <Sparkline data={[1200, 1500, 1800, 1600, 2100, 2500, netProfit]} color="#f59e0b" />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* 6. Status (NUEVA) */}
+      <div className="group kpi-card relative overflow-hidden bg-white dark:bg-zinc-950 p-5 rounded-2xl border border-border/50">
+        <div className="absolute top-0 right-0 w-24 h-24 bg-sky-500/5 rounded-full -translate-y-8 translate-x-8 group-hover:scale-110 transition-transform duration-500" />
+        <div className="relative z-10 flex flex-col h-full justify-between">
+          <div className="flex justify-between items-start">
+            <div className="space-y-1">
+              <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider">Estado de Cuenta</p>
+              <p className="text-2xl font-black tracking-tight text-foreground uppercase mt-1">{status}</p>
+            </div>
+            <div className="rounded-xl bg-sky-500/10 p-2.5">
+              <ShieldCheck className="h-5 w-5 text-sky-600" />
+            </div>
+          </div>
+          <div className="flex justify-between items-end mt-4">
+            <div className="flex items-center gap-1">
+              <span className="text-[10px] font-bold text-sky-600 bg-sky-50 dark:bg-sky-500/10 px-2 py-0.5 rounded-full">Sincronizado</span>
+            </div>
+            <div className="opacity-80">
+              <Sparkline data={[5, 5, 5, 5, 5, 5, 5]} color="#0ea5e9" />
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
 
   <div className="flex flex-col md:flex-row gap-4 items-center animate-slide-up" style={{ animationDelay: "100ms" }}>
     
@@ -374,34 +293,6 @@ export const Providers = () => {
       </div>
     </div>
 
-    {/* Grupo de Acciones de Filtro */}
-    {/* <div className="flex items-center gap-2 w-full md:w-auto">
-      
-    
-      <Button variant="outline" className="flex-1 md:flex-none h-11 rounded-xl border-slate-200 text-slate-600 hover:bg-slate-50 gap-2 px-4">
-        <div className="relative">
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-sliders-horizontal"><path d="M21 4h-7"/><path d="M10 4H3"/><path d="M12 4v4"/><path d="M12 0v4"/><path d="M21 12H11"/><path d="M7 12H3"/><path d="M9 8v8"/><path d="M21 20H15"/><path d="M11 20H3"/><path d="M13 16v8"/></svg>
-        </div>
-        <span className="text-sm font-medium">Filtros</span>
-      </Button>
-
-    
-      <DropdownMenu>
-        <DropdownMenuTrigger asChild>
-          <Button variant="outline" className="flex-1 md:flex-none h-11 rounded-xl border-slate-200 text-slate-600 hover:bg-slate-50 gap-2 px-4">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m3 16 4 4 4-4"/><path d="M7 20V4"/><path d="m21 8-4-4-4 4"/><path d="M17 4v16"/></svg>
-            <span className="text-sm font-medium">Ordenar</span>
-          </Button>
-        </DropdownMenuTrigger>
-        <DropdownMenuContent align="end" className="w-48">
-          <DropdownMenuItem>Nombre (A-Z)</DropdownMenuItem>
-          <DropdownMenuItem>Nombre (Z-A)</DropdownMenuItem>
-          <DropdownMenuItem>Más productos</DropdownMenuItem>
-          <DropdownMenuItem>Recientes</DropdownMenuItem>
-        </DropdownMenuContent>
-      </DropdownMenu>
-
-    </div> */}
         <Button className="blue-900 hover:bg-blue-800 shadow-md transition-all active:scale-95" onClick={openNewRestarStock}>
              Rellenar stock
         </Button>

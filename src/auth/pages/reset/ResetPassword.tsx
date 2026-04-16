@@ -1,10 +1,11 @@
 import { useState, type FormEvent } from "react";
-import { Link } from "react-router";
+import { Link, useParams } from "react-router";
 import { CheckCircle, Loader2 } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { useAuthStore } from "@/auth/store/auth.store";
 
 export const ResetPassword = () => {
   const [isPosting, setIsPosting] = useState(false);
@@ -12,27 +13,48 @@ export const ResetPassword = () => {
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
+  
+  const {resetPassword} = useAuthStore();
+  const { token } = useParams(); 
 
   const handleSubmit = async (event: FormEvent) => {
-    event.preventDefault();
-    const formData = new FormData(event.target as HTMLFormElement);
-    const pwd = formData.get("password") as string;
-    const confirm = formData.get("confirm") as string;
+  event.preventDefault();
 
-    if (!pwd || pwd.length < 8) {
-      toast.error("Password must be at least 8 characters");
-      return;
-    }
-    if (pwd !== confirm) {
-      toast.error("Passwords don't match");
-      return;
-    }
+  const formData = new FormData(event.target as HTMLFormElement);
+  const userPassword = formData.get("userPassword") as string;
+  const userPasswordConfirm = formData.get("userPasswordConfirm") as string;
 
-    setIsPosting(true);
-    await new Promise((r) => setTimeout(r, 1500));
-    setDone(true);
+  if (!userPassword || userPassword.length < 8) {
+    toast.error("Password must be at least 8 characters");
+    return;
+  }
+
+  if (userPassword !== userPasswordConfirm) {
+    toast.error("Passwords don't match");
+    return;
+  }
+
+  if (!token) {
+    toast.error("Token inválido o expirado");
+    return;
+  }
+
+  setIsPosting(true);
+
+  const isValid = await resetPassword(
+    userPassword,
+    userPasswordConfirm,
+    token
+  );
+
+    if (isValid) {
+        setDone(true);
+      } else {
+        toast.error("Error restaurando la contraseña");
+      }
+
     setIsPosting(false);
-  };
+};
 
   if (done) {
     return (
@@ -43,9 +65,9 @@ export const ResetPassword = () => {
               <CheckCircle className="h-8 w-8 text-primary" />
             </div>
           </div>
-          <Link to="/login">
+          <Link to="/auth/login">
             <Button className="w-full h-11 rounded-xl auth-gradient text-primary-foreground hover:opacity-90">
-              Continue to sign in
+              Continuar para iniciar sesión
             </Button>
           </Link>
         </div>
@@ -56,13 +78,13 @@ export const ResetPassword = () => {
    
       <form onSubmit={handleSubmit} className="space-y-5">
         <div className="space-y-2">
-          <Label htmlFor="password">New password</Label>
+          <Label htmlFor="password">Nueva contraseña</Label>
           <div className="relative">
             <Input
               id="password"
-              name="password"
+              name="userPassword"
               type={showPassword ? "text" : "password"}
-              placeholder="Enter new password"
+              placeholder="Ingresa la nueva contraseña"
               required
               value={password}
               onChange={(e) => setPassword(e.target.value)}
@@ -73,20 +95,20 @@ export const ResetPassword = () => {
               onClick={() => setShowPassword(!showPassword)}
               className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-muted-foreground hover:text-foreground transition-colors"
             >
-              {showPassword ? "Hide" : "Show"}
+              {showPassword ? "Ocultar" : "Mostral"}
             </button>
           </div>
          
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="confirm">Confirm password</Label>
+          <Label htmlFor="confirm">Confirmar contraseña</Label>
           <div className="relative">
             <Input
               id="confirm"
-              name="confirm"
+              name="userPasswordConfirm"
               type={showConfirm ? "text" : "password"}
-              placeholder="Confirm new password"
+              placeholder="Confirma la nueva contraseña"
               required
               className="h-11 rounded-xl pr-20"
             />
@@ -95,7 +117,7 @@ export const ResetPassword = () => {
               onClick={() => setShowConfirm(!showConfirm)}
               className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-muted-foreground hover:text-foreground transition-colors"
             >
-              {showConfirm ? "Hide" : "Show"}
+              {showConfirm ? "Ocultar" : "Mostrar"}
             </button>
           </div>
         </div>
@@ -106,7 +128,7 @@ export const ResetPassword = () => {
           className="w-full h-11 rounded-xl auth-gradient text-primary-foreground hover:opacity-90"
         >
           {isPosting && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-          {isPosting ? "Resetting..." : "Reset password"}
+          {isPosting ? "Restableciendo..." : "Restablecer contraseña"}
         </Button>
       </form>
   );

@@ -26,33 +26,23 @@ const navItems = [
     roles: [RoleCode.ADMIN, RoleCode.SUPER_ADMIN],
   },
   {
-    icon: ShoppingCart,
-    label: "Ventas",
-    path: "/dashboard/ventas",
+    icon: ShoppingCart, label: "Ventas", path: "/dashboard/ventas",
     roles: [RoleCode.SELLER],
   },
   {
-    icon: BarChart3,
-    label: "Reportes",
-    path: "/dashboard/reportes",
+    icon: BarChart3, label: "Reportes", path: "/dashboard/reportes",
     roles: [RoleCode.AUDITOR],
   },
   {
-    icon: Truck,
-    label: "Proveedores",
-    path: "/dashboard/providers",
+    icon: Truck, label: "Proveedores", path: "/dashboard/providers",
     roles: [RoleCode.WAREHOUSEMAN],
   },
   {
-    icon: Users,
-    label: "Usuarios",
-    path: "/dashboard/users",
+    icon: Users, label: "Usuarios", path: "/dashboard/users",
     roles: [RoleCode.ADMIN, RoleCode.SUPER_ADMIN],
   },
   {
-    icon: Settings,
-    label: "Configuración",
-    path: "/dashboard/configuracion",
+    icon: Settings, label: "Configuración", path: "/dashboard/configuracion",
     roles: [
       RoleCode.ADMIN,
       RoleCode.SUPER_ADMIN,

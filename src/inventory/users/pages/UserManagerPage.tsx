@@ -30,6 +30,7 @@ export const UserManagerPage = () => {
   const [editing, setEditing] = useState<UserManager | null>(null);
   const [roleFilter, setRoleFilter] = useState("all");
   const [statusFilter, setStatusFilter] = useState("all");
+  const [currentPage, setCurrentPage] = useState(1);
 
   const { mutation } = useUserManager(editing?.id ?? "new");
 
@@ -64,6 +65,12 @@ export const UserManagerPage = () => {
       cancel: { label: "Cancelar", onClick: () => {}, },
     });
   };
+
+  // --- Pagination Logic ---
+  const ITEMS_PER_PAGE = 6;
+
+  const totalPages = Math.ceil(filtered.length / ITEMS_PER_PAGE);
+  const paginatedUsers = filtered.slice((currentPage - 1) * ITEMS_PER_PAGE, currentPage * ITEMS_PER_PAGE);
 
   if (isLoading || isLoadingUserRoles) return <CustomFullScreenLoading />;
 
@@ -190,8 +197,6 @@ export const UserManagerPage = () => {
       </div>
     </div>
 
-    
-
         <motion.div
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
@@ -199,7 +204,7 @@ export const UserManagerPage = () => {
           className="flex flex-col sm:flex-row sm:items-center gap-3 p-3 rounded-2xl border border-border/50 bg-background/60 backdrop-blur-xl shadow-none"
         >
 
-          {/* 🔍 SEARCH */}
+          {/* SEARCH */}
           <div className="relative flex-1 group">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground/60 group-focus-within:text-primary transition" />
 
@@ -219,7 +224,7 @@ export const UserManagerPage = () => {
             />
           </div>
 
-          {/* 🎛️ FILTROS */}
+          {/* FILTROS */}
           <div className="flex gap-2 w-full sm:w-auto">
 
             {/* ROLE */}
@@ -312,7 +317,7 @@ export const UserManagerPage = () => {
 
           {/* BODY */}
           <TableBody>
-            {filtered.map((user) => (
+            {paginatedUsers.map((user) => (
               <TableRow
                 key={user.id}
                 className="
@@ -425,6 +430,36 @@ export const UserManagerPage = () => {
             ))}
           </TableBody>
         </Table>
+
+         {/* Paginación simple al estilo UserManager */}
+        {totalPages > 1 && (
+          <div className="flex items-center justify-between px-6 py-4 bg-muted/20 border-t border-border/40">
+            <span className="text-xs text-muted-foreground">
+              Página {currentPage} de {totalPages}
+            </span>
+            <div className="flex gap-2">
+              <Button 
+                variant="outline" 
+                size="sm" 
+                disabled={currentPage === 1}
+                onClick={() => setCurrentPage(p => p - 1)}
+                className="h-8 rounded-lg"
+              >
+                Anterior
+              </Button>
+              <Button 
+                variant="outline" 
+                size="sm" 
+                disabled={currentPage === totalPages}
+                onClick={() => setCurrentPage(p => p + 1)}
+                className="h-8 rounded-lg"
+              >
+                Siguiente
+              </Button>
+            </div>
+          </div>
+        )}
+
       </div>
 
       {/* Modal - Intacto */}

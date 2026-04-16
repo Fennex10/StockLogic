@@ -7,10 +7,9 @@ export const resetPasswordAction = async (
     userPasswordToken: string
 ): Promise<AuthResponse> => {
    try {
-      const {data} = await stockLogicApi.post<AuthResponse>('/auth/reset-password', {
+      const {data} = await stockLogicApi.post<AuthResponse>(`/auth/reset-password/${userPasswordToken}`, {
          userPassword,
          userPasswordConfirm,
-         userPasswordToken
       })
       return data;
 
