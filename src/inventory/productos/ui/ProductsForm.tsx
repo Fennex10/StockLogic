@@ -272,7 +272,7 @@ const [file, setFile] = useState<File | null>(null);
                 <div className="relative rounded-lg overflow-hidden border border-slate-200">
                   <img 
                     src={URL.createObjectURL(file)} 
-                    className="w-full h-32 object-cover" 
+                    className="w-full object-contain" 
                     alt="Nueva imagen" 
                   />
 
@@ -289,7 +289,7 @@ const [file, setFile] = useState<File | null>(null);
                   <div className="relative rounded-lg overflow-hidden border border-slate-200">
                     <img 
                       src={getFullImageUrl(product.imageURL)} 
-                      className="w-full h-32 object-cover" 
+                      className="w-full object-contain" 
                       alt="Actual" 
                     />
                   </div>

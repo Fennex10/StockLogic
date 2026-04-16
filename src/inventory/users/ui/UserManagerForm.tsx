@@ -174,7 +174,7 @@ export const UserManagerForm = ({ user, roles, onSubmit, isPending }: Props) => 
           className="h-10 px-5"
           onClick={() => reset()}
         >
-          Cancelar
+          Descartar
         </Button>
 
         <Button
