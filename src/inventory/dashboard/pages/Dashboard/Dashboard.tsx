@@ -2,7 +2,7 @@ import { Package, TrendingDown, ShoppingCart, DollarSign,
 } from "lucide-react"
 import { StatCard } from "@/inventory/dashboard/components/StatCard"
 import { AlertCard } from "@/inventory/dashboard/components/AlertCard"
-import { BarChart, Bar, AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend,
+import { BarChart, Bar, AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend, Cell,
 } from "recharts"
 import { Card, CardHeader, CardTitle, CardContent,
 } from "@/components/ui/card"
@@ -140,7 +140,6 @@ export const Dashboard = () => {
         />
       </div>
 
-      {/* Charts Row 1 */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Sales Trend */}
 
@@ -148,7 +147,6 @@ export const Dashboard = () => {
           <CardHeader>
             <CardTitle>Tendencia de Ventas e Ingresos</CardTitle>
           </CardHeader>
-
           <CardContent>
             <ResponsiveContainer width="100%" height={300}>
               <AreaChart data={salesDataSorted}>
@@ -161,7 +159,6 @@ export const Dashboard = () => {
                 
                 <Tooltip />
                 <Legend />
-
                 <Area
                   yAxisId="right" 
                   type="monotone"
@@ -170,9 +167,8 @@ export const Dashboard = () => {
                   fill="var(--primary)"
                   fillOpacity={0.2}
                   strokeWidth={2}
-                  name="Ventas"
+                  name="Unidades vendidas"
                 />
-
                 <Area
                   yAxisId="left" 
                   type="monotone"
@@ -188,20 +184,17 @@ export const Dashboard = () => {
           </CardContent>
         </Card>
 
-        {/* Top Products */}
         <Card className="rounded-2xl">
           <CardHeader>
             <CardTitle>Productos Más Vendidos</CardTitle>
           </CardHeader>
-
           <CardContent>
             <ResponsiveContainer width="100%" height={300}>
               <BarChart data={topProductsData} layout="vertical">
                 <CartesianGrid strokeDasharray="3 3" />
                 <XAxis type="number" />
-                <YAxis dataKey="product" type="category" width={130} />
+                <YAxis dataKey="product" type="category" width={150} />
                 <Tooltip />
-
                 <Bar
                   dataKey="cantidad"
                   fill="var(--primary)"
@@ -214,16 +207,11 @@ export const Dashboard = () => {
         </Card>
       </div>
 
-      {/* Charts Row 2 */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Inventory */}
         <Card className="lg:col-span-2 rounded-2xl">
           <CardHeader>
-            <CardTitle>
-              Estado del Inventario por Categoría
-            </CardTitle>
+            <CardTitle>Inventario por Categoría</CardTitle>
           </CardHeader>
-
           <CardContent>
             <ResponsiveContainer width="100%" height={300}>
               <BarChart data={inventoryData}>
@@ -243,7 +231,6 @@ export const Dashboard = () => {
           </CardContent>
         </Card>
 
-        {/* Alerts */}
         <div>
           <AlertCard alerts={lowStockAlerts} />
         </div>
