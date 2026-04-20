@@ -20,8 +20,6 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/u
 import { cn } from "@/lib/utils";
 import { generateInvoicePDF } from "@/lib/facturaPdf";
 
-const ITEMS_PER_PAGE = 6;
-
 function Sparkline({ data, color }: { data: number[]; color: string }) {
   const max = Math.max(...data);
   const min = Math.min(...data);
@@ -98,15 +96,26 @@ const totalRevenue = stats?.totalRevenue ?? 0;
 const monthlySales = stats?.currentMonthSalesCount ?? 0;
 
   // --- Pagination Logic ---
+  const ITEMS_PER_PAGE = 6;
+
   const totalPages = Math.ceil(filteredSales.length / ITEMS_PER_PAGE);
   const paginatedSales = filteredSales.slice((currentPage - 1) * ITEMS_PER_PAGE, currentPage * ITEMS_PER_PAGE);
-
-  // --- Stats ---
 
   const openNew = () => {
     setEditing(null);
     setDialogOpen(true);
   };
+  
+  const handleValidateSales = () => {
+    if (!products?.data?.length) {
+      toast.error("No puedes crear ventas", {
+        description: "Debes crear al menos un producto primero",
+      });
+      return;
+    }
+     openNew();
+}
+
 
    if (isLoading || isLoadingProduct) return <CustomFullScreenLoading />;
 
@@ -151,7 +160,7 @@ const monthlySales = stats?.currentMonthSalesCount ?? 0;
           <div className="flex justify-between items-start">
             <div className="space-y-1">
               <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider">Ingresos Totales</p>
-              <p className="text-3xl font-bold tracking-tight text-foreground">${totalRevenue.toLocaleString()}</p>
+              <p className="text-3xl font-bold tracking-tight text-foreground">RD${totalRevenue.toLocaleString()}</p>
             </div>
             <div className="rounded-xl bg-blue-500/10 p-2.5">
               <DollarSign className="h-5 w-5 text-blue-600" />
@@ -212,7 +221,7 @@ const monthlySales = stats?.currentMonthSalesCount ?? 0;
         </div>
 
         <div className="flex bg-muted/30 p-1 rounded-xl border border-border/50">
-          {["all", "completed", "pending", "cancelled"].map((status) => (
+          {["all", "completed", "pending"].map((status) => (
             <button
               key={status}
               onClick={() => { setStatusFilter(status); setCurrentPage(1); }}
@@ -229,7 +238,7 @@ const monthlySales = stats?.currentMonthSalesCount ?? 0;
         </div>
 
          
-        <Button className="h-11 px-6 rounded-xl shadow-md bg-primary hover:bg-primary/90" onClick={openNew}>
+        <Button className="h-11 px-6 rounded-xl shadow-md bg-primary hover:bg-primary/90" onClick={handleValidateSales}>
            Nueva Venta
         </Button>
       

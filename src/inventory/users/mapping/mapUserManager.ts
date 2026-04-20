@@ -4,9 +4,9 @@ import type { CreateUserManager } from "@/interface/userManager/create-user-mana
 
 export const mapToCreateUser = (u: UserManager): CreateUserManager => ({
   id: u.id || '',
-  userName: u.name || '',
-  userEmail: u.email || '',
-  userPassword: u.password || '',
-  userPasswordConfirm: u.password || '',
-  userRoleId: u.roleId || '',
+  userName: u.name ?? "",
+  userEmail: u.email ?? "",
+  userPassword: "",
+  userPasswordConfirm: "",
+  userRoleId: u.roleId ?? "",
 });

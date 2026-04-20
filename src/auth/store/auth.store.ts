@@ -57,6 +57,7 @@ export const useAuthStore = create<AuthState>()((set, get) => ({
              localStorage.setItem('token', data.token);
 
              set({user: data.user, token: data.token, authStatus:'authenticated'})
+               
              return true;
 
         } catch (error) {

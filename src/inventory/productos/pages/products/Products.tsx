@@ -8,7 +8,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { cn } from "@/lib/utils";
-import { Link} from "react-router";
+import { Link, useNavigate} from "react-router";
 import { CustomFullScreenLoading } from "@/components/custom/CustomFullScreemLoading";
 import { useProducts } from "../../hooks/useProducts";
 import { useCategories } from "@/inventory/categories/hooks/useCategories";
@@ -82,6 +82,27 @@ export const Products = () => {
         return matchesSearch && matchesCategory;
       }) ?? []; 
     }, [product, searchTerm, categoryFilter]);
+
+    const navigate = useNavigate();
+
+   const handleValidateProduct = () => {
+    
+    if (!categories?.data?.length) {
+      toast.error("No puedes crear productos", {
+        description: "Debes crear al menos una categoría primero",
+      });
+      return;
+    }
+
+    if (!providers?.data?.length) {
+      toast.error("No puedes crear productos", {
+        description: "Debes crear al menos un proveedor primero",
+      });
+      return;
+    }
+
+    navigate("/dashboard/products/new");
+}; 
 
   const handleDelete = (id: string) => {
     toast("¿Eliminar producto?", {
@@ -230,10 +251,13 @@ export const Products = () => {
         </Select>
        )}
 
-        <Button asChild className="blue-900 hover:bg-blue-800 shadow-md transition-all active:scale-95">
-          <Link to="/dashboard/products/new">
+        <Button  
+          onClick={handleValidateProduct}
+        className="blue-900 hover:bg-blue-800 shadow-md transition-all active:scale-95">
+          
+          {/* <Link to="/dashboard/products/new"> */}
             Nuevo Producto
-          </Link>
+          {/* </Link> */}
         </Button>
 
       </div>

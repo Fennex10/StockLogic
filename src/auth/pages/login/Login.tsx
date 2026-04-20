@@ -38,8 +38,9 @@ export const Login = () => {
     const isValid = await login(userEmail, userPassword);
 
     if (isValid) {
-        navigate("/");
-       return;     }
+        navigate("/dashboard");
+       return;     
+      }
 
     toast.error("Correo o/y contraseña no válidos");
     setIsPosting(false);
