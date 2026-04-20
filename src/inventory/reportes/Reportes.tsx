@@ -10,6 +10,7 @@ import { useSales } from "../ventas/hooks/useSales";
 import { useProducts } from "../productos/hooks/useProducts";
 import { CustomFullScreenLoading } from "@/components/custom/CustomFullScreemLoading";
 import { exportReportPDF } from "@/lib/exportToPdf";
+import { cn } from "@/lib/utils";
 
 // Tipos auxiliares corregidos
 type ChartData = { week: string; ventas: number; };
@@ -32,8 +33,6 @@ export const Reportes = () => {
   // const stats = salesDataHook?.data.stats;
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const productList = productsData?.data ?? [];
-
-  
 
   const isInvalidRange = new Date(startDate) > new Date(endDate);
 
@@ -82,6 +81,19 @@ export const Reportes = () => {
     }).sort((a, b) => a.ventas - b.ventas).slice(0, 4);
   }, [filteredSales, productList]);
 
+  const purchasesData = useMemo(() => {
+  const purchasesList = salesDataHook?.data?.purchases ?? [];
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  return purchasesList.map((p: any) => ({
+      name: p.Product.name,
+      cantidad: p.quantity,
+      costo: p.costPriceAtMovement,
+      total: p.totalCost,
+      fecha: new Date(p.createdAt).toLocaleDateString(),
+        }));
+      }, [salesDataHook]);
+
   if (isLoading) return <CustomFullScreenLoading />;
 
   return (
@@ -122,8 +134,19 @@ export const Reportes = () => {
 
       {/* Botón de Exportar con estilo Moderno */}
       <Button 
-        onClick={() => exportReportPDF({ startDate, endDate, salesChartData, topProducts, lowRotation })}
-        className="ml-auto rounded-xl bg-zinc-900 dark:bg-zinc-100 text-white dark:text-zinc-900 hover:bg-zinc-800 dark:hover:bg-zinc-200 bg-primary shadow-md hover:shadow-lg transition-all active:scale-[0.98] h-10 px-5"
+        onClick={() => exportReportPDF({ 
+          startDate, 
+          endDate, 
+          salesChartData, 
+          topProducts, 
+          lowRotation, 
+          purchases: purchasesData })}
+        className={cn( "ml-auto rounded-xl h-10 px-5 flex items-center gap-2 transition-all active:scale-[0.98]",
+          "bg-primary text-primary-foreground hover:bg-primary/90",
+          "shadow-md hover:shadow-lg",
+
+          "focus-visible:ring-0 focus-visible:outline-none"
+        )}
       >
         <Download className="mr-2 h-4 w-4 stroke-[2.5px]" /> 
         <span className="font-semibold text-sm">Exportar Reporte</span>
@@ -220,61 +243,6 @@ export const Reportes = () => {
   </CardContent>
 </Card>
 
-      {/* BOTTOM SECTION: TOP PRODUCTS & LOW ROTATION */}
-      {/* <div className="grid grid-cols-1 lg:grid-cols-2 gap-8"> */}
-        
-        {/* Top Products Chart */}
-        {/* <Card className="rounded-2xl border-border/50 shadow-sm overflow-hidden">
-          <CardHeader>
-            <CardTitle className="text-xl font-black tracking-tight">Top Productos Más Vendidos</CardTitle>
-            <CardDescription>Productos con mayor demanda</CardDescription>
-          </CardHeader>
-          <CardContent className="h-[300px]">
-            <ResponsiveContainer width="100%" height="100%">
-              <BarChart data={topProducts} layout="vertical" margin={{ left: 20 }} >
-                <XAxis type="number" hide />
-                <YAxis dataKey="name" type="category" axisLine={false} tickLine={false} tick={{fontSize: 11}} width={120} />
-                <Tooltip cursor={{fill: 'rgba(0,0,0,0.03)'}} contentStyle={{borderRadius: '10px'}} />
-                <Bar dataKey="ventas" fill="#6366f1" radius={[0, 8, 8, 0]} barSize={32} isAnimationActive={false}>
-                  {topProducts.map((_, index) => (
-                    <Cell key={`cell-${index}`} fillOpacity={1 - index * 0.15} />
-                  ))}
-                </Bar>
-              </BarChart>
-            </ResponsiveContainer>
-          </CardContent>
-        </Card> */}
-
-        {/* Low Rotation List */}
-        {/* <Card className="rounded-2xl border-border/50 shadow-sm overflow-hidden">
-          <CardHeader>
-            <CardTitle className="text-xl font-black tracking-tight">Productos con Baja Rotación</CardTitle>
-            <CardDescription>Productos que necesitan estrategias de venta</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-4 pt-2">
-              {lowRotation.map((p, i) => (
-                <div key={i} className="flex items-center justify-between p-4 rounded-2xl border border-border/40 hover:bg-zinc-50 transition-colors">
-                  <div className="flex items-center gap-4">
-                    <div className="h-10 w-10 flex items-center justify-center rounded-xl bg-rose-50 text-rose-600 font-black dark:bg-rose-500/10">
-                      {i + 1}
-                    </div>
-                    <div>
-                      <h4 className="text-sm font-bold text-slate-800 dark:text-zinc-200">{p.name}</h4>
-                      <p className="text-[11px] text-muted-foreground">{p.ultimaVenta}</p>
-                    </div>
-                  </div>
-                  <div className="flex items-center gap-1 text-rose-500 font-bold text-sm">
-                    <ArrowDownRight className="h-4 w-4" /> {p.ventas} ventas
-                  </div>
-                </div>
-              ))}
-            </div>
-          </CardContent>
-        </Card> */}
-
-      {/* </div> */}
-
      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 bg-white">
   
   {/* Top Productos - Gráfica con Barras Robustas */}
@@ -350,9 +318,7 @@ export const Reportes = () => {
       </div>
     </CardContent>
   </Card>
-
+  </div>
 </div>
-
-    </div>
   );
 };

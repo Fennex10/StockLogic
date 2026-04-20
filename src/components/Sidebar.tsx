@@ -27,15 +27,15 @@ const navItems = [
   },
   {
     icon: ShoppingCart, label: "Ventas", path: "/dashboard/ventas",
-    roles: [RoleCode.SELLER],
+    roles: [RoleCode.SELLER, RoleCode.ADMIN],
   },
   {
     icon: BarChart3, label: "Reportes", path: "/dashboard/reportes",
-    roles: [RoleCode.AUDITOR],
+    roles: [RoleCode.AUDITOR, RoleCode.ADMIN],
   },
   {
     icon: Truck, label: "Proveedores", path: "/dashboard/providers",
-    roles: [RoleCode.WAREHOUSEMAN],
+    roles: [RoleCode.WAREHOUSEMAN, RoleCode.ADMIN],
   },
   {
     icon: Users, label: "Usuarios", path: "/dashboard/users",

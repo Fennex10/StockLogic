@@ -485,12 +485,11 @@ export const UserManagerPage = () => {
                 
                  console.log("RESPUESTA:", res);
                 setDialogOpen(false);
-                toast.success(editing ? 'Usuario actualizado' : 'Usuario creado', {
+                toast.success(editing ? 'Usuario actualizado' : 'Usuario creado correctamente', {
                   position: 'bottom-right',
                 });
-              // eslint-disable-next-line @typescript-eslint/no-explicit-any
-              } catch (error: any) {
-                console.error("ERROR BACKEND:", error.response?.data);
+             
+              } catch (error) {  
                 console.error(error);
               }
             }}

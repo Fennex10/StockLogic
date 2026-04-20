@@ -129,7 +129,9 @@ export const CategoryForm = ({ category, onSubmit, isPending }: Props) => {
           className={cn(
             "h-10 px-6 rounded-md font-medium flex items-center gap-2 transition-all active:scale-95",
             "bg-primary text-primary-foreground hover:bg-primary/90", // El color azul primario
-            "shadow-md shadow-primary/20" // Sombra suave del mismo color azul
+            "shadow-md shadow-primary/20", // Sombra suave del mismo color azul
+
+             "focus-visible:ring-0 focus-visible:outline-none"
           )}
         >
           {isPending ? (

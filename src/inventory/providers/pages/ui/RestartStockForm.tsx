@@ -145,8 +145,11 @@ export const RestartStockForm = ({ restartStock, products, onSubmit, isPending }
         <Button 
           type="submit" 
           disabled={isPending}
-          className="h-10 px-6 rounded-md bg-foreground text-background hover:bg-foreground/90 bg-primary transition-all font-medium flex items-center gap-2 shadow-sm"
-        >
+          className={cn("h-10 px-6 rounded-md font-medium flex items-center gap-2 transition-all shadow-sm",
+              "bg-primary text-primary-foreground hover:bg-primary/90",
+              "focus-visible:ring-0 focus-visible:outline-none",
+              "active:bg-primary",
+          )}>
           {isPending ? (
             <Loader2 className="h-4 w-4 animate-spin" />
           ) : (

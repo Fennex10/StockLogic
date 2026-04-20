@@ -28,7 +28,8 @@ export const Dashboard = () => {
   const topProductsData = productsList.map(p => ({
       product: p.name,
       cantidad: p.currentStock
-   }));
+   })).sort((a, b) => b.cantidad - a.cantidad); 
+   
 
    const inventoryData = categoriesList.map(c => {
     const totalStock = productsList
@@ -112,7 +113,7 @@ export const Dashboard = () => {
         <StatCard
           title="Total Productos"
           value={productsList.length}
-          change="+12% vs mes anterior"
+          change="Inventario disponible"
           changeType="positive"
           icon={Package}
         />
@@ -126,20 +127,22 @@ export const Dashboard = () => {
         <StatCard
           title="Ventas del Mes"
           value={monthlySales}
-          change="+8.2% vs mes anterior"
+          change="Ventas registradas este mes"
           changeType="positive"
           icon={ShoppingCart}
         />
         <StatCard
           title="Ingresos del Mes"
            value={totalRevenue.toLocaleString()}
-          change="+15.3% vs mes anterior"
+          change="Rendimiento financiero"
           changeType="positive"
           icon={DollarSign}
         />
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        {/* Sales Trend */}
+
         <Card className="rounded-2xl">
           <CardHeader>
             <CardTitle>Tendencia de Ventas e Ingresos</CardTitle>
@@ -149,10 +152,15 @@ export const Dashboard = () => {
               <AreaChart data={salesDataSorted}>
                 <CartesianGrid strokeDasharray="3 3" />
                 <XAxis dataKey="month" />
-                <YAxis />
+                
+                <YAxis yAxisId="left" />
+                
+                <YAxis yAxisId="right" orientation="right" hide={true} />
+                
                 <Tooltip />
                 <Legend />
                 <Area
+                  yAxisId="right" 
                   type="monotone"
                   dataKey="ventas"
                   stroke="var(--primary)"
@@ -162,6 +170,7 @@ export const Dashboard = () => {
                   name="Unidades vendidas"
                 />
                 <Area
+                  yAxisId="left" 
                   type="monotone"
                   dataKey="ingresos"
                   stroke="var(--chart-2)"
@@ -190,12 +199,8 @@ export const Dashboard = () => {
                   dataKey="cantidad"
                   fill="var(--primary)"
                   radius={[0, 8, 8, 0]}
-                  isAnimationActive={false}
-                >
-                  {topProductsData.map((_, index) => (
-                    <Cell key={`cell-${index}`} fillOpacity={1 - index * 0.12} />
-                  ))}
-                </Bar>
+                 barSize={50}
+                />
               </BarChart>
             </ResponsiveContainer>
           </CardContent>
@@ -214,7 +219,13 @@ export const Dashboard = () => {
                 <XAxis dataKey="category" />
                 <YAxis />
                 <Tooltip />
-                <Bar dataKey="stock" fill="var(--primary)" radius={[8, 8, 0, 0]} />
+
+                <Bar
+                  dataKey="stock"
+                  fill="var(--primary)"
+                  radius={[8, 8, 0, 0]}
+                   barSize={70}
+                />
               </BarChart>
             </ResponsiveContainer>
           </CardContent>

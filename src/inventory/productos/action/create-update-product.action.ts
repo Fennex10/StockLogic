@@ -56,14 +56,20 @@ else {
   if (rest.productProviderId)
     formData.append('productProviderId', rest.productProviderId);
 }
-  
+  try {
   const { data } = await stockLogicApi<Product>({
     url: isCreating ? "/products" : `/products/${id}`, 
     method: isCreating ? "POST" : "PUT",
     data: formData,
    
   });
+
   return data;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  } catch (error: any) {
+  console.log(error.response?.data); // 🔥 AQUÍ ESTÁ LA VERDAD
+  throw error;
+}
 };
 
 // export const createUpdateProductAction = async (

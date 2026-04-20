@@ -1,5 +1,5 @@
 import { useState, cloneElement, type ReactElement, type ReactNode, isValidElement } from "react";
-import { Plus, Edit, Trash2, Tags, Package, Palette, Search, ArrowUpRight } from "lucide-react";
+import { Edit, Trash2, Tags, Package, Palette, Search, ArrowUpRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
@@ -172,9 +172,9 @@ export const Categories = () => {
   </div>
   <Button 
     onClick={openNew} 
-    className="h-11 px-6 rounded-xl shadow-md bg-primary hover:bg-primary/90 transition-all active:scale-95 shrink-0"
-  >
-    <Plus className="mr-2 h-4 w-4" /> Nueva Categoría
+    className="h-11 px-6 rounded-xl shadow-md bg-primary hover:bg-primary/90 transition-all active:scale-95 shrink-0">
+    {/* <Plus className="mr-2 h-4 w-4" />  */}
+    Nueva Categoría
   </Button>
 </div>
 

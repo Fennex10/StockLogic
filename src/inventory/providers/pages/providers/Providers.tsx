@@ -99,7 +99,17 @@ export const Providers = () => {
     setDialogProviderOpen(true);
   };
 
-    const handleDelete = (id: string) => {
+  const handleValidateRestartStock = () => {
+    if (!product?.data?.length) {
+      toast.error("No puedes rellenar el stock", {
+        description: "Debes crear al menos un producto primero",
+      });
+      return;
+    }
+    openNewRestarStock();
+}
+
+  const handleDelete = (id: string) => {
     toast("¿Eliminar proveedor?", {
         description: "Esta acción no se puede deshacer",
         action: {
@@ -209,7 +219,7 @@ export const Providers = () => {
           <div className="flex justify-between items-start">
             <div className="space-y-1">
               <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider">Inversión Total</p>
-              <p className="text-3xl font-bold tracking-tight text-foreground">${totalInvestment.toLocaleString()}</p>
+              <p className="text-3xl font-bold tracking-tight text-foreground">RD${totalInvestment.toLocaleString()}</p>
             </div>
             <div className="rounded-xl bg-violet-500/10 p-2.5">
               <Wallet className="h-5 w-5 text-violet-600" />
@@ -234,7 +244,7 @@ export const Providers = () => {
           <div className="flex justify-between items-start">
             <div className="space-y-1">
               <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider">Beneficio Neto</p>
-              <p className="text-3xl font-bold tracking-tight text-amber-600">${netProfit.toLocaleString()}</p>
+              <p className="text-3xl font-bold tracking-tight text-amber-600">RD${netProfit.toLocaleString()}</p>
             </div>
             <div className="rounded-xl bg-amber-500/10 p-2.5">
               <TrendingUp className="h-5 w-5 text-amber-600" />
@@ -281,7 +291,7 @@ export const Providers = () => {
   <div className="flex flex-col md:flex-row gap-4 items-center animate-slide-up" style={{ animationDelay: "100ms" }}>
     
     {/* Buscador - Ahora ocupa el espacio flexible */}
-    <div className="relative flex-1 w-full">
+    {/* <div className="relative flex-1 w-full">
       <div className="relative flex items-center rounded-xl border border-slate-200 bg-white h-11 w-full shadow-sm focus-within:ring-2 focus-within:ring-primary/10 focus-within:border-primary/30 transition-all duration-200">
         <Search className="absolute left-4 h-4 w-4 text-slate-400" />
         <Input 
@@ -293,15 +303,38 @@ export const Providers = () => {
       </div>
     </div>
 
-        <Button className="blue-900 hover:bg-blue-800 shadow-md transition-all active:scale-95" onClick={openNewRestarStock}>
+        <Button className="blue-900 hover:bg-blue-800 shadow-md transition-all active:scale-95" onClick={handleValidateRestartStock}>
              Rellenar stock
         </Button>
 
           <Button className="bg-primary hover:bg-primary/90 shadow-md shadow-primary/20" onClick={openNewProvider}>
-             {/* <Plus className="mr-2 h-4 w-4" /> */}
+           
             Agregar Proveedor
           </Button>
+      </div> */}
+
+          {/* Buscador - Sombra reducida al mínimo */}
+      <div className="relative flex-1 w-full">
+        <div className="relative flex items-center rounded-xl border border-slate-200 bg-white h-11 w-full shadow-none focus-within:ring-2 focus-within:ring-primary/5 focus-within:border-primary/20 transition-all duration-200">
+          <Search className="absolute left-4 h-4 w-4 text-slate-400" />
+          <Input 
+            placeholder="Buscar por nombre, contacto o identificación..." 
+            value={searchTerm} 
+            onChange={(e) => setSearchTerm(e.target.value)} 
+            className="pl-11 pr-4 h-full w-full text-sm border-none bg-transparent shadow-none focus-visible:ring-0" 
+          />
+        </div>
       </div>
+
+      {/* Botones - shadow-sm en lugar de shadow-md */}
+      <Button className="blue-900 hover:bg-blue-800 shadow-sm transition-all active:scale-95" onClick={handleValidateRestartStock}>
+        Rellenar stock
+      </Button>
+
+      <Button className="bg-primary hover:bg-primary/90 shadow-sm" onClick={openNewProvider}>
+        Agregar Proveedor
+      </Button>
+    </div>
 
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3">
         {filtered.map((prov, index) => (
@@ -382,6 +415,7 @@ export const Providers = () => {
           </div>
         ))}
       </div>
+      
 
       {/* Modal Para rellenar stock */}
             <Dialog open={dialogStockOpen} onOpenChange={setDialogStockOpen}>

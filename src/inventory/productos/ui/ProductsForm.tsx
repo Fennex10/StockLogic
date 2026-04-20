@@ -174,11 +174,13 @@ const [file, setFile] = useState<File | null>(null);
                 </div>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 bg-slate-50 p-4 rounded-lg border border-slate-100">
-                <div className="space-y-1">
-                  <label className="text-[10px] font-extrabold uppercase text-slate-400">Stock Actual</label>
-                  <input type="number" {...register("productCurrentStock")} className={cn("w-full", inputStyles)} />
-                </div>
+              {/* <div className="grid grid-cols-1 md:grid-cols-3 gap-4 bg-slate-50 p-4 rounded-lg border border-slate-100">
+              {product.id === "new" && (
+                  <div className="space-y-1">
+                    <label className="text-[10px] font-extrabold uppercase text-slate-400">Stock Actual</label>
+                    <input type="number" {...register("productCurrentStock")} className={cn("w-full", inputStyles)} />
+                  </div>
+                )}
                 <div className="space-y-1">
                   <label className="text-[10px] font-extrabold uppercase text-slate-400">Mínimo</label>
                   <input type="number" {...register("productMinStock")} className={cn("w-full", inputStyles)} />
@@ -187,7 +189,46 @@ const [file, setFile] = useState<File | null>(null);
                   <label className="text-[10px] font-extrabold uppercase text-slate-400">Máximo</label>
                   <input type="number" {...register("productMaxStock")} className={cn("w-full", inputStyles)} />
                 </div>
-              </div>
+              </div> */}
+
+              <div className={cn("grid grid-cols-1 gap-4 bg-slate-50 p-4 rounded-lg border border-slate-100",
+                    product.id === "new" ? "md:grid-cols-3" : "md:grid-cols-2"
+                  )}>
+                  {product.id === "new" && (
+                    <div className="space-y-1">
+                      <label className="text-[10px] font-extrabold uppercase text-slate-400">
+                        Stock Actual
+                      </label>
+                      <input
+                        type="number"
+                        {...register("productCurrentStock")}
+                        className={cn("w-full", inputStyles)}
+                      />
+                    </div>
+                  )}
+
+                  <div className="space-y-1">
+                    <label className="text-[10px] font-extrabold uppercase text-slate-400">
+                      Mínimo
+                    </label>
+                    <input
+                      type="number"
+                      {...register("productMinStock")}
+                      className={cn("w-full", inputStyles)}
+                    />
+                  </div>
+
+                  <div className="space-y-1">
+                    <label className="text-[10px] font-extrabold uppercase text-slate-400">
+                      Máximo
+                    </label>
+                    <input
+                      type="number"
+                      {...register("productMaxStock")}
+                      className={cn("w-full", inputStyles)}
+                    />
+                  </div>
+                </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="space-y-2">
@@ -272,7 +313,7 @@ const [file, setFile] = useState<File | null>(null);
                 <div className="relative rounded-lg overflow-hidden border border-slate-200">
                   <img 
                     src={URL.createObjectURL(file)} 
-                    className="w-full h-32 object-cover" 
+                    className="w-full object-contain" 
                     alt="Nueva imagen" 
                   />
 
@@ -289,7 +330,7 @@ const [file, setFile] = useState<File | null>(null);
                   <div className="relative rounded-lg overflow-hidden border border-slate-200">
                     <img 
                       src={getFullImageUrl(product.imageURL)} 
-                      className="w-full h-32 object-cover" 
+                      className="w-full object-contain" 
                       alt="Actual" 
                     />
                   </div>
