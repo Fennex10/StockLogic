@@ -199,7 +199,13 @@ export const Dashboard = () => {
               <BarChart data={topProductsData} layout="vertical">
                 <CartesianGrid strokeDasharray="3 3" />
                 <XAxis type="number" />
-                <YAxis dataKey="product" type="category" width={130} />
+                {/* <YAxis dataKey="product" type="category" width={130} /> */}
+                <YAxis 
+                    dataKey="product" 
+                    type="category" 
+                    width={170} 
+                    interval={0} 
+                  />
                 <Tooltip />
 
                 <Bar

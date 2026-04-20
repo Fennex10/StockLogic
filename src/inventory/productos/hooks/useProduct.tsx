@@ -4,28 +4,34 @@ import { createUpdateProductAction } from "../action/create-update-product.actio
 import type { Product } from "@/interface/products/product.interface";
 
 export const useProduct = (id: string) => {
-  
   const queryClient = useQueryClient();
 
   const query = useQuery({
     queryKey: ['product', id],
     queryFn: () => getProductByIdAction(id),
+    enabled: !!id && id !== 'new',
     retry: false,
-    staleTime: 1000 * 60 * 5
+    staleTime: 1000 * 60 * 5, 
   });
 
   const mutation = useMutation({
     mutationFn: createUpdateProductAction,
-    onSuccess: (product: Product) => {
-      //Invalidate cache
-      queryClient.invalidateQueries({queryKey: ['products']});
-      queryClient.invalidateQueries({
-        queryKey: ['product', {id: product.id}]
-      });
-      //Update queryData
-      queryClient.setQueryData(['products', {id: product.id}], product);
+    onSuccess: async (product: Product) => {
+      // 2. USAMOS AWAIT para asegurar que las limpiezas terminen
+      
+      // Limpia CUALQUIER query que empiece por 'products' (la lista)
+      await queryClient.invalidateQueries({ queryKey: ['products'] });
+
+      // Limpia CUALQUIER query que empiece por 'product' (el detalle)
+      await queryClient.invalidateQueries({ queryKey: ['product'] });
+
+      // 3. Actualizamos manualmente el caché del ID específico
+      queryClient.setQueryData(['product', product.id], product);
+      
+      // 4. Forzamos un refetch inmediato de la lista para estar 100% seguros
+      queryClient.refetchQueries({ queryKey: ['products'] });
     }
-  })
+  });
 
   return {
     ...query,
@@ -34,31 +40,24 @@ export const useProduct = (id: string) => {
 }
 
 // export const useProduct = (id: string) => {
-
 //   const queryClient = useQueryClient();
 
 //   const query = useQuery({
-//     queryKey: ['product', id], // ✅ SIEMPRE así
+//     queryKey: ['product', id], // Aquí usas ['product', id]
 //     queryFn: () => getProductByIdAction(id),
+//     enabled: !!id && id !== 'new', // Seguridad extra
 //     retry: false,
-//     staleTime: 1000 * 60 * 5
+//     staleTime: 1000 * 60 * 5,
 //   });
 
 //   const mutation = useMutation({
 //     mutationFn: createUpdateProductAction,
-
 //     onSuccess: (product: Product) => {
-
-//       // 🔁 Refrescar lista
 //       queryClient.invalidateQueries({ queryKey: ['products'] });
-
-//       // 🔁 Refrescar producto individual (MISMA KEY)
-//       queryClient.invalidateQueries({
-//         queryKey: ['product', product.id]
-//       });
-
-//       // 🧠 Actualizar cache directamente
+//       queryClient.invalidateQueries({ queryKey: ['product', product.id] });
 //       queryClient.setQueryData(['product', product.id], product);
+      
+//       queryClient.invalidateQueries({ queryKey: ['sales'] });
 //     }
 //   });
 
@@ -67,32 +66,33 @@ export const useProduct = (id: string) => {
 //     mutation
 //   };
 // };
-
-// En useProduct.ts
 // export const useProduct = (id: string) => {
+  
 //   const queryClient = useQueryClient();
 
 //   const query = useQuery({
-//     // Usa el ID directamente, es más seguro y fácil de invalidar
-//     queryKey: ['product', id], 
+//     queryKey: ['product', id],
 //     queryFn: () => getProductByIdAction(id),
 //     retry: false,
-//     staleTime: 1000 * 60 * 5
+//     staleTime: 1000 * 60 * 5,
 //   });
 
 //   const mutation = useMutation({
 //     mutationFn: createUpdateProductAction,
 //     onSuccess: (product: Product) => {
-//       // Invalida la lista general
-//       queryClient.invalidateQueries({ queryKey: ['products'] });
-      
-//       // Invalida el producto específico usando la misma llave simple
-//       queryClient.invalidateQueries({ queryKey: ['product', product.id] });
-
-//       // Actualiza los datos manualmente para que el cambio sea instantáneo
-//       queryClient.setQueryData(['product', product.id], product);
+//       //Invalidate cache
+//       queryClient.invalidateQueries({queryKey: ['products']});
+//       queryClient.invalidateQueries({
+//         queryKey: ['product', {id: product.id}]
+//       });
+//       //Update queryData
+//       queryClient.setQueryData(['products', {id: product.id}], product);
 //     }
-//   });
+//   })
 
-//   return { ...query, mutation };
+//   return {
+//     ...query,
+//     mutation
+//   }
 // }
+
