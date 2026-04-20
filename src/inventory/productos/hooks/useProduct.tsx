@@ -17,18 +17,13 @@ export const useProduct = (id: string) => {
   const mutation = useMutation({
     mutationFn: createUpdateProductAction,
     onSuccess: async (product: Product) => {
-      // 2. USAMOS AWAIT para asegurar que las limpiezas terminen
-      
       // Limpia CUALQUIER query que empiece por 'products' (la lista)
       await queryClient.invalidateQueries({ queryKey: ['products'] });
-
       // Limpia CUALQUIER query que empiece por 'product' (el detalle)
       await queryClient.invalidateQueries({ queryKey: ['product'] });
-
-      // 3. Actualizamos manualmente el caché del ID específico
+      // Actualizamos manualmente el caché del ID específico
       queryClient.setQueryData(['product', product.id], product);
-      
-      // 4. Forzamos un refetch inmediato de la lista para estar 100% seguros
+      // Forzamos un refetch inmediato de la lista para estar 100% seguros
       queryClient.refetchQueries({ queryKey: ['products'] });
     }
   });
