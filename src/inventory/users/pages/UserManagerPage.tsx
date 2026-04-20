@@ -317,7 +317,14 @@ export const UserManagerPage = () => {
 
           {/* BODY */}
           <TableBody>
-            {paginatedUsers.map((user) => (
+            {paginatedUsers.length === 0 ? (
+              <TableRow>
+                <TableCell colSpan={7} className="text-center py-12 text-muted-foreground">
+                  No se encontraron usuarios registrados.
+                </TableCell>
+              </TableRow>
+            ): 
+             paginatedUsers.map((user) => (
               <TableRow
                 key={user.id}
                 className="

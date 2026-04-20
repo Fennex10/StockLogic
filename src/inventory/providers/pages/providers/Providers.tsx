@@ -18,7 +18,6 @@ import { useRestartStock } from "../../hooks/useRestartStock";
 import type { Sale } from "@/interface/sales/sale.interface";
 import { useSales } from "@/inventory/ventas/hooks/useSales";
 
-
 function Sparkline({ data, color }: { data: number[]; color: string }) {
   const max = Math.max(...data);
   const min = Math.min(...data);
@@ -337,7 +336,15 @@ export const Providers = () => {
     </div>
 
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3">
-        {filtered.map((prov, index) => (
+        {filtered.length === 0 ? (
+          
+          <div className="col-span-full py-20 flex flex-col items-center justify-center rounded-3xl border-2 border-dashed border-slate-200 bg-slate-50/50">
+            <Building2 className="h-10 w-10 text-slate-300 mb-3" />
+            <p className="text-slate-500 font-medium">No se encontraron proveedores.</p>
+            <p className="text-slate-400 text-sm">Intenta ajustar tu búsqueda o agrega uno nuevo.</p>
+          </div>
+          ): 
+        filtered.map((prov, index) => (
           <div
             key={prov.id}
             className="group relative rounded-3xl border border-border bg-card p-6 shadow-sm transition-all duration-300 hover:shadow-md animate-slide-up"

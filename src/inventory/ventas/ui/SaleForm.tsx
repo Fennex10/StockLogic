@@ -34,6 +34,7 @@ export const SalesForm = ({ sale, products, onSubmit, isPending }: Props) => {
 
   const watchedProductId = useWatch({ control, name: "productId" });
   const watchedQuantity = useWatch({ control, name: "quantity" }) || 1;
+  const watchedPaymentMethod = useWatch({ control, name: "paymentMethod" });  
   const [unitPrice, setUnitPrice] = useState<number>(0);
 
   useEffect(() => {
@@ -149,9 +150,31 @@ export const SalesForm = ({ sale, products, onSubmit, isPending }: Props) => {
           <div className="relative group w-full">
             <Wallet className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400 group-focus-within:text-primary transition-colors z-10" />
 
-            <Select
+            {/* <Select
               onValueChange={(value) => setValue("paymentMethod", value)}
-              defaultValue={sale.paymentMethod || "CASH"}
+              // defaultValue={sale.paymentMethod || "CASH"}
+            >
+              <SelectTrigger className="w-full min-w-0 h-12 pl-11 pr-4 rounded-2xl border border-gray-200 bg-white focus:ring-2 focus:ring-primary/10 transition-all">
+                <SelectValue placeholder="Seleccionar" />
+              </SelectTrigger>
+
+              <SelectContent className="rounded-xl">
+                <SelectItem value="CASH">Efectivo</SelectItem>
+                <SelectItem value="CREDIT CARD">Tarjeta de Crédito</SelectItem>
+                <SelectItem value="DEBIT CARD">Tarjeta de Débito</SelectItem>
+                <SelectItem value="TRANSFER">Transferencia</SelectItem>
+              </SelectContent>
+            </Select> */}
+            <Select
+              // Conecta el estado de react-hook-form con el componente visual
+              value={watchedPaymentMethod} 
+              onValueChange={(value) => {
+                setValue("paymentMethod", value, { 
+                  shouldValidate: true, 
+                  shouldDirty: true,
+                  shouldTouch: true 
+                });
+              }}
             >
               <SelectTrigger className="w-full min-w-0 h-12 pl-11 pr-4 rounded-2xl border border-gray-200 bg-white focus:ring-2 focus:ring-primary/10 transition-all">
                 <SelectValue placeholder="Seleccionar" />
